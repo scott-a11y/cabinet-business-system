@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Enhanced Cabinet Business System</title>
+    
+    <!-- ðŸ›¡ï¸ BULLETPROOF FAVICON SYSTEM -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiIgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIj4KICA8IS0tIEJhY2tncm91bmQgLS0+CiAgPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiBmaWxsPSIjRDRCMDYyIiByeD0iNCIvPgogIAogIDwhLS0gQ2FiaW5ldCBpY29uIC0tPgogIDxnIGZpbGw9IiNGRkZGRkYiPgogICAgPCEtLSBDYWJpbmV0IGZyYW1lIC0tPgogICAgPHJlY3QgeD0iNiIgeT0iOCIgd2lkdGg9IjIwIiBoZWlnaHQ9IjE2IiBmaWxsPSJub25lIiBzdHJva2U9IiNGRkZGRkYiIHN0cm9rZS13aWR0aD0iMS41IiByeD0iMSIvPgogICAgCiAgICA8IS0tIENhYmluZXQgZG9vcnMgLS0+CiAgICA8cmVjdCB4PSI3IiB5PSI5IiB3aWR0aD0iOCIgaGVpZ2h0PSIxNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkZGRkZGIiBzdHJva2Utd2lkdGg9IjEiIHJ4PSIwLjUiLz4KICAgIDxyZWN0IHg9IjE3IiB5PSI5IiB3aWR0aD0iOCIgaGVpZ2h0PSIxNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkZGRkZGIiBzdHJva2Utd2lkdGg9IjEiIHJ4PSIwLjUiLz4KICAgIAogICAgPCEtLSBEb29yIGhhbmRsZXMgLS0+CiAgICA8Y2lyY2xlIGN4PSIxMyIgY3k9IjE2IiByPSIxIiBmaWxsPSIjRkZGRkZGIi8+CiAgICA8Y2lyY2xlIGN4PSIxOSIgY3k9IjE2IiByPSIxIiBmaWxsPSIjRkZGRkZGIi8+CiAgICAKICAgIDwhLS0gVG9wIGFjY2VudCAtLT4KICAgIDxyZWN0IHg9IjYiIHk9IjYiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyIiBmaWxsPSIjRkZGRkZGIiByeD0iMSIvPgogIDwvZz4KPC9zdmc+">
+    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiIgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIj4KICA8IS0tIEJhY2tncm91bmQgLS0+CiAgPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiBmaWxsPSIjRDRCMDYyIiByeD0iNCIvPgogIAogIDwhLS0gQ2FiaW5ldCBpY29uIC0tPgogIDxnIGZpbGw9IiNGRkZGRkYiPgogICAgPCEtLSBDYWJpbmV0IGZyYW1lIC0tPgogICAgPHJlY3QgeD0iNiIgeT0iOCIgd2lkdGg9IjIwIiBoZWlnaHQ9IjE2IiBmaWxsPSJub25lIiBzdHJva2U9IiNGRkZGRkYiIHN0cm9rZS13aWR0aD0iMS41IiByeD0iMSIvPgogICAgCiAgICA8IS0tIENhYmluZXQgZG9vcnMgLS0+CiAgICA8cmVjdCB4PSI3IiB5PSI5IiB3aWR0aD0iOCIgaGVpZ2h0PSIxNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkZGRkZGIiBzdHJva2Utd2lkdGg9IjEiIHJ4PSIwLjUiLz4KICAgIDxyZWN0IHg9IjE3IiB5PSI5IiB3aWR0aD0iOCIgaGVpZ2h0PSIxNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkZGRkZGIiBzdHJva2Utd2lkdGg9IjEiIHJ4PSIwLjUiLz4KICAgIAogICAgPCEtLSBEb29yIGhhbmRsZXMgLS0+CiAgICA8Y2lyY2xlIGN4PSIxMyIgY3k9IjE2IiByPSIxIiBmaWxsPSIjRkZGRkZGIi8+CiAgICA8Y2lyY2xlIGN4PSIxOSIgY3k9IjE2IiByPSIxIiBmaWxsPSIjRkZGRkZGIi8+CiAgICAKICAgIDwhLS0gVG9wIGFjY2VudCAtLT4KICAgIDxyZWN0IHg9IjYiIHk9IjYiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyIiBmaWxsPSIjRkZGRkZGIiByeD0iMSIvPgogIDwvZz4KPC9zdmc+">
+    
+    <!-- ðŸ› ï¸ ENHANCED SYSTEM CORE -->
+    <script src="enhanced-config.js"></script>
+    <script src="error-handling.js"></script>
+    <script src="navigation-system.js"></script>
+    <script src="mobile-optimization.js"></script>
+    
+    <style>
+        :root {
+            --primary-gold: #D4B062;
+            --light-gold: #F4E4A1;
+            --cream: #FBF8F0;
+            --warm-white: #FEFCF7;
+            --charcoal: #2C2C2C;
+            --dark-gray: #4A4A4A;
+            --light-gray: #E8E8E8;
+            --success: #2E7D4A;
+            --warning: #C5801A;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, var(--warm-white) 0%, var(--cream) 100%);
+            color: var(--charcoal);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Configuration Switcher */
+        .config-switcher {
+            background: var(--cream);
+            padding: 1rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .config-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .config-title {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+            font-weight: 500;
+        }
+
+        .config-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .config-btn {
+            background: var(--light-gray);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+            color: var(--dark-gray);
+            min-height: 44px; /* Touch target optimization */
+            min-width: 44px;
+        }
+
+        .config-btn:hover {
+            background: var(--light-gold);
+        }
+
+        .config-btn.active {
+            background: var(--primary-gold);
+            color: white;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            color: var(--charcoal);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .page-description {
+            font-size: 1.2rem;
+            color: var(--dark-gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Card System */
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border-left: 6px solid var(--primary-gold);
+            margin-bottom: 2rem;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .feature-card {
+            background: var(--cream);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            border-left: 4px solid var(--primary-gold);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-title {
+            font-size: 1.3rem;
+            color: var(--charcoal);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .feature-description {
+            color: var(--dark-gray);
+            line-height: 1.6;
+        }
+
+        /* Status Indicators */
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin: 0.5rem;
+        }
+
+        .status-indicator.success {
+            background: rgba(46, 125, 74, 0.1);
+            color: var(--success);
+        }
+
+        .status-indicator.warning {
+            background: rgba(197, 128, 26, 0.1);
+            color: var(--warning);
+        }
+
+        .status-indicator.info {
+            background: rgba(212, 176, 98, 0.1);
+            color: var(--primary-gold);
+        }
+
+        /* Mobile Optimizations */
+        @media (max-width: 768px) {
+            .config-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .config-btn {
+                width: 100%;
+                max-width: 200px;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .main-content {
+                padding: 1rem;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }
+
+        /* Enhanced Mobile Touch States */
+        @media (hover: none) and (pointer: coarse) {
+            .config-btn:active,
+            .feature-card:active {
+                transform: scale(0.95);
+                transition: transform 0.1s ease;
+            }
+        }
+
+        /* Loading States */
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--primary-gold);
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            transform: translate(-50%, -50%);
+        }
+
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* Error States */
+        .error-state {
+            background: rgba(244, 67, 54, 0.1);
+            border-left-color: #f44336;
+            color: #d32f2f;
+        }
+
+        /* Accessibility Improvements */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* High Contrast Support */
+        @media (prefers-contrast: high) {
+            .card {
+                border: 2px solid var(--charcoal);
+            }
+            
+            .config-btn {
+                border: 1px solid var(--charcoal);
+            }
+        }
+    </style>
+</head>
+<body data-page-id="enhanced-template">
+
+    <!-- Navigation will be injected here by navigation-system.js -->
+
+    <!-- Configuration Switcher -->
+    <div class="config-switcher">
+        <div class="config-content">
+            <div class="config-title">View Different Business Configurations</div>
+            <div class="config-buttons">
+                <button class="config-btn" id="btn-foundry_cabinets" onclick="switchConfig('foundry_cabinets')">
+                    ðŸªµ Foundry Cabinets
+                </button>
+                <button class="config-btn" id="btn-seattle_cabinets" onclick="switchConfig('seattle_cabinets')">
+                    ðŸ"ï¸ Seattle Cabinets
+                </button>
+                <button class="config-btn" id="btn-district_design" onclick="switchConfig('district_design')">
+                    ðŸ—ï¸ District Design
+                </button>
+                <button class="config-btn" id="btn-luxury_kitchens" onclick="switchConfig('luxury_kitchens')">
+                    ðŸ'Ž Luxury Kitchens
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <header class="page-header">
+            <h1 class="page-title" id="page-title">Enhanced Cabinet Business System</h1>
+            <p class="page-description" id="page-description">
+                A bulletproof, mobile-optimized business management system with advanced error handling and performance optimization.
+            </p>
+        </header>
+
+        <!-- System Status -->
+        <div class="card">
+            <h2>System Status</h2>
+            <div id="system-status">
+                <div class="status-indicator success">
+                    <span>âœ…</span> Configuration System: <span id="config-status">Loading...</span>
+                </div>
+                <div class="status-indicator info">
+                    <span>ðŸ"±</span> Mobile Optimization: <span id="mobile-status">Loading...</span>
+                </div>
+                <div class="status-indicator success">
+                    <span>ðŸ§­</span> Navigation System: <span id="nav-status">Loading...</span>
+                </div>
+                <div class="status-indicator success">
+                    <span>ðŸ›¡ï¸</span> Error Handling: <span id="error-status">Loading...</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Enhanced Features -->
+        <div class="card">
+            <h2>Enhanced Features</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">ðŸ›¡ï¸</div>
+                    <h3 class="feature-title">Bulletproof Configuration</h3>
+                    <p class="feature-description">
+                        Enhanced configuration system with fallbacks, validation, and automatic recovery from failures.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">ðŸš¨</div>
+                    <h3 class="feature-title">Advanced Error Handling</h3>
+                    <p class="feature-description">
+                        Comprehensive error tracking, graceful degradation, and user-friendly notifications.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">ðŸ§­</div>
+                    <h3 class="feature-title">Smart Navigation</h3>
+                    <p class="feature-description">
+                        Standardized navigation with mobile optimization, active page detection, and accessibility features.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">ðŸ"±</div>
+                    <h3 class="feature-title">Mobile Excellence</h3>
+                    <p class="feature-description">
+                        Device-specific optimizations, touch enhancements, and performance monitoring for mobile devices.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">âš¡</div>
+                    <h3 class="feature-title">Performance Optimization</h3>
+                    <p class="feature-description">
+                        Memory management, animation optimization, and performance monitoring for smooth user experience.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">ðŸ"§</div>
+                    <h3 class="feature-title">Debug Tools</h3>
+                    <p class="feature-description">
+                        Built-in debugging utilities, error reporting, and performance metrics for system maintenance.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Configuration Display -->
+        <div class="card" id="config-display">
+            <h2>Current Configuration</h2>
+            <div id="config-details">
+                <p>Loading configuration details...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ðŸš€ ENHANCED PAGE INITIALIZATION
+        function initializePage() {
+            try {
+                console.log('ðŸš€ Initializing enhanced template page...');
+                
+                // Wait for all systems to load
+                setTimeout(() => {
+                    updateSystemStatus();
+                    updateConfigurationDisplay();
+                    setActiveConfigButton();
+                }, 500);
+                
+            } catch (error) {
+                console.error('ðŸš¨ Page initialization failed:', error);
+                showErrorState();
+            }
+        }
+
+        // ðŸ"Š SYSTEM STATUS UPDATER
+        function updateSystemStatus() {
+            try {
+                // Configuration status
+                const configStatus = window.CONFIG_STATUS ? 
+                    (window.CONFIG_STATUS.loaded ? 'Active' : 'Failed') : 'Unknown';
+                document.getElementById('config-status').textContent = configStatus;
+                
+                // Mobile optimization status
+                const mobileStatus = window.MOBILE_PERFORMANCE ? 'Active' : 'Not Available';
+                document.getElementById('mobile-status').textContent = mobileStatus;
+                
+                // Navigation status
+                const navStatus = document.querySelector('.nav-header') ? 'Active' : 'Not Loaded';
+                document.getElementById('nav-status').textContent = navStatus;
+                
+                // Error handling status
+                const errorStatus = window.ERROR_TRACKER ? 'Active' : 'Not Available';
+                document.getElementById('error-status').textContent = errorStatus;
+                
+            } catch (error) {
+                console.warn('âš ï¸ Status update failed:', error);
+            }
+        }
+
+        // ðŸ"§ CONFIGURATION DISPLAY
+        function updateConfigurationDisplay() {
+            try {
+                if (!window.CONFIG) {
+                    document.getElementById('config-details').innerHTML = 
+                        '<p class="error-state">Configuration not loaded</p>';
+                    return;
+                }
+                
+                const config = window.CONFIG;
+                const html = `
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                        <div>
+                            <strong>Company:</strong> ${config.companyName}<br>
+                            <strong>Subtitle:</strong> ${config.companySubtitle}<br>
+                            <strong>Tagline:</strong> ${config.companyTagline}
+                        </div>
+                        <div>
+                            <strong>Location:</strong> ${config.location}<br>
+                            <strong>Phone:</strong> ${config.phone}<br>
+                            <strong>Email:</strong> ${config.email}
+                        </div>
+                        <div>
+                            <strong>Logo:</strong> ${config.logo}<br>
+                            <strong>Primary Color:</strong> <span style="background: ${config.primaryColor}; padding: 0.25rem 0.5rem; border-radius: 4px; color: white;">${config.primaryColor}</span>
+                        </div>
+                    </div>
+                `;
+                
+                document.getElementById('config-details').innerHTML = html;
+                
+            } catch (error) {
+                console.warn('âš ï¸ Configuration display update failed:', error);
+            }
+        }
+
+        // ðŸŽ¯ ACTIVE BUTTON SETTER
+        function setActiveConfigButton() {
+            try {
+                const activeConfig = localStorage.getItem('selectedBusinessConfig') || 'foundry_cabinets';
+                updateConfigButtons(activeConfig);
+            } catch (error) {
+                console.warn('âš ï¸ Button update failed:', error);
+            }
+        }
+
+        // ðŸš¨ ERROR STATE HANDLER
+        function showErrorState() {
+            const statusCard = document.getElementById('system-status');
+            if (statusCard) {
+                statusCard.innerHTML = `
+                    <div class="status-indicator error">
+                        <span>âš ï¸</span> System initialization failed. Please refresh the page.
+                    </div>
+                `;
+            }
+        }
+
+        // ðŸ"„ CONFIGURATION APPLIER
+        function applyConfiguration() {
+            try {
+                if (!window.CONFIG) return;
+                
+                // Update page title
+                const titleElement = document.getElementById('page-title');
+                if (titleElement) {
+                    titleElement.textContent = window.CONFIG.companyName + ' - Enhanced System';
+                }
+                
+                // Update page description
+                const descElement = document.getElementById('page-description');
+                if (descElement) {
+                    descElement.textContent = `Professional business management system for ${window.CONFIG.companyName} with advanced features and mobile optimization.`;
+                }
+                
+                // Update document title
+                document.title = window.CONFIG.companyName + ' - Enhanced Cabinet Business System';
+                
+                // Update configuration display
+                updateConfigurationDisplay();
+                
+                console.log('âœ… Configuration applied successfully');
+                
+            } catch (error) {
+                console.error('ðŸš¨ Configuration application failed:', error);
+            }
+        }
+
+        // ðŸšš INITIALIZATION
+        document.addEventListener('DOMContentLoaded', initializePage);
+        
+        // Update status periodically
+        setInterval(updateSystemStatus, 10000);
+
+        console.log('ðŸšš Enhanced template page loaded');
+    </script>
+
+</body>
+</html>
