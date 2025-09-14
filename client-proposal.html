@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Cabinet Proposals</title>
+    
+    <!-- Configuration System -->
+    <script src="config.js"></script>
+    
+    <style>
+        :root {
+            --primary-gold: #D4B062;
+            --light-gold: #F4E4A1;
+            --cream: #FBF8F0;
+            --warm-white: #FEFCF7;
+            --charcoal: #2C2C2C;
+            --dark-gray: #4A4A4A;
+            --light-gray: #E8E8E8;
+            --success: #2E7D4A;
+            --warning: #C5801A;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, var(--warm-white) 0%, var(--cream) 100%);
+            color: var(--charcoal);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Navigation */
+        .nav-header {
+            background: white;
+            border-bottom: 1px solid var(--light-gray);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--charcoal);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background: var(--light-gold);
+            color: var(--charcoal);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            text-align: center;
+            padding: 3rem 0;
+            background: linear-gradient(135deg, var(--primary-gold), #C5A055);
+            color: white;
+            border-radius: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .hero-section h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero-section p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Proposal Options */
+        .proposal-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .proposal-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .proposal-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .proposal-card .icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .proposal-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--charcoal);
+        }
+
+        .proposal-card p {
+            color: var(--dark-gray);
+            margin-bottom: 1.5rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            background: var(--primary-gold);
+            color: white;
+            text-decoration: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background: #C5A055;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary-gold);
+            border: 2px solid var(--primary-gold);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-gold);
+            color: white;
+        }
+
+        /* Features Section */
+        .features-section {
+            background: white;
+            padding: 3rem;
+            border-radius: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-item {
+            text-align: center;
+        }
+
+        .feature-item .icon {
+            font-size: 2rem;
+            color: var(--primary-gold);
+            margin-bottom: 1rem;
+        }
+
+        .feature-item h4 {
+            margin-bottom: 0.5rem;
+            color: var(--charcoal);
+        }
+
+        .feature-item p {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+            
+            .nav-container {
+                padding: 0 1rem;
+            }
+            
+            .nav-links {
+                gap: 1rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav-header">
+        <div class="nav-container">
+            <div class="nav-links">
+                <a href="index.html">🏠 Business Hub</a>
+                <a href="admin-dashboard.html">📊 Admin Dashboard</a>
+                <a href="enhanced-client-proposal-phase3.html">📋 Smart Configurator</a>
+                <a href="demo.html">🎭 Demo Center</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <div class="logo" id="company-logo">🪵</div>
+            <h1 id="page-title">Professional Cabinet Proposals</h1>
+            <p>Create stunning, interactive proposals that win more business and showcase your expertise.</p>
+        </div>
+
+        <!-- Proposal Options -->
+        <div class="proposal-options">
+            <div class="proposal-card">
+                <div class="icon">🚀</div>
+                <h3>Smart Configurator</h3>
+                <p>Interactive proposal system with real-time pricing, add-ons selection, and professional PDF generation.</p>
+                <a href="enhanced-client-proposal-phase3.html" class="btn">Launch Configurator</a>
+            </div>
+
+            <div class="proposal-card">
+                <div class="icon">📋</div>
+                <h3>Quick Proposal</h3>
+                <p>Simple proposal generator for standard projects with pre-configured packages and pricing.</p>
+                <a href="integrated-cabinet-proposal-system.html" class="btn">Quick Start</a>
+            </div>
+
+            <div class="proposal-card">
+                <div class="icon">✨</div>
+                <h3>Enhanced Proposal</h3>
+                <p>Advanced proposal system with detailed customization options and premium presentation features.</p>
+                <a href="enhanced-client-proposal.html" class="btn">Create Enhanced</a>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="features-section">
+            <h2 style="text-align: center; margin-bottom: 2rem; color: var(--charcoal);">Proposal System Features</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="icon">💰</div>
+                    <h4>Real-time Pricing</h4>
+                    <p>Instant calculations with market-validated pricing for all project types</p>
+                </div>
+                <div class="feature-item">
+                    <div class="icon">📱</div>
+                    <h4>Mobile Optimized</h4>
+                    <p>Perfect viewing and interaction on all devices and screen sizes</p>
+                </div>
+                <div class="feature-item">
+                    <div class="icon">🎨</div>
+                    <h4>Professional Design</h4>
+                    <p>Branded proposals that reflect your business quality and expertise</p>
+                </div>
+                <div class="feature-item">
+                    <div class="icon">📧</div>
+                    <h4>Email Integration</h4>
+                    <p>Automatic email delivery and client engagement tracking</p>
+                </div>
+                <div class="feature-item">
+                    <div class="icon">📊</div>
+                    <h4>Analytics Tracking</h4>
+                    <p>Monitor proposal performance and client interaction metrics</p>
+                </div>
+                <div class="feature-item">
+                    <div class="icon">⚡</div>
+                    <h4>Instant Generation</h4>
+                    <p>Generate professional proposals in seconds, not hours</p>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 3rem;">
+            <h3 style="margin-bottom: 1rem; color: var(--charcoal);">Need Help Getting Started?</h3>
+            <p style="margin-bottom: 2rem; color: var(--dark-gray);">Try our demo center to see all features in action</p>
+            <a href="demo.html" class="btn btn-secondary">Explore Demo Center</a>
+        </div>
+    </div>
+
+    <script>
+        // Apply current business configuration
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof applyConfiguration === 'function') {
+                applyConfiguration();
+                console.log('✅ Client proposal page configuration applied');
+            }
+        });
+    </script>
+</body>
+</html>

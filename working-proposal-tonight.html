@@ -1,0 +1,1591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Cabinet Proposal System</title>
+    
+    <!-- 📄 PDF GENERATION LIBRARIES -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <style>
+        :root {
+            --primary-color: #D4B062;
+            --secondary-color: #F4E4A1;
+            --accent-color: #C5A055;
+            --background-color: #FBF8F0;
+            --text-color: #2C2C2C;
+            --light-gray: #E8E8E8;
+            --success-color: #2E7D4A;
+            --white: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, var(--white) 0%, var(--background-color) 100%);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* 🔧 EDIT MODE CONTROLS */
+        .edit-mode-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .edit-mode-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.3);
+        }
+
+        .edit-panel {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 400px;
+            height: 100vh;
+            background: white;
+            box-shadow: -5px 0 20px rgba(0,0,0,0.1);
+            z-index: 999;
+            overflow-y: auto;
+            padding: 2rem;
+        }
+
+        .edit-panel.active {
+            display: block;
+        }
+
+        .edit-section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            border: 2px solid var(--light-gray);
+            border-radius: 12px;
+        }
+
+        .edit-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 1rem;
+        }
+
+        .edit-input, .edit-textarea, .edit-select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--light-gray);
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .edit-input:focus, .edit-textarea:focus, .edit-select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .edit-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .file-upload {
+            margin-bottom: 1rem;
+        }
+
+        .file-upload-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .file-upload-btn:hover {
+            background: var(--accent-color);
+        }
+
+        .logo-preview, .image-preview {
+            max-width: 100%;
+            max-height: 100px;
+            margin: 0.5rem 0;
+            border-radius: 8px;
+        }
+
+        /* HEADER SECTION */
+        .header-section {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .header-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .company-logo {
+            max-height: 80px;
+            margin-bottom: 1rem;
+        }
+
+        .company-name {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .company-tagline {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        .contact-info {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        /* CONFIGURATOR SECTION */
+        .configurator-section {
+            background: white;
+            padding: 3rem 0;
+        }
+
+        .configurator-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--text-color);
+            text-align: center;
+            margin-bottom: 3rem;
+            font-weight: 600;
+        }
+
+        /* PROGRESS INDICATOR */
+        .progress-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 3rem;
+            padding: 0 1rem;
+        }
+
+        .progress-step {
+            display: flex;
+            align-items: center;
+            margin: 0 1rem;
+        }
+
+        .step-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--light-gray);
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .step-circle.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .step-circle.completed {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .step-line {
+            width: 80px;
+            height: 3px;
+            background: var(--light-gray);
+            margin: 0 1rem;
+        }
+
+        .step-line.completed {
+            background: var(--success-color);
+        }
+
+        .step-label {
+            position: absolute;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-color);
+            white-space: nowrap;
+        }
+
+        /* CONFIGURATOR STEPS */
+        .step-content {
+            display: none;
+            background: white;
+            border-radius: 16px;
+            padding: 3rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border-left: 6px solid var(--primary-color);
+            margin-bottom: 2rem;
+        }
+
+        .step-content.active {
+            display: block;
+        }
+
+        .step-title {
+            font-size: 2rem;
+            color: var(--text-color);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .step-description {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        /* PACKAGE SELECTION */
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .package-card {
+            background: var(--background-color);
+            border: 3px solid var(--light-gray);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .package-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+        }
+
+        .package-card.selected {
+            border-color: var(--primary-color);
+            background: var(--secondary-color);
+        }
+
+        .package-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .package-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .package-price {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .package-features {
+            text-align: left;
+            margin-bottom: 1.5rem;
+        }
+
+        .package-features li {
+            margin-bottom: 0.5rem;
+            color: #666;
+        }
+
+        /* CABINET IMAGE SELECTION */
+        .cabinet-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .cabinet-option {
+            border: 3px solid var(--light-gray);
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .cabinet-option:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .cabinet-option.selected {
+            border-color: var(--primary-color);
+        }
+
+        .cabinet-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            background: var(--background-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: #999;
+        }
+
+        .cabinet-name {
+            padding: 1rem;
+            font-weight: 600;
+            text-align: center;
+            background: white;
+        }
+
+        .upload-cabinet-btn {
+            border: 3px dashed var(--primary-color);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: var(--background-color);
+        }
+
+        .upload-cabinet-btn:hover {
+            background: var(--secondary-color);
+        }
+
+        /* OPTIONS SECTION */
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .option-category {
+            background: var(--background-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .category-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 1rem;
+        }
+
+        .option-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .option-item:hover {
+            background: var(--secondary-color);
+        }
+
+        .option-item.selected {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
+
+        .option-name {
+            font-weight: 600;
+        }
+
+        .option-price {
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .option-item.selected .option-price {
+            color: white;
+        }
+
+        /* PRICING SUMMARY */
+        .pricing-summary {
+            background: var(--background-color);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border-left: 6px solid var(--success-color);
+        }
+
+        .summary-title {
+            font-size: 1.8rem;
+            color: var(--text-color);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .price-row:last-child {
+            border-bottom: none;
+        }
+
+        .price-row.total {
+            border-top: 3px solid var(--primary-color);
+            padding-top: 1.5rem;
+            margin-top: 1.5rem;
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: var(--primary-color);
+        }
+
+        /* NAVIGATION BUTTONS */
+        .step-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+            gap: 1rem;
+        }
+
+        .nav-btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 150px;
+        }
+
+        .nav-btn.primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .nav-btn.primary:hover {
+            background: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        .nav-btn.secondary {
+            background: var(--light-gray);
+            color: var(--text-color);
+        }
+
+        .nav-btn.secondary:hover {
+            background: var(--secondary-color);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* PDF GENERATION SECTION */
+        .pdf-section {
+            background: var(--success-color);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+            display: none;
+        }
+
+        .pdf-section.active {
+            display: block;
+        }
+
+        .pdf-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .pdf-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .pdf-description {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .pdf-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .pdf-btn {
+            background: white;
+            color: var(--success-color);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .pdf-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 768px) {
+            .edit-panel {
+                width: 100%;
+            }
+
+            .progress-container {
+                overflow-x: auto;
+                justify-content: flex-start;
+                padding: 0 1rem;
+            }
+
+            .progress-step {
+                margin: 0 0.5rem;
+            }
+
+            .step-line {
+                width: 60px;
+            }
+
+            .packages-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .step-navigation {
+                flex-direction: column;
+            }
+
+            .cabinet-gallery {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .pdf-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        /* HIDDEN PDF CONTENT */
+        .pdf-content-hidden {
+            position: absolute;
+            left: -9999px;
+            top: -9999px;
+            background: white;
+            padding: 40px;
+            font-family: Arial, sans-serif;
+            width: 800px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 🔧 EDIT MODE TOGGLE -->
+    <button class="edit-mode-toggle" onclick="toggleEditMode()">
+        ⚙️ Edit Mode
+    </button>
+
+    <!-- 🔧 EDIT PANEL -->
+    <div class="edit-panel" id="edit-panel">
+        <h2 style="color: var(--primary-color); margin-bottom: 2rem;">📝 Edit Your Proposal System</h2>
+        
+        <!-- COMPANY INFORMATION -->
+        <div class="edit-section">
+            <h3 class="edit-title">🏢 Company Information</h3>
+            
+            <label>Company Logo:</label>
+            <div class="file-upload">
+                <input type="file" id="logo-upload" accept="image/*" onchange="handleLogoUpload(event)" style="display: none;">
+                <button class="file-upload-btn" onclick="document.getElementById('logo-upload').click()">
+                    📁 Upload Logo
+                </button>
+                <img id="logo-preview" class="logo-preview" style="display: none;">
+            </div>
+            
+            <label>Company Name:</label>
+            <input type="text" class="edit-input" id="edit-company-name" placeholder="Your Company Name" onchange="updateCompanyInfo()">
+            
+            <label>Tagline:</label>
+            <input type="text" class="edit-input" id="edit-tagline" placeholder="Your Company Tagline" onchange="updateCompanyInfo()">
+            
+            <label>Phone:</label>
+            <input type="text" class="edit-input" id="edit-phone" placeholder="(555) 123-4567" onchange="updateCompanyInfo()">
+            
+            <label>Email:</label>
+            <input type="email" class="edit-input" id="edit-email" placeholder="info@yourcompany.com" onchange="updateCompanyInfo()">
+            
+            <label>Website:</label>
+            <input type="text" class="edit-input" id="edit-website" placeholder="www.yourcompany.com" onchange="updateCompanyInfo()">
+            
+            <label>Address:</label>
+            <input type="text" class="edit-input" id="edit-address" placeholder="Your Address" onchange="updateCompanyInfo()">
+        </div>
+
+        <!-- PRICING CONFIGURATION -->
+        <div class="edit-section">
+            <h3 class="edit-title">💰 Pricing Configuration</h3>
+            
+            <label>Economy Package ($/LF):</label>
+            <input type="number" class="edit-input" id="edit-economy-price" placeholder="965" onchange="updatePricing()">
+            
+            <label>Standard Package ($/LF):</label>
+            <input type="number" class="edit-input" id="edit-standard-price" placeholder="1225" onchange="updatePricing()">
+            
+            <label>Premium Package ($/LF):</label>
+            <input type="number" class="edit-input" id="edit-premium-price" placeholder="1630" onchange="updatePricing()">
+            
+            <label>Luxury Package ($/LF):</label>
+            <input type="number" class="edit-input" id="edit-luxury-price" placeholder="2250" onchange="updatePricing()">
+        </div>
+
+        <!-- CABINET IMAGES -->
+        <div class="edit-section">
+            <h3 class="edit-title">🪵 Cabinet Images</h3>
+            <p style="margin-bottom: 1rem; color: #666;">Upload images for each cabinet style:</p>
+            
+            <label>Traditional Style:</label>
+            <div class="file-upload">
+                <input type="file" id="traditional-upload" accept="image/*" onchange="handleCabinetUpload(event, 'traditional')" style="display: none;">
+                <button class="file-upload-btn" onclick="document.getElementById('traditional-upload').click()">
+                    📁 Upload Traditional
+                </button>
+                <img id="traditional-preview" class="image-preview" style="display: none;">
+            </div>
+            
+            <label>Modern Style:</label>
+            <div class="file-upload">
+                <input type="file" id="modern-upload" accept="image/*" onchange="handleCabinetUpload(event, 'modern')" style="display: none;">
+                <button class="file-upload-btn" onclick="document.getElementById('modern-upload').click()">
+                    📁 Upload Modern
+                </button>
+                <img id="modern-preview" class="image-preview" style="display: none;">
+            </div>
+            
+            <label>Transitional Style:</label>
+            <div class="file-upload">
+                <input type="file" id="transitional-upload" accept="image/*" onchange="handleCabinetUpload(event, 'transitional')" style="display: none;">
+                <button class="file-upload-btn" onclick="document.getElementById('transitional-upload').click()">
+                    📁 Upload Transitional
+                </button>
+                <img id="transitional-preview" class="image-preview" style="display: none;">
+            </div>
+            
+            <label>Custom Style:</label>
+            <div class="file-upload">
+                <input type="file" id="custom-upload" accept="image/*" onchange="handleCabinetUpload(event, 'custom')" style="display: none;">
+                <button class="file-upload-btn" onclick="document.getElementById('custom-upload').click()">
+                    📁 Upload Custom
+                </button>
+                <img id="custom-preview" class="image-preview" style="display: none;">
+            </div>
+        </div>
+
+        <!-- SAVE CONFIGURATION -->
+        <div class="edit-section">
+            <button class="file-upload-btn" onclick="saveConfiguration()" style="width: 100%; background: var(--success-color);">
+                💾 Save All Changes
+            </button>
+        </div>
+    </div>
+
+    <!-- HEADER SECTION -->
+    <section class="header-section">
+        <div class="header-content">
+            <img id="company-logo" class="company-logo" style="display: none;">
+            <h1 class="company-name" id="company-name">Your Cabinet Company</h1>
+            <p class="company-tagline" id="company-tagline">Professional Cabinet Solutions</p>
+            <div class="contact-info" id="contact-info">
+                📞 <span id="display-phone">(555) 123-4567</span> • 
+                📧 <span id="display-email">info@yourcompany.com</span> • 
+                🌐 <span id="display-website">www.yourcompany.com</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONFIGURATOR SECTION -->
+    <section class="configurator-section">
+        <div class="configurator-container">
+            <h2 class="section-title">🛠️ Custom Cabinet Configurator</h2>
+            
+            <!-- PROGRESS INDICATOR -->
+            <div class="progress-container">
+                <div class="progress-step">
+                    <div class="step-circle active" id="step-1-circle">1</div>
+                    <div class="step-label">Project Details</div>
+                </div>
+                <div class="step-line" id="line-1"></div>
+                <div class="progress-step">
+                    <div class="step-circle" id="step-2-circle">2</div>
+                    <div class="step-label">Choose Package</div>
+                </div>
+                <div class="step-line" id="line-2"></div>
+                <div class="progress-step">
+                    <div class="step-circle" id="step-3-circle">3</div>
+                    <div class="step-label">Cabinet Style</div>
+                </div>
+                <div class="step-line" id="line-3"></div>
+                <div class="progress-step">
+                    <div class="step-circle" id="step-4-circle">4</div>
+                    <div class="step-label">Review & PDF</div>
+                </div>
+            </div>
+
+            <!-- STEP 1: PROJECT DETAILS -->
+            <div class="step-content active" id="step-1">
+                <h3 class="step-title">Step 1: Project Details</h3>
+                <p class="step-description">Tell us about your kitchen cabinet project to get an accurate estimate.</p>
+                
+                <div class="options-grid">
+                    <div class="option-category">
+                        <h4 class="category-title">Project Information</h4>
+                        <div style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Linear Feet Needed:</label>
+                            <input type="number" id="linear-feet" placeholder="25" style="width: 100%; padding: 0.75rem; border: 2px solid var(--light-gray); border-radius: 8px;">
+                        </div>
+                        <div style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Kitchen Square Footage:</label>
+                            <input type="number" id="square-footage" placeholder="120" style="width: 100%; padding: 0.75rem; border: 2px solid var(--light-gray); border-radius: 8px;">
+                        </div>
+                    </div>
+                    
+                    <div class="option-category">
+                        <h4 class="category-title">Kitchen Layout</h4>
+                        <div class="option-item" onclick="selectLayout('galley', 0)">
+                            <span class="option-name">Galley Kitchen</span>
+                            <span class="option-price">Standard</span>
+                        </div>
+                        <div class="option-item" onclick="selectLayout('l-shaped', 500)">
+                            <span class="option-name">L-Shaped Layout</span>
+                            <span class="option-price">+$500</span>
+                        </div>
+                        <div class="option-item" onclick="selectLayout('u-shaped', 800)">
+                            <span class="option-name">U-Shaped Layout</span>
+                            <span class="option-price">+$800</span>
+                        </div>
+                        <div class="option-item" onclick="selectLayout('island', 1200)">
+                            <span class="option-name">Kitchen with Island</span>
+                            <span class="option-price">+$1,200</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-navigation">
+                    <button class="nav-btn secondary" disabled>Previous</button>
+                    <button class="nav-btn primary" onclick="nextStep()">Next: Choose Package</button>
+                </div>
+            </div>
+
+            <!-- STEP 2: PACKAGE SELECTION -->
+            <div class="step-content" id="step-2">
+                <h3 class="step-title">Step 2: Choose Your Package</h3>
+                <p class="step-description">Select the cabinet package that best fits your needs and budget.</p>
+                
+                <div class="packages-grid">
+                    <div class="package-card" onclick="selectPackage('economy')">
+                        <div class="package-icon">🏠</div>
+                        <h4 class="package-name">Economy</h4>
+                        <div class="package-price" id="economy-price">$965/LF</div>
+                        <ul class="package-features">
+                            <li>✅ Quality plywood construction</li>
+                            <li>✅ Standard door styles</li>
+                            <li>✅ Basic hardware included</li>
+                            <li>✅ 2-year warranty</li>
+                            <li>✅ Professional installation</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="package-card" onclick="selectPackage('standard')">
+                        <div class="package-icon">⭐</div>
+                        <h4 class="package-name">Standard</h4>
+                        <div class="package-price" id="standard-price">$1,225/LF</div>
+                        <ul class="package-features">
+                            <li>✅ Premium plywood construction</li>
+                            <li>✅ Enhanced door styles</li>
+                            <li>✅ Soft-close hinges & slides</li>
+                            <li>✅ 3-year warranty</li>
+                            <li>✅ Custom modifications available</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="package-card" onclick="selectPackage('premium')">
+                        <div class="package-icon">💎</div>
+                        <h4 class="package-name">Premium</h4>
+                        <div class="package-price" id="premium-price">$1,630/LF</div>
+                        <ul class="package-features">
+                            <li>✅ Solid wood construction</li>
+                            <li>✅ Custom door styles</li>
+                            <li>✅ Premium hardware included</li>
+                            <li>✅ 5-year warranty</li>
+                            <li>✅ Crown molding included</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="package-card" onclick="selectPackage('luxury')">
+                        <div class="package-icon">👑</div>
+                        <h4 class="package-name">Luxury</h4>
+                        <div class="package-price" id="luxury-price">$2,250/LF</div>
+                        <ul class="package-features">
+                            <li>✅ Exotic wood options</li>
+                            <li>✅ Handcrafted details</li>
+                            <li>✅ Designer hardware</li>
+                            <li>✅ Lifetime warranty</li>
+                            <li>✅ White-glove service</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="step-navigation">
+                    <button class="nav-btn secondary" onclick="previousStep()">Previous</button>
+                    <button class="nav-btn primary" onclick="nextStep()" id="package-next-btn" disabled>Next: Choose Style</button>
+                </div>
+            </div>
+
+            <!-- STEP 3: CABINET STYLE SELECTION -->
+            <div class="step-content" id="step-3">
+                <h3 class="step-title">Step 3: Select Cabinet Style</h3>
+                <p class="step-description">Choose the cabinet style that matches your design vision.</p>
+                
+                <div class="cabinet-gallery">
+                    <div class="cabinet-option" onclick="selectCabinetStyle('traditional')">
+                        <div class="cabinet-image" id="traditional-image">🏛️</div>
+                        <div class="cabinet-name">Traditional</div>
+                    </div>
+                    
+                    <div class="cabinet-option" onclick="selectCabinetStyle('modern')">
+                        <div class="cabinet-image" id="modern-image">🏢</div>
+                        <div class="cabinet-name">Modern</div>
+                    </div>
+                    
+                    <div class="cabinet-option" onclick="selectCabinetStyle('transitional')">
+                        <div class="cabinet-image" id="transitional-image">🏘️</div>
+                        <div class="cabinet-name">Transitional</div>
+                    </div>
+                    
+                    <div class="cabinet-option" onclick="selectCabinetStyle('custom')">
+                        <div class="cabinet-image" id="custom-image">⚡</div>
+                        <div class="cabinet-name">Custom Design</div>
+                    </div>
+                </div>
+
+                <div class="options-grid">
+                    <div class="option-category">
+                        <h4 class="category-title">Hardware Options</h4>
+                        <div class="option-item selected" onclick="selectOption('hardware', 'standard', 0)">
+                            <span class="option-name">Standard Hardware</span>
+                            <span class="option-price">Included</span>
+                        </div>
+                        <div class="option-item" onclick="selectOption('hardware', 'premium', 150)">
+                            <span class="option-name">Premium Hardware</span>
+                            <span class="option-price">+$150/LF</span>
+                        </div>
+                        <div class="option-item" onclick="selectOption('hardware', 'luxury', 300)">
+                            <span class="option-name">Designer Hardware</span>
+                            <span class="option-price">+$300/LF</span>
+                        </div>
+                    </div>
+                    
+                    <div class="option-category">
+                        <h4 class="category-title">Finish Options</h4>
+                        <div class="option-item selected" onclick="selectOption('finish', 'standard', 0)">
+                            <span class="option-name">Standard Finish</span>
+                            <span class="option-price">Included</span>
+                        </div>
+                        <div class="option-item" onclick="selectOption('finish', 'custom', 200)">
+                            <span class="option-name">Custom Color Match</span>
+                            <span class="option-price">+$200/LF</span>
+                        </div>
+                        <div class="option-item" onclick="selectOption('finish', 'distressed', 250)">
+                            <span class="option-name">Distressed Finish</span>
+                            <span class="option-price">+$250/LF</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pricing-summary">
+                    <h4 class="summary-title">Current Estimate</h4>
+                    <div class="price-row">
+                        <span>Base Package Cost:</span>
+                        <span id="base-cost">$0</span>
+                    </div>
+                    <div class="price-row">
+                        <span>Layout Adjustment:</span>
+                        <span id="layout-cost">$0</span>
+                    </div>
+                    <div class="price-row">
+                        <span>Hardware Upgrade:</span>
+                        <span id="hardware-cost">$0</span>
+                    </div>
+                    <div class="price-row">
+                        <span>Finish Options:</span>
+                        <span id="finish-cost">$0</span>
+                    </div>
+                    <div class="price-row total">
+                        <span>Total Investment:</span>
+                        <span id="total-cost">$0</span>
+                    </div>
+                </div>
+
+                <div class="step-navigation">
+                    <button class="nav-btn secondary" onclick="previousStep()">Previous</button>
+                    <button class="nav-btn primary" onclick="nextStep()" id="style-next-btn" disabled>Next: Review & PDF</button>
+                </div>
+            </div>
+
+            <!-- STEP 4: REVIEW & PDF -->
+            <div class="step-content" id="step-4">
+                <h3 class="step-title">Step 4: Review Your Configuration</h3>
+                <p class="step-description">Review your selections and generate your professional proposal.</p>
+                
+                <div class="pricing-summary">
+                    <h4 class="summary-title">📋 Project Summary</h4>
+                    <div id="final-summary">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                    <div class="price-row total">
+                        <span>Total Investment:</span>
+                        <span id="final-total">$0</span>
+                    </div>
+                </div>
+
+                <div class="step-navigation">
+                    <button class="nav-btn secondary" onclick="previousStep()">Previous</button>
+                    <button class="nav-btn primary" onclick="generatePDF()">📄 Generate PDF Proposal</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PDF GENERATION SECTION -->
+    <section class="pdf-section" id="pdf-section">
+        <div class="pdf-content">
+            <h3 class="pdf-title">🎉 Your Proposal is Ready!</h3>
+            <p class="pdf-description">Your professional cabinet proposal has been generated and is ready for download.</p>
+            
+            <div class="pdf-actions">
+                <button class="pdf-btn" onclick="downloadPDF()">📄 Download PDF</button>
+                <button class="pdf-btn" onclick="emailProposal()">📧 Email Proposal</button>
+                <button class="pdf-btn" onclick="resetConfigurator()">🔄 New Proposal</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- HIDDEN PDF CONTENT -->
+    <div class="pdf-content-hidden" id="pdf-content">
+        <div style="text-align: center; margin-bottom: 30px; border-bottom: 2px solid var(--primary-color); padding-bottom: 20px;">
+            <img id="pdf-logo" style="max-height: 60px; margin-bottom: 10px;">
+            <h1 id="pdf-company-name" style="color: var(--primary-color); margin-bottom: 5px;">Your Cabinet Company</h1>
+            <p id="pdf-contact" style="color: #666;">Contact Information</p>
+        </div>
+        
+        <h2 style="color: var(--text-color); margin: 20px 0 10px 0;">Custom Cabinet Proposal</h2>
+        <p><strong>Date:</strong> <span id="pdf-date"></span></p>
+        <p><strong>Project:</strong> Custom Kitchen Cabinet Installation</p>
+        
+        <h3 style="color: var(--text-color); margin: 20px 0 10px 0;">Project Details</h3>
+        <div id="pdf-project-details"></div>
+        
+        <h3 style="color: var(--text-color); margin: 20px 0 10px 0;">Selected Package</h3>
+        <div id="pdf-package-details"></div>
+        
+        <h3 style="color: var(--text-color); margin: 20px 0 10px 0;">Investment Summary</h3>
+        <div id="pdf-pricing-details"></div>
+        
+        <h3 style="color: var(--text-color); margin: 20px 0 10px 0;">Terms & Conditions</h3>
+        <p>• This proposal is valid for 30 days from the date issued</p>
+        <p>• 50% deposit required to begin project</p>
+        <p>• Estimated completion time: 4-6 weeks</p>
+        <p>• All materials and workmanship guaranteed</p>
+        <p>• Professional installation included</p>
+    </div>
+
+    <script>
+        // 🚀 SINGLE-BUSINESS PROPOSAL SYSTEM WITH EDIT MODE
+        
+        // Global configuration state
+        let currentStep = 1;
+        let editMode = false;
+        let configuration = {
+            company: {
+                name: 'Your Cabinet Company',
+                tagline: 'Professional Cabinet Solutions',
+                phone: '(555) 123-4567',
+                email: 'info@yourcompany.com',
+                website: 'www.yourcompany.com',
+                address: 'Your Address',
+                logo: null
+            },
+            pricing: {
+                economy: 965,
+                standard: 1225,
+                premium: 1630,
+                luxury: 2250
+            },
+            cabinetImages: {
+                traditional: null,
+                modern: null,
+                transitional: null,
+                custom: null
+            },
+            project: {
+                linearFeet: 0,
+                squareFootage: 0,
+                layout: '',
+                layoutCost: 0,
+                package: '',
+                packageCost: 0,
+                cabinetStyle: '',
+                hardware: 'standard',
+                hardwareCost: 0,
+                finish: 'standard',
+                finishCost: 0,
+                total: 0
+            }
+        };
+
+        // 🔧 EDIT MODE FUNCTIONS
+        function toggleEditMode() {
+            editMode = !editMode;
+            const panel = document.getElementById('edit-panel');
+            const toggle = document.querySelector('.edit-mode-toggle');
+            
+            if (editMode) {
+                panel.classList.add('active');
+                toggle.textContent = '❌ Close Edit';
+                loadEditValues();
+            } else {
+                panel.classList.remove('active');
+                toggle.textContent = '⚙️ Edit Mode';
+            }
+        }
+
+        function loadEditValues() {
+            document.getElementById('edit-company-name').value = configuration.company.name;
+            document.getElementById('edit-tagline').value = configuration.company.tagline;
+            document.getElementById('edit-phone').value = configuration.company.phone;
+            document.getElementById('edit-email').value = configuration.company.email;
+            document.getElementById('edit-website').value = configuration.company.website;
+            document.getElementById('edit-address').value = configuration.company.address;
+            
+            document.getElementById('edit-economy-price').value = configuration.pricing.economy;
+            document.getElementById('edit-standard-price').value = configuration.pricing.standard;
+            document.getElementById('edit-premium-price').value = configuration.pricing.premium;
+            document.getElementById('edit-luxury-price').value = configuration.pricing.luxury;
+        }
+
+        function updateCompanyInfo() {
+            configuration.company.name = document.getElementById('edit-company-name').value;
+            configuration.company.tagline = document.getElementById('edit-tagline').value;
+            configuration.company.phone = document.getElementById('edit-phone').value;
+            configuration.company.email = document.getElementById('edit-email').value;
+            configuration.company.website = document.getElementById('edit-website').value;
+            configuration.company.address = document.getElementById('edit-address').value;
+            
+            // Update display
+            document.getElementById('company-name').textContent = configuration.company.name;
+            document.getElementById('company-tagline').textContent = configuration.company.tagline;
+            document.getElementById('display-phone').textContent = configuration.company.phone;
+            document.getElementById('display-email').textContent = configuration.company.email;
+            document.getElementById('display-website').textContent = configuration.company.website;
+        }
+
+        function updatePricing() {
+            configuration.pricing.economy = parseInt(document.getElementById('edit-economy-price').value) || 965;
+            configuration.pricing.standard = parseInt(document.getElementById('edit-standard-price').value) || 1225;
+            configuration.pricing.premium = parseInt(document.getElementById('edit-premium-price').value) || 1630;
+            configuration.pricing.luxury = parseInt(document.getElementById('edit-luxury-price').value) || 2250;
+            
+            // Update display
+            document.getElementById('economy-price').textContent = `$${configuration.pricing.economy}/LF`;
+            document.getElementById('standard-price').textContent = `$${configuration.pricing.standard}/LF`;
+            document.getElementById('premium-price').textContent = `$${configuration.pricing.premium}/LF`;
+            document.getElementById('luxury-price').textContent = `$${configuration.pricing.luxury}/LF`;
+            
+            calculatePricing();
+        }
+
+        function handleLogoUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    configuration.company.logo = e.target.result;
+                    
+                    // Update preview in edit panel
+                    const preview = document.getElementById('logo-preview');
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                    
+                    // Update main logo
+                    const mainLogo = document.getElementById('company-logo');
+                    mainLogo.src = e.target.result;
+                    mainLogo.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function handleCabinetUpload(event, style) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    configuration.cabinetImages[style] = e.target.result;
+                    
+                    // Update preview in edit panel
+                    const preview = document.getElementById(`${style}-preview`);
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                    
+                    // Update main cabinet image
+                    const mainImage = document.getElementById(`${style}-image`);
+                    if (mainImage) {
+                        mainImage.innerHTML = `<img src="${e.target.result}" style="width: 100%; height: 100%; object-fit: cover;">`;
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function saveConfiguration() {
+            // Save to localStorage
+            localStorage.setItem('cabinetConfiguration', JSON.stringify(configuration));
+            alert('✅ Configuration saved successfully!');
+        }
+
+        function loadConfiguration() {
+            const saved = localStorage.getItem('cabinetConfiguration');
+            if (saved) {
+                configuration = { ...configuration, ...JSON.parse(saved) };
+                updateCompanyInfo();
+                updatePricing();
+                
+                // Load logo if exists
+                if (configuration.company.logo) {
+                    const mainLogo = document.getElementById('company-logo');
+                    mainLogo.src = configuration.company.logo;
+                    mainLogo.style.display = 'block';
+                }
+                
+                // Load cabinet images if exist
+                Object.keys(configuration.cabinetImages).forEach(style => {
+                    if (configuration.cabinetImages[style]) {
+                        const mainImage = document.getElementById(`${style}-image`);
+                        if (mainImage) {
+                            mainImage.innerHTML = `<img src="${configuration.cabinetImages[style]}" style="width: 100%; height: 100%; object-fit: cover;">`;
+                        }
+                    }
+                });
+            }
+        }
+
+        // 📋 CONFIGURATOR FUNCTIONS
+        function nextStep() {
+            if (validateCurrentStep()) {
+                // Hide current step
+                document.getElementById(`step-${currentStep}`).classList.remove('active');
+                document.getElementById(`step-${currentStep}-circle`).classList.remove('active');
+                document.getElementById(`step-${currentStep}-circle`).classList.add('completed');
+                
+                if (currentStep < 4) {
+                    document.getElementById(`line-${currentStep}`).classList.add('completed');
+                }
+                
+                // Show next step
+                currentStep++;
+                document.getElementById(`step-${currentStep}`).classList.add('active');
+                document.getElementById(`step-${currentStep}-circle`).classList.add('active');
+                
+                if (currentStep === 4) {
+                    updateFinalSummary();
+                }
+                
+                calculatePricing();
+            }
+        }
+
+        function previousStep() {
+            if (currentStep > 1) {
+                // Hide current step
+                document.getElementById(`step-${currentStep}`).classList.remove('active');
+                document.getElementById(`step-${currentStep}-circle`).classList.remove('active');
+                
+                // Show previous step
+                currentStep--;
+                document.getElementById(`step-${currentStep}`).classList.add('active');
+                document.getElementById(`step-${currentStep}-circle`).classList.remove('completed');
+                document.getElementById(`step-${currentStep}-circle`).classList.add('active');
+                
+                if (currentStep < 4) {
+                    document.getElementById(`line-${currentStep}`).classList.remove('completed');
+                }
+            }
+        }
+
+        function validateCurrentStep() {
+            switch(currentStep) {
+                case 1:
+                    const linearFeet = document.getElementById('linear-feet').value;
+                    const squareFootage = document.getElementById('square-footage').value;
+                    if (!linearFeet || !squareFootage || !configuration.project.layout) {
+                        alert('Please fill in all project details and select a layout.');
+                        return false;
+                    }
+                    configuration.project.linearFeet = parseInt(linearFeet);
+                    configuration.project.squareFootage = parseInt(squareFootage);
+                    return true;
+                case 2:
+                    if (!configuration.project.package) {
+                        alert('Please select a package.');
+                        return false;
+                    }
+                    return true;
+                case 3:
+                    if (!configuration.project.cabinetStyle) {
+                        alert('Please select a cabinet style.');
+                        return false;
+                    }
+                    return true;
+                default:
+                    return true;
+            }
+        }
+
+        function selectLayout(layout, cost) {
+            // Remove previous selection
+            document.querySelectorAll('#step-1 .option-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            
+            // Add selection
+            event.target.classList.add('selected');
+            configuration.project.layout = layout;
+            configuration.project.layoutCost = cost;
+            calculatePricing();
+        }
+
+        function selectPackage(packageType) {
+            // Remove previous selection
+            document.querySelectorAll('.package-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Add selection
+            event.target.classList.add('selected');
+            configuration.project.package = packageType;
+            configuration.project.packageCost = configuration.pricing[packageType] * configuration.project.linearFeet;
+            
+            // Enable next button
+            document.getElementById('package-next-btn').disabled = false;
+            calculatePricing();
+        }
+
+        function selectCabinetStyle(style) {
+            // Remove previous selection
+            document.querySelectorAll('.cabinet-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Add selection
+            event.target.classList.add('selected');
+            configuration.project.cabinetStyle = style;
+            
+            // Enable next button
+            document.getElementById('style-next-btn').disabled = false;
+            calculatePricing();
+        }
+
+        function selectOption(category, option, pricePerLF) {
+            // Remove previous selection in category
+            const categoryElement = event.target.closest('.option-category');
+            categoryElement.querySelectorAll('.option-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            
+            // Add selection
+            event.target.classList.add('selected');
+            configuration.project[category] = option;
+            configuration.project[`${category}Cost`] = pricePerLF * configuration.project.linearFeet;
+            calculatePricing();
+        }
+
+        function calculatePricing() {
+            const baseCost = configuration.project.packageCost || 0;
+            const layoutCost = configuration.project.layoutCost || 0;
+            const hardwareCost = configuration.project.hardwareCost || 0;
+            const finishCost = configuration.project.finishCost || 0;
+            const total = baseCost + layoutCost + hardwareCost + finishCost;
+            
+            configuration.project.total = total;
+            
+            // Update display
+            if (document.getElementById('base-cost')) {
+                document.getElementById('base-cost').textContent = `$${baseCost.toLocaleString()}`;
+                document.getElementById('layout-cost').textContent = `$${layoutCost.toLocaleString()}`;
+                document.getElementById('hardware-cost').textContent = `$${hardwareCost.toLocaleString()}`;
+                document.getElementById('finish-cost').textContent = `$${finishCost.toLocaleString()}`;
+                document.getElementById('total-cost').textContent = `$${total.toLocaleString()}`;
+            }
+            
+            if (document.getElementById('final-total')) {
+                document.getElementById('final-total').textContent = `$${total.toLocaleString()}`;
+            }
+        }
+
+        function updateFinalSummary() {
+            const summary = document.getElementById('final-summary');
+            const p = configuration.project;
+            
+            summary.innerHTML = `
+                <div class="price-row">
+                    <span>Project Size:</span>
+                    <span>${p.linearFeet} Linear Feet, ${p.squareFootage} sq ft</span>
+                </div>
+                <div class="price-row">
+                    <span>Layout:</span>
+                    <span>${p.layout.charAt(0).toUpperCase() + p.layout.slice(1)} Kitchen</span>
+                </div>
+                <div class="price-row">
+                    <span>Package:</span>
+                    <span>${p.package.charAt(0).toUpperCase() + p.package.slice(1)} Package</span>
+                </div>
+                <div class="price-row">
+                    <span>Cabinet Style:</span>
+                    <span>${p.cabinetStyle.charAt(0).toUpperCase() + p.cabinetStyle.slice(1)}</span>
+                </div>
+                <div class="price-row">
+                    <span>Hardware:</span>
+                    <span>${p.hardware.charAt(0).toUpperCase() + p.hardware.slice(1)} Hardware</span>
+                </div>
+                <div class="price-row">
+                    <span>Finish:</span>
+                    <span>${p.finish.charAt(0).toUpperCase() + p.finish.slice(1)} Finish</span>
+                </div>
+            `;
+        }
+
+        // 📄 PDF GENERATION FUNCTIONS
+        function generatePDF() {
+            // Show PDF section
+            document.getElementById('pdf-section').classList.add('active');
+            
+            // Populate PDF content
+            populatePDFContent();
+            
+            // Scroll to PDF section
+            document.getElementById('pdf-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function populatePDFContent() {
+            const company = configuration.company;
+            const project = configuration.project;
+            
+            // Update PDF content
+            if (company.logo) {
+                document.getElementById('pdf-logo').src = company.logo;
+                document.getElementById('pdf-logo').style.display = 'block';
+            }
+            
+            document.getElementById('pdf-company-name').textContent = company.name;
+            document.getElementById('pdf-contact').textContent = 
+                `${company.phone} • ${company.email} • ${company.website}`;
+            document.getElementById('pdf-date').textContent = new Date().toLocaleDateString();
+            
+            // Project details
+            document.getElementById('pdf-project-details').innerHTML = `
+                <p><strong>Linear Feet:</strong> ${project.linearFeet} LF</p>
+                <p><strong>Square Footage:</strong> ${project.squareFootage} sq ft</p>
+                <p><strong>Layout:</strong> ${project.layout.charAt(0).toUpperCase() + project.layout.slice(1)} Kitchen</p>
+                <p><strong>Cabinet Style:</strong> ${project.cabinetStyle.charAt(0).toUpperCase() + project.cabinetStyle.slice(1)}</p>
+            `;
+            
+            // Package details
+            document.getElementById('pdf-package-details').innerHTML = `
+                <p><strong>${project.package.charAt(0).toUpperCase() + project.package.slice(1)} Package:</strong> $${configuration.pricing[project.package]}/LF</p>
+                <p><strong>Hardware:</strong> ${project.hardware.charAt(0).toUpperCase() + project.hardware.slice(1)}</p>
+                <p><strong>Finish:</strong> ${project.finish.charAt(0).toUpperCase() + project.finish.slice(1)}</p>
+            `;
+            
+            // Pricing details
+            document.getElementById('pdf-pricing-details').innerHTML = `
+                <p><strong>Base Package:</strong> $${project.packageCost.toLocaleString()}</p>
+                <p><strong>Layout Adjustments:</strong> $${project.layoutCost.toLocaleString()}</p>
+                <p><strong>Hardware Upgrades:</strong> $${project.hardwareCost.toLocaleString()}</p>
+                <p><strong>Finish Options:</strong> $${project.finishCost.toLocaleString()}</p>
+                <p style="font-size: 18px; font-weight: bold; color: var(--primary-color); border-top: 2px solid var(--primary-color); padding-top: 10px; margin-top: 15px;">
+                    <strong>Total Investment: $${project.total.toLocaleString()}</strong>
+                </p>
+            `;
+        }
+
+        function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF('p', 'mm', 'a4');
+            const pdfContent = document.getElementById('pdf-content');
+            
+            html2canvas(pdfContent, {
+                scale: 2,
+                useCORS: true,
+                allowTaint: true
+            }).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const imgWidth = 190;
+                const pageHeight = 295;
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                let heightLeft = imgHeight;
+                
+                let position = 10;
+                
+                pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+                
+                while (heightLeft >= 0) {
+                    position = heightLeft - imgHeight + 10;
+                    pdf.addPage();
+                    pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+                }
+                
+                const companyName = configuration.company.name.replace(/\s+/g, '-');
+                const date = new Date().toISOString().split('T')[0];
+                pdf.save(`${companyName}-Proposal-${date}.pdf`);
+            });
+        }
+
+        function emailProposal() {
+            alert('📧 Email functionality would connect to your email service. For now, please download the PDF and attach it to your email.');
+        }
+
+        function resetConfigurator() {
+            // Reset project data
+            configuration.project = {
+                linearFeet: 0,
+                squareFootage: 0,
+                layout: '',
+                layoutCost: 0,
+                package: '',
+                packageCost: 0,
+                cabinetStyle: '',
+                hardware: 'standard',
+                hardwareCost: 0,
+                finish: 'standard',
+                finishCost: 0,
+                total: 0
+            };
+            
+            // Reset form inputs
+            document.getElementById('linear-feet').value = '';
+            document.getElementById('square-footage').value = '';
+            
+            // Reset selections
+            document.querySelectorAll('.selected').forEach(item => {
+                item.classList.remove('selected');
+            });
+            
+            // Reset to step 1
+            currentStep = 1;
+            document.querySelectorAll('.step-content').forEach(step => {
+                step.classList.remove('active');
+            });
+            document.getElementById('step-1').classList.add('active');
+            
+            // Reset progress indicator
+            document.querySelectorAll('.step-circle').forEach(circle => {
+                circle.classList.remove('active', 'completed');
+            });
+            document.querySelectorAll('.step-line').forEach(line => {
+                line.classList.remove('completed');
+            });
+            document.getElementById('step-1-circle').classList.add('active');
+            
+            // Hide PDF section
+            document.getElementById('pdf-section').classList.remove('active');
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // 🚀 INITIALIZATION
+        document.addEventListener('DOMContentLoaded', function() {
+            loadConfiguration();
+            calculatePricing();
+            
+            console.log('🎉 Phase 2C: Single-Business Proposal System initialized!');
+            console.log('✅ Edit mode available');
+            console.log('✅ Logo upload ready');
+            console.log('✅ Cabinet image upload ready');
+            console.log('✅ 4-step configurator ready');
+            console.log('✅ PDF generation ready');
+        });
+    </script>
+</body>
+</html>

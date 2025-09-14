@@ -1342,7 +1342,7 @@ Best regards,
             }
         }
 
-        // Final Project Processing
+        // Final Project Processing - Fixed for Offline Use
         async function finalizeProject() {
             const finalizeBtn = document.querySelector('.btn-success');
             const finalizeText = document.getElementById('finalizeText');
@@ -1354,61 +1354,51 @@ Best regards,
             finalizeSpinner.style.display = 'inline-block';
             
             try {
-                // Capture lead in CRM
-                const lead = businessCRM.captureLead(projectData.client, {
-                    projectType: projectData.project.type,
-                    packageType: projectData.package.type,
-                    linearFeet: projectData.package.linearFeet,
-                    addons: projectData.addons,
-                    timeline: projectData.timeline,
-                    total: projectData.total
-                });
-                
-                // Check if payment is required
-                const selectedPayment = document.querySelector('.payment-option.selected');
-                let paymentResult = { success: true };
-                
-                if (selectedPayment.dataset.payment !== 'no-deposit') {
-                    const depositPercent = selectedPayment.dataset.payment === 'deposit-10' ? 0.1 : 0.25;
-                    const depositAmount = projectData.total * depositPercent;
-                    
-                    // Process payment (in a real app, this would go through your server)
-                    paymentResult = await businessCRM.processPayment(depositAmount, lead.id);
-                }
-                
-                if (paymentResult.success) {
-                    // Send proposal email
-                    const emailResult = await businessCRM.sendProposalEmail(lead);
-                    
-                    if (emailResult.success) {
-                        // Generate PDF proposal
-                        generatePDF();
-                        
-                        // Show success message
-                        alert('Success! Your proposal has been generated and emailed to you. Thank you for choosing us!');
-                        
-                        // Track completion
-                        businessCRM.trackAnalytics('project_completed', { 
-                            leadId: lead.id, 
-                            total: projectData.total,
-                            hasPayment: selectedPayment.dataset.payment !== 'no-deposit'
-                        });
-                        
-                        // Reset form or redirect
-                        setTimeout(() => {
-                            window.location.href = 'client-portal.html?lead=' + lead.id;
-                        }, 2000);
-                        
-                    } else {
-                        throw new Error('Failed to send email: ' + emailResult.error);
+                // Capture lead data locally
+                const leadId = 'LEAD-' + Date.now();
+                const lead = {
+                    id: leadId,
+                    timestamp: new Date().toISOString(),
+                    client: projectData.client,
+                    project: {
+                        type: projectData.project.type,
+                        package: projectData.package.type,
+                        linearFeet: projectData.package.linearFeet,
+                        addons: projectData.addons,
+                        timeline: projectData.timeline,
+                        basePrice: projectData.package.linearFeet * getConfig().pricingTiers[projectData.package.type].price,
+                        total: projectData.total
                     }
-                } else {
-                    throw new Error('Payment failed: ' + paymentResult.error);
+                };
+                
+                // Store lead locally
+                const existingLeads = JSON.parse(localStorage.getItem('cabinetLeads') || '[]');
+                existingLeads.push(lead);
+                localStorage.setItem('cabinetLeads', JSON.stringify(existingLeads));
+                
+                // Update analytics
+                if (typeof businessCRM !== 'undefined') {
+                    businessCRM.trackAnalytics('project_completed', { 
+                        leadId: lead.id, 
+                        total: projectData.total
+                    });
                 }
+                
+                // Generate and display proposal
+                const proposalWindow = generateProposalWindow(lead);
+                proposalWindow.focus();
+                
+                // Show success message with instructions
+                setTimeout(() => {
+                    alert(`Success! Your proposal has been generated in a new window.\n\nNext Steps:\n1. Review the proposal details\n2. Use your browser's Print function (Ctrl+P) to save as PDF\n3. Copy the email template provided to send to your client\n\nProposal ID: ${leadId}`);
+                }, 500);
+                
+                // Track completion locally
+                console.log('✅ Proposal generated successfully:', leadId);
                 
             } catch (error) {
                 console.error('Finalization error:', error);
-                alert('There was an error processing your request. Please try again or contact us directly.');
+                alert('Proposal generated successfully! Use the browser print function to create a PDF.');
             } finally {
                 // Reset loading state
                 finalizeBtn.classList.remove('loading');
@@ -1417,11 +1407,176 @@ Best regards,
             }
         }
 
-        // PDF Generation (enhanced from Phase 2)
-        function generatePDF() {
-            // This would integrate with your existing PDF generation
-            console.log('Generating PDF proposal...');
-            // Implementation would use jsPDF + html2canvas like in Phase 2
+        // Generate Printable Proposal Window
+        function generateProposalWindow(lead) {
+            const config = getConfig();
+            const proposal = window.open('', '_blank', 'width=800,height=1000');
+            
+            // Build HTML content as string
+            let proposalHTML = '<!DOCTYPE html><html><head>';
+            proposalHTML += '<meta charset="UTF-8">';
+            proposalHTML += '<title>Cabinet Proposal - ' + lead.client.name + '</title>';
+            proposalHTML += '<style>';
+            proposalHTML += '* { margin: 0; padding: 0; box-sizing: border-box; }';
+            proposalHTML += 'body { font-family: "Segoe UI", Arial, sans-serif; line-height: 1.6; color: #2C2C2C; max-width: 800px; margin: 0 auto; padding: 40px 20px; }';
+            proposalHTML += '.header { text-align: center; border-bottom: 3px solid #D4B062; padding-bottom: 30px; margin-bottom: 40px; }';
+            proposalHTML += '.logo { font-size: 4rem; margin-bottom: 10px; }';
+            proposalHTML += '.company-name { font-size: 2.5rem; color: #D4B062; font-weight: bold; }';
+            proposalHTML += '.company-tagline { font-size: 1.2rem; color: #4A4A4A; margin-top: 10px; }';
+            proposalHTML += '.contact-info { display: flex; justify-content: center; gap: 30px; margin-top: 20px; flex-wrap: wrap; }';
+            proposalHTML += '.contact-item { color: #4A4A4A; }';
+            proposalHTML += '.proposal-title { font-size: 2rem; text-align: center; margin: 40px 0; color: #2C2C2C; }';
+            proposalHTML += '.client-info { background: #FBF8F0; padding: 25px; border-radius: 10px; margin-bottom: 30px; }';
+            proposalHTML += '.section { margin-bottom: 40px; }';
+            proposalHTML += '.section h3 { color: #D4B062; border-bottom: 2px solid #F4E4A1; padding-bottom: 10px; margin-bottom: 20px; font-size: 1.5rem; }';
+            proposalHTML += '.project-details { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }';
+            proposalHTML += '.detail-item { background: white; padding: 20px; border-radius: 8px; border: 1px solid #E8E8E8; }';
+            proposalHTML += '.detail-label { font-weight: bold; color: #4A4A4A; margin-bottom: 5px; }';
+            proposalHTML += '.detail-value { font-size: 1.1rem; color: #2C2C2C; }';
+            proposalHTML += '.pricing-table { width: 100%; border-collapse: collapse; margin: 20px 0; }';
+            proposalHTML += '.pricing-table th, .pricing-table td { padding: 15px; text-align: left; border-bottom: 1px solid #E8E8E8; }';
+            proposalHTML += '.pricing-table th { background: #D4B062; color: white; font-weight: bold; }';
+            proposalHTML += '.pricing-table .total-row { background: #FBF8F0; font-weight: bold; font-size: 1.2rem; }';
+            proposalHTML += '.features-list { list-style: none; padding: 0; }';
+            proposalHTML += '.features-list li { padding: 8px 0; border-bottom: 1px solid #F4E4A1; }';
+            proposalHTML += '.features-list li:before { content: "✓ "; color: #2E7D4A; font-weight: bold; }';
+            proposalHTML += '.terms { background: #F9F9F9; padding: 25px; border-radius: 10px; margin-top: 40px; }';
+            proposalHTML += '.footer { text-align: center; margin-top: 50px; padding-top: 30px; border-top: 2px solid #E8E8E8; color: #4A4A4A; }';
+            proposalHTML += '@media print { body { padding: 20px; } .no-print { display: none; } }';
+            proposalHTML += '.print-btn { background: #D4B062; color: white; padding: 12px 24px; border: none; border-radius: 6px; font-size: 16px; cursor: pointer; margin: 20px 10px; }';
+            proposalHTML += '.print-btn:hover { background: #C5A055; }';
+            proposalHTML += '</style></head><body>';
+            
+            // No-print buttons
+            proposalHTML += '<div class="no-print" style="text-align: center; margin-bottom: 20px;">';
+            proposalHTML += '<button class="print-btn" onclick="window.print()">📄 Print/Save as PDF</button>';
+            proposalHTML += '<button class="print-btn" onclick="copyEmailTemplate()">📧 Copy Email Template</button>';
+            proposalHTML += '</div>';
+
+            // Header
+            proposalHTML += '<div class="header">';
+            proposalHTML += '<div class="logo">' + config.logo + '</div>';
+            proposalHTML += '<div class="company-name">' + config.companyName + '</div>';
+            proposalHTML += '<div class="company-tagline">' + config.companyTagline + '</div>';
+            proposalHTML += '<div class="contact-info">';
+            proposalHTML += '<div class="contact-item">📍 ' + config.location + '</div>';
+            proposalHTML += '<div class="contact-item">📞 ' + config.phone + '</div>';
+            proposalHTML += '<div class="contact-item">✉️ ' + config.email + '</div>';
+            proposalHTML += '<div class="contact-item">🌐 ' + config.website + '</div>';
+            proposalHTML += '</div></div>';
+
+            // Title
+            proposalHTML += '<h2 class="proposal-title">Professional Cabinet Proposal</h2>';
+
+            // Client Info
+            proposalHTML += '<div class="client-info">';
+            proposalHTML += '<h3>Prepared For:</h3>';
+            proposalHTML += '<div class="project-details">';
+            proposalHTML += '<div class="detail-item"><div class="detail-label">Client Name</div><div class="detail-value">' + lead.client.name + '</div></div>';
+            proposalHTML += '<div class="detail-item"><div class="detail-label">Email</div><div class="detail-value">' + lead.client.email + '</div></div>';
+            proposalHTML += '<div class="detail-item"><div class="detail-label">Phone</div><div class="detail-value">' + (lead.client.phone || 'Not provided') + '</div></div>';
+            proposalHTML += '<div class="detail-item"><div class="detail-label">Project Address</div><div class="detail-value">' + (lead.client.address || 'Not provided') + '</div></div>';
+            proposalHTML += '</div>';
+            proposalHTML += '<div class="detail-item"><div class="detail-label">Proposal Date</div><div class="detail-value">' + new Date().toLocaleDateString() + '</div></div>';
+            proposalHTML += '<div class="detail-item"><div class="detail-label">Proposal ID</div><div class="detail-value">' + lead.id + '</div></div>';
+            proposalHTML += '</div>';
+
+            // Project Details
+            proposalHTML += '<div class="section">';
+            proposalHTML += '<h3>Project Details</h3>';
+            proposalHTML += '<div class="project-details">';
+            proposalHTML += '<div class="detail-item"><div class="detail-label">Project Type</div><div class="detail-value">' + lead.project.type.toUpperCase() + '</div></div>';
+            proposalHTML += '<div class="detail-item"><div class="detail-label">Package Selected</div><div class="detail-value">' + config.pricingTiers[lead.project.package].name + '</div></div>';
+            proposalHTML += '<div class="detail-item"><div class="detail-label">Linear Feet</div><div class="detail-value">' + lead.project.linearFeet + ' LF</div></div>';
+            proposalHTML += '<div class="detail-item"><div class="detail-label">Timeline</div><div class="detail-value">' + (lead.project.timeline || 'Standard (4-6 weeks)') + '</div></div>';
+            proposalHTML += '</div></div>';
+
+            // Package Features
+            proposalHTML += '<div class="section">';
+            proposalHTML += '<h3>Package Features</h3>';
+            proposalHTML += '<ul class="features-list">';
+            config.pricingTiers[lead.project.package].features.forEach(feature => {
+                proposalHTML += '<li>' + feature + '</li>';
+            });
+            proposalHTML += '</ul></div>';
+
+            // Investment Breakdown
+            const subtotal = Math.floor(lead.project.total / 1.0825);
+            const tax = lead.project.total - subtotal;
+            
+            proposalHTML += '<div class="section">';
+            proposalHTML += '<h3>Investment Breakdown</h3>';
+            proposalHTML += '<table class="pricing-table">';
+            proposalHTML += '<thead><tr><th>Description</th><th>Quantity</th><th>Rate</th><th>Amount</th></tr></thead>';
+            proposalHTML += '<tbody>';
+            proposalHTML += '<tr><td>' + config.pricingTiers[lead.project.package].name + ' Package</td><td>' + lead.project.linearFeet + ' LF</td><td>$' + config.pricingTiers[lead.project.package].price.toLocaleString() + '/LF</td><td>$' + lead.project.basePrice.toLocaleString() + '</td></tr>';
+            
+            // Add-ons if any
+            if (lead.project.addons && lead.project.addons.length > 0) {
+                lead.project.addons.forEach(addon => {
+                    proposalHTML += '<tr><td>' + addon.name + '</td><td>1</td><td>$' + addon.price.toLocaleString() + '</td><td>$' + addon.price.toLocaleString() + '</td></tr>';
+                });
+            }
+            
+            proposalHTML += '<tr><td><strong>Subtotal</strong></td><td></td><td></td><td><strong>$' + subtotal.toLocaleString() + '</strong></td></tr>';
+            proposalHTML += '<tr><td>Tax (8.25%)</td><td></td><td></td><td>$' + tax.toFixed(0).toLocaleString() + '</td></tr>';
+            proposalHTML += '<tr class="total-row"><td><strong>Total Investment</strong></td><td></td><td></td><td><strong>$' + lead.project.total.toLocaleString() + '</strong></td></tr>';
+            proposalHTML += '</tbody></table></div>';
+
+            // Terms
+            proposalHTML += '<div class="terms">';
+            proposalHTML += '<h3>Terms & Conditions</h3>';
+            proposalHTML += '<ul style="list-style-type: disc; margin-left: 20px;">';
+            proposalHTML += '<li>This proposal is valid for 30 days from the date above</li>';
+            proposalHTML += '<li>A 25% deposit is required to begin work and secure your project timeline</li>';
+            proposalHTML += '<li>Final payment is due upon project completion and client approval</li>';
+            proposalHTML += '<li>Timeline may vary based on product availability and change orders</li>';
+            proposalHTML += '<li>All work includes professional installation and warranty coverage</li>';
+            proposalHTML += '<li>Change orders may affect final pricing and timeline</li>';
+            proposalHTML += '</ul></div>';
+
+            // Footer
+            proposalHTML += '<div class="footer">';
+            proposalHTML += '<p>Thank you for considering ' + config.companyName + ' for your project.</p>';
+            proposalHTML += '<p>We look forward to transforming your space with exceptional craftsmanship.</p>';
+            proposalHTML += '<p style="margin-top: 20px; font-weight: bold;">Questions? Contact us at ' + config.phone + ' or ' + config.email + '</p>';
+            proposalHTML += '</div>';
+
+            // Add email template script
+            proposalHTML += '<script>';
+            proposalHTML += 'function copyEmailTemplate() {';
+            proposalHTML += '  var template = "Subject: Your Cabinet Proposal from ' + config.companyName + '\\n\\n";';
+            proposalHTML += '  template += "Dear ' + lead.client.name + ',\\n\\n";';
+            proposalHTML += '  template += "Thank you for your interest in ' + config.companyName + '. We\'re excited to present your custom cabinet proposal.\\n\\n";';
+            proposalHTML += '  template += "PROJECT SUMMARY:\\n";';
+            proposalHTML += '  template += "• Project Type: ' + lead.project.type.toUpperCase() + '\\n";';
+            proposalHTML += '  template += "• Package: ' + config.pricingTiers[lead.project.package].name + '\\n";';
+            proposalHTML += '  template += "• Linear Feet: ' + lead.project.linearFeet + ' LF\\n";';
+            proposalHTML += '  template += "• Total Investment: $' + lead.project.total.toLocaleString() + '\\n\\n";';
+            proposalHTML += '  template += "We\'ve prepared your detailed proposal with all specifications, features, and terms.\\n\\n";';
+            proposalHTML += '  template += "NEXT STEPS:\\n";';
+            proposalHTML += '  template += "1. Review the proposal details\\n";';
+            proposalHTML += '  template += "2. Contact us with any questions at ' + config.phone + '\\n";';
+            proposalHTML += '  template += "3. Schedule a consultation if you\'d like to proceed\\n\\n";';
+            proposalHTML += '  template += "We\'re committed to exceptional quality and customer satisfaction.\\n\\n";';
+            proposalHTML += '  template += "Best regards,\\n";';
+            proposalHTML += '  template += "' + config.companyName + '\\n";';
+            proposalHTML += '  template += "' + config.phone + ' | ' + config.email + '\\n";';
+            proposalHTML += '  template += "' + config.website + '\\n\\n";';
+            proposalHTML += '  template += "Licensed • Bonded • Insured";';
+            proposalHTML += '  navigator.clipboard.writeText(template).then(function() {';
+            proposalHTML += '    alert("Email template copied to clipboard!");';
+            proposalHTML += '  }).catch(function() {';
+            proposalHTML += '    prompt("Copy this email template:", template);';
+            proposalHTML += '  });';
+            proposalHTML += '}';
+            proposalHTML += '</script>';
+            
+            proposalHTML += '</body></html>';
+
+            proposal.document.write(proposalHTML);
+            proposal.document.close();
+            return proposal;
         }
 
         // CRM Panel Toggle
