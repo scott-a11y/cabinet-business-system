@@ -125,6 +125,19 @@
             margin-bottom: 0.5rem;
         }
 
+        .company-logo img {
+            height: 2rem;
+            width: auto;
+            max-width: 120px;
+            filter: drop-shadow(0 1px 3px rgba(0,0,0,0.1));
+        }
+
+        .company-logo-fallback {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            display: none;
+        }
+
         .company-name {
             font-size: 1.8rem;
             font-weight: 700;
@@ -589,7 +602,10 @@
     <div class="configurator-container">
         <!-- Header -->
         <div class="configurator-header">
-            <div class="company-logo" id="company-logo">🪵</div>
+            <div class="company-logo" id="company-logo">
+                <img src="logo.svg" alt="Foundry Cabinets Co Logo" onerror="this.style.display='none'; document.querySelector('.company-logo-fallback').style.display='block';">
+            </div>
+            <div class="company-logo-fallback">🪵</div>
             <h1 class="company-name" id="company-name">Professional Cabinet Configurator</h1>
             <p class="company-tagline" id="company-tagline">Get Your Custom Estimate in Minutes</p>
         </div>
@@ -1083,10 +1099,22 @@ Best regards,
             if (!window.CONFIG) return;
 
             const elements = {
-                'company-logo': window.CONFIG.logo || '🪵',
                 'company-name': window.CONFIG.companyName || 'Professional Cabinet Configurator',
                 'company-tagline': window.CONFIG.companyTagline || 'Get Your Custom Estimate in Minutes'
             };
+            
+            // Handle logo separately with SVG support
+            const logoElement = document.querySelector('#company-logo img');
+            const logoFallback = document.querySelector('.company-logo-fallback');
+            
+            if (window.CONFIG.logo && window.CONFIG.logo.endsWith('.svg')) {
+                logoElement.src = window.CONFIG.logo;
+                logoElement.alt = window.CONFIG.companyName + ' Logo';
+            } else {
+                logoElement.style.display = 'none';
+                logoFallback.style.display = 'block';
+                logoFallback.textContent = window.CONFIG.logo || window.CONFIG.logoEmoji || '🪵';
+            }
 
             for (const [id, value] of Object.entries(elements)) {
                 const el = document.getElementById(id);
@@ -1455,7 +1483,11 @@ Best regards,
 
             // Header
             proposalHTML += '<div class="header">';
-            proposalHTML += '<div class="logo">' + config.logo + '</div>';
+            if (config.logo && config.logo.endsWith('.svg')) {
+                proposalHTML += '<div class="logo"><img src="' + config.logo + '" alt="' + config.companyName + ' Logo" style="height: 3rem; width: auto; max-width: 150px;"></div>';
+            } else {
+                proposalHTML += '<div class="logo">' + (config.logoEmoji || config.logo || '🪵') + '</div>';
+            }
             proposalHTML += '<div class="company-name">' + config.companyName + '</div>';
             proposalHTML += '<div class="company-tagline">' + config.companyTagline + '</div>';
             proposalHTML += '<div class="contact-info">';

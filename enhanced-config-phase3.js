@@ -11,7 +11,9 @@ const BUSINESS_CONFIGS = {
         companyName: 'Foundry Cabinets Co',
         companySubtitle: 'Premium Cabinet Solutions',
         companyTagline: 'Driven by Precision. Evolved by Design.',
-        logo: '🪵',
+        logo: 'logo.svg',
+        logoIcon: 'logo-icon.svg',
+        logoEmoji: '🪵', // Fallback emoji for compatibility
         
         // Contact Information
         location: 'Portland, OR',

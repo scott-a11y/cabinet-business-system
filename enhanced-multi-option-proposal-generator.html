@@ -331,6 +331,12 @@
             font-size: 2rem;
         }
 
+        .pdf-logo img {
+            height: 2rem;
+            width: auto;
+            max-width: 120px;
+        }
+
         .pdf-company-info {
             text-align: right;
         }
@@ -419,7 +425,7 @@
 
     <!-- Header -->
     <header class="header">
-        <h1>🪵 Foundry Cabinets Co</h1>
+        <h1><img src="logo-icon.svg" alt="Foundry Cabinets Co Logo" style="height: 1.5em; vertical-align: middle; margin-right: 0.5em;" onerror="this.outerHTML='🪵'"> Foundry Cabinets Co</h1>
         <p>Professional Multi-Option Proposal Generator</p>
     </header>
 
@@ -518,7 +524,9 @@
     <!-- PDF Preview (Hidden) -->
     <div id="pdf-preview" class="pdf-preview">
         <div class="pdf-header">
-            <div class="pdf-logo">🪵</div>
+            <div class="pdf-logo">
+                <img src="logo-icon.svg" alt="Foundry Cabinets Co Logo" onerror="this.outerHTML='🪵'">
+            </div>
             <div class="pdf-company-info">
                 <div class="pdf-company-name">Foundry Cabinets Co</div>
                 <div>by District Design Build, LLC</div>

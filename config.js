@@ -9,7 +9,9 @@ const FOUNDRY_CABINETS = {
     companyTagline: 'Driven by Precision. Evolved by Design.',
     
     // Branding
-    logo: 'ðŸªµ',
+    logo: 'logo.svg',
+    logoIcon: 'logo-icon.svg',
+    logoEmoji: '🪵', // Fallback emoji for compatibility
     primaryColor: '#D4B062',
     
     // Contact Information

@@ -67,6 +67,20 @@
             margin-bottom: 1rem;
         }
 
+        .company-logo img {
+            height: 4rem;
+            width: auto;
+            max-width: 200px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        /* Fallback for emoji if SVG fails to load */
+        .company-logo-fallback {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
         .company-name {
             font-size: 3rem;
             font-weight: 700;
@@ -380,7 +394,10 @@
         <!-- Hero Header -->
         <header class="hero-header">
             <div class="hero-content">
-                <div class="company-logo" id="company-logo">🪵</div>
+                <div class="company-logo" id="company-logo">
+                    <img src="logo.svg" alt="Foundry Cabinets Co Logo" onerror="this.style.display='none'; document.querySelector('.company-logo-fallback').style.display='block';">
+                </div>
+                <div class="company-logo-fallback">🪵</div>
                 <h1 class="company-name" id="company-name">Cabinet Business Management System</h1>
                 <p class="company-subtitle" id="company-subtitle">Enhanced Visual Business Management System</p>
                 <p class="company-tagline" id="company-tagline">Drive Growth. Automate Success. Lead Your Market.</p>
@@ -557,8 +574,18 @@
 
             const config = window.CONFIG;
             
-            // Update company information
-            document.getElementById('company-logo').textContent = config.logo || '🪵';
+            // Update company information - use SVG logo with fallback
+            const logoElement = document.querySelector('#company-logo img');
+            const logoFallback = document.querySelector('.company-logo-fallback');
+            
+            if (config.logo && config.logo.endsWith('.svg')) {
+                logoElement.src = config.logo;
+                logoElement.alt = config.companyName + ' Logo';
+            } else {
+                logoElement.style.display = 'none';
+                logoFallback.style.display = 'block';
+                logoFallback.textContent = config.logo || config.logoEmoji || '🪵';
+            }
             document.getElementById('company-name').textContent = config.companyName || 'Cabinet Business Management System';
             document.getElementById('company-subtitle').textContent = config.companySubtitle || 'Enhanced Visual Business Management System';
             document.getElementById('company-tagline').textContent = config.companyTagline || 'Drive Growth. Automate Success.';
