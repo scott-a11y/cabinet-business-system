@@ -1,7 +1,7 @@
-// ðŸ›¡ï¸ ENHANCED ERROR HANDLING SYSTEM
+// 🪵›¡ï¸ ENHANCED ERROR HANDLING SYSTEM
 // Comprehensive error tracking, reporting, and graceful degradation
 
-// ðŸ"Š ERROR TRACKING SYSTEM
+// 🪵"Š ERROR TRACKING SYSTEM
 window.ERROR_TRACKER = {
     errors: [],
     warnings: [],
@@ -10,7 +10,7 @@ window.ERROR_TRACKER = {
     debugMode: false
 };
 
-// ðŸšš ENHANCED CONSOLE METHODS
+// 🪵šš ENHANCED CONSOLE METHODS
 const originalLog = console.log;
 const originalWarn = console.warn;
 const originalError = console.error;
@@ -54,7 +54,7 @@ console.error = function(...args) {
     }
 };
 
-// ðŸš¨ GLOBAL ERROR HANDLERS
+// 🪵š¨ GLOBAL ERROR HANDLERS
 window.addEventListener('error', function(event) {
     const error = {
         timestamp: new Date().toISOString(),
@@ -67,7 +67,7 @@ window.addEventListener('error', function(event) {
     };
     
     window.ERROR_TRACKER.errors.push(error);
-    console.error('ðŸš¨ Global Error Caught:', error);
+    console.error('🪵š¨ Global Error Caught:', error);
     
     // Handle specific error types
     if (event.filename && event.filename.includes('config.js')) {
@@ -87,16 +87,16 @@ window.addEventListener('unhandledrejection', function(event) {
     };
     
     window.ERROR_TRACKER.errors.push(error);
-    console.error('ðŸš¨ Unhandled Promise Rejection:', error);
+    console.error('🪵š¨ Unhandled Promise Rejection:', error);
     
     // Prevent console spam but log the error
     event.preventDefault();
 });
 
-// ðŸ"§ SPECIFIC ERROR HANDLERS
+// 🪵"§ SPECIFIC ERROR HANDLERS
 
 function handleConfigError(error) {
-    console.warn('ðŸš¨ Configuration system error detected');
+    console.warn('🪵š¨ Configuration system error detected');
     
     // Try to recover
     if (typeof initializeConfig === 'function') {
@@ -108,16 +108,16 @@ function handleConfigError(error) {
 }
 
 function handleNetworkError(error) {
-    console.warn('ðŸŒ Network error detected:', error);
+    console.warn('🪵Œ Network error detected:', error);
     showErrorNotification('Network connectivity issue. Some features may be limited.');
 }
 
 function handleMobileError(error) {
-    console.warn('ðŸ"± Mobile-specific error:', error);
+    console.warn('🪵"± Mobile-specific error:', error);
     // Handle mobile-specific issues like touch events
 }
 
-// ðŸ'¬ USER-FRIENDLY ERROR NOTIFICATIONS
+// 🪵'¬ USER-FRIENDLY ERROR NOTIFICATIONS
 function showErrorNotification(message, type = 'warning', duration = 5000) {
     // Remove existing notifications
     const existing = document.querySelectorAll('.error-notification');
@@ -186,7 +186,7 @@ function showErrorNotification(message, type = 'warning', duration = 5000) {
     }, duration);
 }
 
-// ðŸ"Š ERROR REPORTING AND DEBUGGING
+// 🪵"Š ERROR REPORTING AND DEBUGGING
 function getErrorReport() {
     return {
         timestamp: new Date().toISOString(),
@@ -223,7 +223,7 @@ function downloadErrorReport() {
     URL.revokeObjectURL(url);
 }
 
-// ðŸ"± MOBILE-SPECIFIC ERROR HANDLING
+// 🪵"± MOBILE-SPECIFIC ERROR HANDLING
 function setupMobileErrorHandling() {
     // Handle touch events errors
     document.addEventListener('touchstart', function(e) {
@@ -266,7 +266,7 @@ function setupMobileErrorHandling() {
     }, 250));
 }
 
-// ðŸ•° UTILITY FUNCTIONS
+// 🪵•° UTILITY FUNCTIONS
 function debounce(func, wait) {
     let timeout;
     return function executedFunction(...args) {
@@ -279,7 +279,7 @@ function debounce(func, wait) {
     };
 }
 
-// ðŸŽ¯ PERFORMANCE MONITORING
+// 🪵Ž¯ PERFORMANCE MONITORING
 function monitorPerformance() {
     // Monitor memory usage (Chrome only)
     if (performance.memory) {
@@ -315,7 +315,7 @@ function monitorPerformance() {
     }
 }
 
-// ðŸšš INITIALIZATION
+// 🪵šš INITIALIZATION
 function initializeErrorHandling() {
     try {
         setupMobileErrorHandling();
@@ -333,11 +333,11 @@ function initializeErrorHandling() {
         console.log('âœ… Enhanced error handling system initialized');
         
     } catch (error) {
-        console.error('ðŸš¨ Error handling initialization failed:', error);
+        console.error('🪵š¨ Error handling initialization failed:', error);
     }
 }
 
-// ðŸ"§ DEBUG HELPERS (Development only)
+// 🪵"§ DEBUG HELPERS (Development only)
 window.DEBUG = {
     enableDebugMode: () => { window.ERROR_TRACKER.debugMode = true; },
     disableDebugMode: () => { window.ERROR_TRACKER.debugMode = false; },
@@ -356,4 +356,4 @@ window.DEBUG = {
 // Auto-initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', initializeErrorHandling);
 
-console.log('ðŸ›¡ï¸ Enhanced Error Handling System loaded');
+console.log('🪵›¡ï¸ Enhanced Error Handling System loaded');

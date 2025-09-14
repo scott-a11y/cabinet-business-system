@@ -1,7 +1,7 @@
-﻿// ðŸªµ FOUNDRY CABINETS CO - SINGLE BRAND CONFIGURATION
+﻿// 🪵ªµ FOUNDRY CABINETS CO - SINGLE BRAND CONFIGURATION
 // Simplified production-ready configuration system
 
-// ðŸ¢ COMPANY INFORMATION
+// 🪵¢ COMPANY INFORMATION
 const FOUNDRY_CABINETS = {
     // Company Identity
     companyName: 'Foundry Cabinets Co',
@@ -9,7 +9,7 @@ const FOUNDRY_CABINETS = {
     companyTagline: 'Driven by Precision. Evolved by Design.',
     
     // Branding
-    logo: 'ðŸªµ',
+    logo: '🪵ªµ',
     primaryColor: '#D4B062',
     
     // Contact Information
@@ -89,10 +89,10 @@ const FOUNDRY_CABINETS = {
     }
 };
 
-// ðŸŽ¯ MAKE GLOBALLY AVAILABLE
+// 🪵Ž¯ MAKE GLOBALLY AVAILABLE
 window.FOUNDRY_CONFIG = FOUNDRY_CABINETS;
 
-// ðŸ“Š BUSINESS CALCULATIONS
+// 🪵“Š BUSINESS CALCULATIONS
 const BusinessCalculations = {
     // Calculate linear foot pricing
     calculateLinearFootPrice: function(linearFeet, tier = 'standard') {
@@ -131,7 +131,7 @@ const BusinessCalculations = {
     }
 };
 
-// ðŸŽ¨ DESIGN UTILITIES
+// 🪵Ž¨ DESIGN UTILITIES
 const DesignUtils = {
     // Apply company colors to elements
     applyBranding: function() {
@@ -165,7 +165,7 @@ const DesignUtils = {
     }
 };
 
-// ðŸ“± CLIENT UTILITIES
+// 🪵“± CLIENT UTILITIES
 const ClientUtils = {
     // Generate estimate ID
     generateEstimateId: function() {
@@ -198,7 +198,7 @@ const ClientUtils = {
     }
 };
 
-// ðŸš€ AUTO-INITIALIZATION
+// 🪵š€ AUTO-INITIALIZATION
 document.addEventListener('DOMContentLoaded', function() {
     // Apply branding automatically
     DesignUtils.applyBranding();
@@ -217,7 +217,7 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('âœ… Foundry Cabinets Co configuration loaded successfully');
 });
 
-// ðŸ“Š EXPORT FOR MODULES (if needed)
+// 🪵“Š EXPORT FOR MODULES (if needed)
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
         FOUNDRY_CABINETS,
