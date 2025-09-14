@@ -18,12 +18,9 @@ A comprehensive web-based business management platform designed specifically for
 - **Analytics Tracking**: Comprehensive event tracking and performance metrics
 - **Client Portal**: Dedicated client communication interface
 
-### Business Configurations
+### Business Configuration
 
-1. **🪵 Foundry Cabinets Co** - Portland quality-focused business
-2. **🏔️ Seattle Premium Cabinets** - Pacific Northwest craftsmanship  
-3. **🏗️ District Design Build** - Architectural millwork specialists
-4. **💎 Prestige Kitchen Studios** - Ultra-luxury positioning
+1. **🪵 Foundry Cabinets Co** - Premier cabinet manufacturing and installation
 
 ## 🚀 Quick Start
 
@@ -127,11 +124,11 @@ This is a complete business management system. For customizations:
 
 ## 📄 License
 
-This project is part of District Design Build, LLC business management system.
+This project is part of Foundry Cabinets Co business management system.
 
 ## 📞 Contact
 
-- **Company**: District Design Build, LLC
+- **Company**: Foundry Cabinets Co
 - **Email**: scott@ddbteam.com
 - **Phone**: 360-606-1106
 - **Website**: www.ddb503.com
