@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">Before & After Showcase - Foundry Cabinets Co</title>
+    
+    <!-- 🛡️ BULLETPROOF CONFIGURATION SYSTEM -->
+    <script src="config.js"></script>
+    
+    <style>
+        :root {
+            --primary-gold: #D4B062;
+            --light-gold: #F4E4A1;
+            --cream: #FBF8F0;
+            --warm-white: #FEFCF7;
+            --charcoal: #2C2C2C;
+            --dark-gray: #4A4A4A;
+            --light-gray: #E8E8E8;
+            --success: #2E7D4A;
+            --warning: #C5801A;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, var(--warm-white) 0%, var(--cream) 100%);
+            color: var(--charcoal);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Navigation */
+        .nav-header {
+            background: white;
+            border-bottom: 1px solid var(--light-gray);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            padding: 0 2rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-item {
+            color: var(--dark-gray);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+
+        .nav-item:hover {
+            background: var(--light-gold);
+            color: var(--charcoal);
+        }
+
+        .nav-item.active {
+            background: var(--primary-gold);
+            color: white;
+        }
+
+        /* Header Section */
+        .showcase-header {
+            background: linear-gradient(135deg, var(--primary-gold), #C5A055);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .header-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .header-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .stats-row {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Category Controls */
+        .category-controls {
+            background: white;
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .controls-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 0 2rem;
+        }
+
+        .category-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .category-btn {
+            background: var(--light-gray);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            color: var(--dark-gray);
+        }
+
+        .category-btn:hover {
+            background: var(--light-gold);
+        }
+
+        .category-btn.active {
+            background: var(--primary-gold);
+            color: white;
+        }
+
+        .view-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .control-btn {
+            background: var(--cream);
+            border: 2px solid var(--primary-gold);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            color: var(--charcoal);
+            transition: all 0.3s ease;
+        }
+
+        .control-btn:hover {
+            background: var(--primary-gold);
+            color: white;
+        }
+
+        .control-btn.active {
+            background: var(--primary-gold);
+            color: white;
+        }
+
+        /* Main Showcase */
+        .showcase-main {
+            padding: 3rem 0;
+        }
+
+        .showcase-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .projects-grid {
+            display: grid;
+            gap: 3rem;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border-left: 6px solid var(--primary-gold);
+        }
+
+        /* Comparison Slider */
+        .comparison-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+            cursor: grab;
+            background: var(--light-gray);
+            user-select: none;
+        }
+
+        .comparison-container:active {
+            cursor: grabbing;
+        }
+
+        .comparison-container.fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1000;
+            height: 100vh;
+            border-radius: 0;
+        }
+
+        .before-image, .after-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .after-image {
+            clip-path: inset(0 50% 0 0);
+            transition: clip-path 0.1s ease;
+        }
+
+        .slider-handle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 44px;
+            height: 44px;
+            background: var(--primary-gold);
+            border: 3px solid white;
+            border-radius: 50%;
+            cursor: grab;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            color: white;
+        }
+
+        .slider-handle:active {
+            cursor: grabbing;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .slider-handle::before {
+            content: '↔';
+            font-weight: bold;
+        }
+
+        /* Image Labels */
+        .image-labels {
+            position: absolute;
+            bottom: 1rem;
+            left: 1rem;
+            right: 1rem;
+            display: flex;
+            justify-content: space-between;
+            z-index: 5;
+        }
+
+        .label {
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        /* Project Information */
+        .project-info {
+            padding: 2rem;
+        }
+
+        .project-title {
+            font-size: 1.5rem;
+            color: var(--charcoal);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .project-description {
+            color: var(--dark-gray);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .project-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .detail-group {
+            background: var(--cream);
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .detail-label {
+            font-size: 0.8rem;
+            color: var(--dark-gray);
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .detail-value {
+            font-weight: 600;
+            color: var(--charcoal);
+        }
+
+        .specs-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .spec-tag {
+            background: var(--light-gold);
+            color: var(--charcoal);
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+
+        .project-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .action-btn.primary {
+            background: var(--primary-gold);
+            color: white;
+        }
+
+        .action-btn.primary:hover {
+            background: #C5A055;
+        }
+
+        .action-btn.secondary {
+            background: white;
+            color: var(--primary-gold);
+            border: 2px solid var(--primary-gold);
+        }
+
+        .action-btn.secondary:hover {
+            background: var(--primary-gold);
+            color: white;
+        }
+
+        /* Fullscreen Controls */
+        .fullscreen-controls {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            z-index: 1001;
+            background: rgba(0,0,0,0.7);
+            border-radius: 8px;
+            padding: 0.5rem;
+            display: none;
+        }
+
+        .fullscreen-controls.active {
+            display: block;
+        }
+
+        .fullscreen-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            padding: 0.5rem;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .fullscreen-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        /* Auto-play Mode */
+        .autoplay-indicator {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            z-index: 5;
+            display: none;
+        }
+
+        .autoplay-indicator.active {
+            display: block;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                align-items: center;
+                gap: 0.5rem;
+            }
+
+            .nav-item {
+                font-size: 0.8rem;
+                padding: 0.4rem 0.8rem;
+            }
+
+            .header-title {
+                font-size: 2rem;
+            }
+
+            .stats-row {
+                gap: 2rem;
+            }
+
+            .comparison-container {
+                height: 300px;
+            }
+
+            .category-buttons {
+                gap: 0.5rem;
+            }
+
+            .category-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
+            }
+
+            .project-details {
+                grid-template-columns: 1fr;
+            }
+
+            .project-actions {
+                flex-direction: column;
+            }
+
+            .slider-handle {
+                width: 50px;
+                height: 50px;
+            }
+        }
+
+        /* Loading States */
+        .loading-placeholder {
+            background: var(--light-gray);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Hidden initially */
+        .project-card {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.5s ease;
+        }
+
+        .project-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav-header">
+        <div class="nav-container">
+            <a href="index.html" class="nav-item">🏠 Business Hub</a>
+            <a href="admin-dashboard.html" class="nav-item">📊 Admin Dashboard</a>
+            <a href="client-proposal.html" class="nav-item">📋 Client Proposals</a>
+            <a href="pdf-proposal-generator.html" class="nav-item">📄 PDF Generator</a>
+            <a href="client-portal.html" class="nav-item">👥 Client Portal</a>
+            <a href="multi-photo-gallery.html" class="nav-item">📸 Photo Gallery</a>
+            <a href="before-after-showcase.html" class="nav-item active">🔄 Before/After</a>
+            <a href="360-project-viewer.html" class="nav-item">🌐 Virtual Tours</a>
+            <a href="interactive-estimate-calculator.html" class="nav-item">🧮 Calculator</a>
+            <a href="comprehensive-demo.html" class="nav-item">🎭 Full Demo</a>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <header class="showcase-header">
+        <div class="header-content">
+            <h1 class="header-title">Before & After Showcase</h1>
+            <p class="header-subtitle">Witness the transformative power of expert craftsmanship</p>
+            
+            <div class="stats-row">
+                <div class="stat-item">
+                    <span class="stat-number">150+</span>
+                    <span class="stat-label">Projects Completed</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">98%</span>
+                    <span class="stat-label">Client Satisfaction</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">15+</span>
+                    <span class="stat-label">Years Experience</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Category Controls -->
+    <section class="category-controls">
+        <div class="controls-container">
+            <div class="category-buttons">
+                <button class="category-btn active" data-category="all">All Projects</button>
+                <button class="category-btn" data-category="kitchen">Kitchens</button>
+                <button class="category-btn" data-category="bathroom">Bathrooms</button>
+                <button class="category-btn" data-category="builtin">Built-ins</button>
+                <button class="category-btn" data-category="commercial">Commercial</button>
+            </div>
+            
+            <div class="view-controls">
+                <button class="control-btn" id="autoplay-btn">▶ Auto-Play</button>
+                <button class="control-btn" id="fullscreen-btn">⛶ Fullscreen Mode</button>
+                <span style="color: var(--dark-gray); font-size: 0.8rem;">
+                    💡 Tip: Drag the slider or use touch to compare images
+                </span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Showcase -->
+    <section class="showcase-main">
+        <div class="showcase-container">
+            <div class="projects-grid" id="projects-grid">
+                <!-- Projects will be dynamically generated here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Fullscreen Controls -->
+    <div class="fullscreen-controls" id="fullscreen-controls">
+        <button class="fullscreen-btn" id="exit-fullscreen">✕</button>
+    </div>
+
+    <script>
+        // Project data with high-quality placeholder images
+        const beforeAfterProjects = [
+            {
+                id: 'kitchen-modern-1',
+                category: 'kitchen',
+                title: 'Modern Kitchen Transformation',
+                description: 'Complete kitchen renovation featuring custom shaker-style cabinets, quartz countertops, and premium hardware. This project maximized storage while creating an open, contemporary feel.',
+                beforeImage: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&h=600&fit=crop&crop=center&auto=format',
+                afterImage: 'https://images.unsplash.com/photo-1556908885-44c7d85d2e74?w=800&h=600&fit=crop&crop=center&auto=format',
+                specs: ['42 Linear Feet', 'Soft-Close Hardware', 'Crown Molding', 'LED Under-Cabinet Lighting', 'Dovetail Drawers'],
+                completionTime: '6 weeks',
+                investment: '$52,000',
+                timeline: '4-6 weeks'
+            },
+            {
+                id: 'kitchen-farmhouse-1',
+                category: 'kitchen',
+                title: 'Farmhouse Kitchen Makeover',
+                description: 'Traditional farmhouse-style kitchen with painted shaker cabinets, butcher block countertops, and vintage-inspired hardware. Perfect blend of functionality and charm.',
+                beforeImage: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&h=600&fit=crop&crop=focalpoint&fp-x=0.3&auto=format',
+                afterImage: 'https://images.unsplash.com/photo-1556909275-abb17c5e5d2e?w=800&h=600&fit=crop&crop=center&auto=format',
+                specs: ['36 Linear Feet', 'Painted Finish', 'Butcher Block Counters', 'Farmhouse Sink', 'Open Shelving'],
+                completionTime: '5 weeks',
+                investment: '$38,500',
+                timeline: '3-5 weeks'
+            },
+            {
+                id: 'bathroom-luxury-1',
+                category: 'bathroom',
+                title: 'Luxury Master Bathroom',
+                description: 'Elegant master bathroom featuring a double vanity with custom cabinetry, premium finishes, and sophisticated storage solutions.',
+                beforeImage: 'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=800&h=600&fit=crop&crop=center&auto=format',
+                afterImage: 'https://images.unsplash.com/photo-1620626011761-996317b8d101?w=800&h=600&fit=crop&crop=center&auto=format',
+                specs: ['Double Vanity', 'Quartz Countertops', 'Soft-Close Drawers', 'Premium Hardware', 'Medicine Cabinets'],
+                completionTime: '3 weeks',
+                investment: '$18,500',
+                timeline: '2-3 weeks'
+            },
+            {
+                id: 'bathroom-guest-1',
+                category: 'bathroom',
+                title: 'Guest Bath Renovation',
+                description: 'Compact guest bathroom maximizing storage with a custom vanity and clever organizational solutions.',
+                beforeImage: 'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=800&h=600&fit=crop&crop=focalpoint&fp-x=0.7&auto=format',
+                afterImage: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=800&h=600&fit=crop&crop=center&auto=format',
+                specs: ['Custom Vanity', 'Space-Saving Design', 'Hidden Storage', 'Quality Hardware'],
+                completionTime: '2 weeks',
+                investment: '$12,800',
+                timeline: '1-2 weeks'
+            },
+            {
+                id: 'builtin-office-1',
+                category: 'builtin',
+                title: 'Custom Home Office Built-ins',
+                description: 'Floor-to-ceiling built-in office featuring integrated desk, filing systems, and display areas for maximum productivity.',
+                beforeImage: 'https://images.unsplash.com/photo-1581539250439-c96689b516dd?w=800&h=600&fit=crop&crop=center&auto=format',
+                afterImage: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&h=600&fit=crop&crop=center&auto=format',
+                specs: ['Floor-to-Ceiling Design', 'Integrated Desk', 'Filing Systems', 'LED Task Lighting', 'Cable Management'],
+                completionTime: '4 weeks',
+                investment: '$24,500',
+                timeline: '3-4 weeks'
+            },
+            {
+                id: 'builtin-entertainment-1',
+                category: 'builtin',
+                title: 'Entertainment Center Built-in',
+                description: 'Custom entertainment center with integrated storage, display shelving, and sophisticated cable management.',
+                beforeImage: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&h=600&fit=crop&crop=focalpoint&fp-y=0.3&auto=format',
+                afterImage: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&h=600&fit=crop&crop=focalpoint&fp-y=0.7&auto=format',
+                specs: ['Media Storage', 'Display Shelving', 'Cable Management', 'LED Accent Lighting', 'Premium Finishes'],
+                completionTime: '3 weeks',
+                investment: '$19,200',
+                timeline: '2-3 weeks'
+            },
+            {
+                id: 'commercial-restaurant-1',
+                category: 'commercial',
+                title: 'Restaurant Kitchen Upgrade',
+                description: 'Commercial kitchen cabinetry designed for durability and efficiency, meeting health department standards.',
+                beforeImage: 'https://images.unsplash.com/photo-1556909114-4f6e9d6e8c8f?w=800&h=600&fit=crop&crop=center&auto=format',
+                afterImage: 'https://images.unsplash.com/photo-1556908885-44c7d85d2e74?w=800&h=600&fit=crop&crop=focalpoint&fp-x=0.8&auto=format',
+                specs: ['Commercial Grade', 'Health Code Compliant', 'Stainless Steel', 'Easy Clean Surfaces', 'Maximize Storage'],
+                completionTime: '8 weeks',
+                investment: '$75,000',
+                timeline: '6-8 weeks'
+            },
+            {
+                id: 'kitchen-contemporary-1',
+                category: 'kitchen',
+                title: 'Contemporary Kitchen Design',
+                description: 'Sleek contemporary kitchen with flat-panel cabinets, clean lines, and integrated appliances for a minimalist aesthetic.',
+                beforeImage: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&h=600&fit=crop&crop=focalpoint&fp-y=0.2&auto=format',
+                afterImage: 'https://images.unsplash.com/photo-1556909275-abb17c5e5d2e?w=800&h=600&fit=crop&crop=focalpoint&fp-x=0.2&auto=format',
+                specs: ['Flat Panel Doors', 'Integrated Appliances', 'Handleless Design', 'Quartz Waterfall Island', 'LED Strip Lighting'],
+                completionTime: '7 weeks',
+                investment: '$68,000',
+                timeline: '5-7 weeks'
+            }
+        ];
+
+        // Comparison Slider Class
+        class ComparisonSlider {
+            constructor(container, project) {
+                this.container = container;
+                this.project = project;
+                this.isDragging = false;
+                this.currentPosition = 50;
+                this.autoPlay = false;
+                this.autoPlayDirection = 1;
+                
+                this.initElements();
+                this.initEvents();
+            }
+            
+            initElements() {
+                this.beforeImg = this.container.querySelector('.before-image');
+                this.afterImg = this.container.querySelector('.after-image');
+                this.handle = this.container.querySelector('.slider-handle');
+                this.autoPlayIndicator = this.container.querySelector('.autoplay-indicator');
+            }
+            
+            initEvents() {
+                // Mouse events
+                this.container.addEventListener('mousedown', this.startDrag.bind(this));
+                document.addEventListener('mousemove', this.drag.bind(this));
+                document.addEventListener('mouseup', this.endDrag.bind(this));
+                
+                // Touch events
+                this.container.addEventListener('touchstart', this.startDrag.bind(this), { passive: false });
+                document.addEventListener('touchmove', this.drag.bind(this), { passive: false });
+                document.addEventListener('touchend', this.endDrag.bind(this));
+                
+                // Image load events
+                this.beforeImg.addEventListener('load', () => this.container.classList.remove('loading-placeholder'));
+                this.afterImg.addEventListener('load', () => this.container.classList.remove('loading-placeholder'));
+                
+                // Prevent context menu on long press
+                this.container.addEventListener('contextmenu', (e) => e.preventDefault());
+            }
+            
+            startDrag(e) {
+                this.isDragging = true;
+                this.container.style.cursor = 'grabbing';
+                
+                // Stop auto-play when user interacts
+                if (this.autoPlay) {
+                    this.stopAutoPlay();
+                }
+                
+                e.preventDefault();
+            }
+            
+            drag(e) {
+                if (!this.isDragging) return;
+                
+                const rect = this.container.getBoundingClientRect();
+                const clientX = e.clientX || e.touches[0].clientX;
+                const position = ((clientX - rect.left) / rect.width) * 100;
+                
+                this.updateSlider(Math.max(0, Math.min(100, position)));
+            }
+            
+            endDrag() {
+                this.isDragging = false;
+                this.container.style.cursor = 'grab';
+            }
+            
+            updateSlider(position) {
+                this.currentPosition = position;
+                this.afterImg.style.clipPath = `inset(0 ${100 - position}% 0 0)`;
+                this.handle.style.left = `${position}%`;
+            }
+            
+            startAutoPlay() {
+                this.autoPlay = true;
+                this.autoPlayIndicator.classList.add('active');
+                this.autoPlayLoop();
+            }
+            
+            stopAutoPlay() {
+                this.autoPlay = false;
+                this.autoPlayIndicator.classList.remove('active');
+            }
+            
+            autoPlayLoop() {
+                if (!this.autoPlay) return;
+                
+                // Change direction at extremes
+                if (this.currentPosition >= 95) this.autoPlayDirection = -1;
+                if (this.currentPosition <= 5) this.autoPlayDirection = 1;
+                
+                this.currentPosition += this.autoPlayDirection * 0.5;
+                this.updateSlider(this.currentPosition);
+                
+                requestAnimationFrame(() => this.autoPlayLoop());
+            }
+            
+            enterFullscreen() {
+                this.container.classList.add('fullscreen');
+                document.getElementById('fullscreen-controls').classList.add('active');
+            }
+            
+            exitFullscreen() {
+                this.container.classList.remove('fullscreen');
+                document.getElementById('fullscreen-controls').classList.remove('active');
+            }
+        }
+
+        // Main App Class
+        class BeforeAfterShowcase {
+            constructor() {
+                this.currentCategory = 'all';
+                this.sliders = new Map();
+                this.autoPlayActive = false;
+                
+                this.init();
+            }
+            
+            init() {
+                this.renderProjects();
+                this.initCategoryButtons();
+                this.initControlButtons();
+                this.initIntersectionObserver();
+                
+                // Apply configuration
+                setTimeout(() => {
+                    this.applyConfiguration();
+                }, 100);
+            }
+            
+            renderProjects() {
+                const grid = document.getElementById('projects-grid');
+                const filteredProjects = this.currentCategory === 'all' 
+                    ? beforeAfterProjects 
+                    : beforeAfterProjects.filter(p => p.category === this.currentCategory);
+                
+                grid.innerHTML = filteredProjects.map(project => `
+                    <div class="project-card" data-category="${project.category}" data-id="${project.id}">
+                        <div class="comparison-container loading-placeholder" data-project="${project.id}">
+                            <img class="before-image" src="${project.beforeImage}" alt="Before - ${project.title}" loading="lazy">
+                            <img class="after-image" src="${project.afterImage}" alt="After - ${project.title}" loading="lazy">
+                            <div class="slider-handle"></div>
+                            <div class="image-labels">
+                                <span class="label">Before</span>
+                                <span class="label">After</span>
+                            </div>
+                            <div class="autoplay-indicator">Auto-Play Active</div>
+                        </div>
+                        
+                        <div class="project-info">
+                            <h3 class="project-title">${project.title}</h3>
+                            <p class="project-description">${project.description}</p>
+                            
+                            <div class="project-details">
+                                <div class="detail-group">
+                                    <div class="detail-label">Timeline</div>
+                                    <div class="detail-value">${project.completionTime}</div>
+                                </div>
+                                <div class="detail-group">
+                                    <div class="detail-label">Investment</div>
+                                    <div class="detail-value">${project.investment}</div>
+                                </div>
+                                <div class="detail-group">
+                                    <div class="detail-label">Project Specs</div>
+                                    <div class="specs-list">
+                                        ${project.specs.map(spec => `<span class="spec-tag">${spec}</span>`).join('')}
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="project-actions">
+                                <button class="action-btn primary" onclick="requestSimilarProject('${project.id}')">
+                                    Get Similar Quote
+                                </button>
+                                <button class="action-btn secondary" onclick="viewProjectDetails('${project.id}')">
+                                    View Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+                
+                // Initialize sliders
+                setTimeout(() => {
+                    this.initSliders();
+                }, 100);
+            }
+            
+            initSliders() {
+                // Clear existing sliders
+                this.sliders.clear();
+                
+                // Initialize new sliders
+                document.querySelectorAll('.comparison-container').forEach(container => {
+                    const projectId = container.dataset.project;
+                    const project = beforeAfterProjects.find(p => p.id === projectId);
+                    
+                    if (project) {
+                        const slider = new ComparisonSlider(container, project);
+                        this.sliders.set(projectId, slider);
+                    }
+                });
+            }
+            
+            initCategoryButtons() {
+                document.querySelectorAll('.category-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        // Update active button
+                        document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        
+                        // Update category and re-render
+                        this.currentCategory = btn.dataset.category;
+                        this.renderProjects();
+                        
+                        // Stop auto-play when changing categories
+                        if (this.autoPlayActive) {
+                            this.toggleAutoPlay();
+                        }
+                    });
+                });
+            }
+            
+            initControlButtons() {
+                // Auto-play button
+                document.getElementById('autoplay-btn').addEventListener('click', () => {
+                    this.toggleAutoPlay();
+                });
+                
+                // Fullscreen button
+                document.getElementById('fullscreen-btn').addEventListener('click', () => {
+                    this.enterFullscreenMode();
+                });
+                
+                // Exit fullscreen button
+                document.getElementById('exit-fullscreen').addEventListener('click', () => {
+                    this.exitFullscreenMode();
+                });
+            }
+            
+            toggleAutoPlay() {
+                this.autoPlayActive = !this.autoPlayActive;
+                const btn = document.getElementById('autoplay-btn');
+                
+                if (this.autoPlayActive) {
+                    btn.textContent = '⏸ Stop Auto-Play';
+                    btn.classList.add('active');
+                    
+                    // Start auto-play on all visible sliders
+                    this.sliders.forEach(slider => slider.startAutoPlay());
+                } else {
+                    btn.textContent = '▶ Auto-Play';
+                    btn.classList.remove('active');
+                    
+                    // Stop auto-play on all sliders
+                    this.sliders.forEach(slider => slider.stopAutoPlay());
+                }
+            }
+            
+            enterFullscreenMode() {
+                // For demo, just make the first visible slider fullscreen
+                const firstSlider = Array.from(this.sliders.values())[0];
+                if (firstSlider) {
+                    firstSlider.enterFullscreen();
+                }
+            }
+            
+            exitFullscreenMode() {
+                this.sliders.forEach(slider => slider.exitFullscreen());
+            }
+            
+            initIntersectionObserver() {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                        }
+                    });
+                }, { threshold: 0.1 });
+                
+                // Observe all project cards
+                setTimeout(() => {
+                    document.querySelectorAll('.project-card').forEach(card => {
+                        observer.observe(card);
+                    });
+                }, 100);
+            }
+            
+            applyConfiguration() {
+                try {
+                    if (window.CONFIG) {
+                        const elements = {
+                            'page-title': `${window.CONFIG.companyName} - Before & After Showcase`
+                        };
+                        
+                        for (const [id, value] of Object.entries(elements)) {
+                            const el = document.getElementById(id);
+                            if (el && value) {
+                                if (id === 'page-title') {
+                                    document.title = value;
+                                } else {
+                                    el.textContent = value;
+                                }
+                            }
+                        }
+                    }
+                } catch (error) {
+                    console.warn('⚠️ Configuration application failed:', error);
+                }
+            }
+        }
+
+        // Project Action Functions
+        function requestSimilarProject(projectId) {
+            const project = beforeAfterProjects.find(p => p.id === projectId);
+            console.log('🎯 Quote requested for similar project:', project.title);
+            alert(`Thank you for your interest in a ${project.title}! We'll contact you within 24 hours with a custom estimate based on your specific needs and space requirements.`);
+        }
+
+        function viewProjectDetails(projectId) {
+            const project = beforeAfterProjects.find(p => p.id === projectId);
+            console.log('👁️ Viewing project details:', project.title);
+            alert(`Project Details:\n\n${project.description}\n\nSpecs: ${project.specs.join(', ')}\n\nTimeline: ${project.completionTime}\nInvestment: ${project.investment}`);
+        }
+
+        // Initialize app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            new BeforeAfterShowcase();
+            console.log('✅ Before/After Showcase initialized successfully');
+        });
+
+        // Handle escape key for fullscreen
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const showcase = document.querySelector('.comparison-container.fullscreen');
+                if (showcase) {
+                    showcase.classList.remove('fullscreen');
+                    document.getElementById('fullscreen-controls').classList.remove('active');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
