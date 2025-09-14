@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Enhanced Proposal Generator - Multiple Options</title>
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    
     <!-- PDF Generation Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -388,6 +392,108 @@
             break-inside: avoid;
         }
 
+        /* Photo Upload Styles */
+        .upload-zone {
+            border: 2px dashed var(--light-gray);
+            border-radius: 12px;
+            padding: 3rem 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin-bottom: 1.5rem;
+        }
+
+        .upload-zone:hover,
+        .upload-zone.dragover {
+            border-color: var(--primary-gold);
+            background: rgba(212, 176, 98, 0.05);
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: var(--primary-gold);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .upload-text {
+            color: var(--charcoal);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-hint {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .photo-item {
+            position: relative;
+            aspect-ratio: 1;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .photo-item:hover {
+            transform: translateY(-2px);
+        }
+
+        .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .photo-remove {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: rgba(197, 48, 48, 0.9);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .photo-item:hover .photo-remove {
+            opacity: 1;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: var(--light-gray);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary-gold);
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .packages-grid {
@@ -464,6 +570,26 @@
             </div>
         </div>
 
+        <!-- Project Photos Upload -->
+        <div class="form-section">
+            <h2 class="section-title">📸 Project Photos</h2>
+            <p style="color: var(--dark-gray); margin-bottom: 2rem;">Upload multiple photos of your project to help visualize different cabinet options and create better proposals.</p>
+            
+            <div class="upload-zone" id="upload-zone">
+                <div class="upload-icon">📷</div>
+                <div class="upload-text">Drag & drop photos here or click to browse</div>
+                <div class="upload-hint">Upload current kitchen photos, inspiration images, or reference pictures (supports multiple files)</div>
+                <input type="file" id="file-input" multiple accept="image/*" style="display: none;">
+            </div>
+            
+            <div class="progress-bar" id="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            
+            <div class="photo-grid" id="photo-grid">
+                <!-- Uploaded photos will appear here -->
+            </div>
+        </div>
         <!-- Package Selection -->
         <div class="form-section">
             <h2 class="section-title">ðŸ’° Select Package Options (Choose Multiple)</h2>
@@ -713,6 +839,92 @@
             document.querySelectorAll('.comparison-card').forEach(card => {
                 card.addEventListener('click', () => toggleComparison(card.dataset.tier, card));
             });
+
+            // Photo upload functionality
+            initializePhotoUpload();
+        }
+
+        // Initialize photo upload functionality
+        function initializePhotoUpload() {
+            const uploadZone = document.getElementById('upload-zone');
+            const fileInput = document.getElementById('file-input');
+            
+            if (!uploadZone || !fileInput) return;
+
+            uploadZone.addEventListener('click', () => fileInput.click());
+            uploadZone.addEventListener('dragover', handleDragOver);
+            uploadZone.addEventListener('drop', handleDrop);
+            uploadZone.addEventListener('dragleave', handleDragLeave);
+            fileInput.addEventListener('change', handleFileSelect);
+
+            function handleDragOver(e) {
+                e.preventDefault();
+                uploadZone.classList.add('dragover');
+            }
+
+            function handleDragLeave(e) {
+                e.preventDefault();
+                uploadZone.classList.remove('dragover');
+            }
+
+            function handleDrop(e) {
+                e.preventDefault();
+                uploadZone.classList.remove('dragover');
+                const files = e.dataTransfer.files;
+                handleFiles(files);
+            }
+
+            function handleFileSelect(e) {
+                const files = e.target.files;
+                handleFiles(files);
+            }
+
+            function handleFiles(files) {
+                const progressBar = document.getElementById('progress-bar');
+                const progressFill = document.getElementById('progress-fill');
+                const photoGrid = document.getElementById('photo-grid');
+                
+                if (files.length === 0) return;
+
+                progressBar.style.display = 'block';
+                let loadedFiles = 0;
+
+                Array.from(files).forEach((file, index) => {
+                    if (file.type.startsWith('image/')) {
+                        const reader = new FileReader();
+                        
+                        reader.onload = function(e) {
+                            loadedFiles++;
+                            const progress = (loadedFiles / files.length) * 100;
+                            progressFill.style.width = progress + '%';
+                            
+                            addPhotoToGrid(e.target.result, file.name);
+                            
+                            if (loadedFiles === files.length) {
+                                setTimeout(() => {
+                                    progressBar.style.display = 'none';
+                                    progressFill.style.width = '0%';
+                                }, 500);
+                            }
+                        };
+                        
+                        reader.readAsDataURL(file);
+                    }
+                });
+            }
+
+            function addPhotoToGrid(imageSrc, fileName) {
+                const photoGrid = document.getElementById('photo-grid');
+                const photoItem = document.createElement('div');
+                photoItem.className = 'photo-item';
+                
+                photoItem.innerHTML = `
+                    <img src="${imageSrc}" alt="${fileName}" />
+                    <button class="photo-remove" onclick="this.parentElement.remove()" title="Remove photo">×</button>
+                `;
+                
+                photoGrid.appendChild(photoItem);
+            }
         }
 
         // Toggle package selection
@@ -839,6 +1051,26 @@
                     </div>
                 `;
                 packagesContainer.appendChild(comparisonDiv);
+            }
+
+            // Add project photos if any
+            const photoGrid = document.getElementById('photo-grid');
+            if (photoGrid && photoGrid.children.length > 0) {
+                const photosDiv = document.createElement('div');
+                photosDiv.className = 'pdf-package';
+                photosDiv.innerHTML = `
+                    <div class="pdf-package-header">
+                        <div class="pdf-package-name">Project Photos</div>
+                    </div>
+                    <p style="margin-bottom: 1rem; color: var(--dark-gray);">Reference photos provided by client:</p>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                        ${Array.from(photoGrid.children).map(photo => {
+                            const img = photo.querySelector('img');
+                            return `<img src="${img.src}" style="width: 100%; height: 150px; object-fit: cover; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" alt="Project photo" />`;
+                        }).join('')}
+                    </div>
+                `;
+                packagesContainer.appendChild(photosDiv);
             }
         }
 
