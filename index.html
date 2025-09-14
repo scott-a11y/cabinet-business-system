@@ -4,29 +4,216 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cabinet Business Management System</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #2d3748;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #718096;
+            margin-bottom: 40px;
+            font-size: 1.2rem;
+        }
+        .go-live-banner {
+            background: linear-gradient(135deg, #48bb78, #38a169);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(72, 187, 120, 0.3);
+        }
+        .go-live-banner h2 {
+            margin: 0 0 10px 0;
+            font-size: 1.8rem;
+        }
+        .go-live-banner p {
+            margin: 0 0 20px 0;
+            opacity: 0.9;
+        }
+        .setup-btn {
+            background: white;
+            color: #38a169;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .setup-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .section h2 {
+            color: #2d3748;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 15px;
+        }
+        a {
+            display: block;
+            padding: 15px 20px;
+            background: #f7fafc;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #2d3748;
+            border-left: 4px solid #4299e1;
+            transition: all 0.2s;
+        }
+        a:hover {
+            background: #edf2f7;
+            transform: translateX(5px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .status-indicator {
+            float: right;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .status-ready {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+        .status-setup {
+            background: #fed7d7;
+            color: #742a2a;
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to Your Cabinet Business System</h1>
-    
-    <h2>Phase 3 - Advanced CRM System:</h2>
-    <ul>
-        <li><a href="enhanced-client-proposal-phase3.html">🎯 Smart Configurator (Phase 3)</a></li>
-        <li><a href="analytics-dashboard.html">📊 Analytics Dashboard</a></li>
-        <li><a href="crm-dashboard.html">👥 CRM Dashboard</a></li>
-    </ul>
-    
-    <h2>Phase 2 - Enhanced Features:</h2>
-    <ul>
-        <li><a href="client-portal.html">📱 Client Portal</a></li>
-        <li><a href="enhanced-gallery-preview.html">📸 Photo Galleries</a></li>
-        <li><a href="admin-dashboard.html">⚙️ Admin Dashboard</a></li>
-    </ul>
-    
-    <h2>Additional Tools:</h2>
-    <ul>
-        <li><a href="app-launcher.html">🚀 App Launcher</a></li>
-        <li><a href="enhanced-client-proposal.html">📋 Client Proposal (Legacy)</a></li>
-        <li><a href="integrated-cabinet-proposal-system.html">🔧 Integrated Proposal System</a></li>
-    </ul>
+    <div class="container">
+        <h1>🏗️ Cabinet Business Management System</h1>
+        <p class="subtitle">Professional CRM and Business Management Platform</p>
+        
+        <div class="go-live-banner">
+            <h2>🚀 Ready to Launch Your Business System?</h2>
+            <p>Complete your setup in just 5 minutes and start accepting leads tonight!</p>
+            <a href="go-live-setup.html" class="setup-btn">
+                🛠️ Setup Wizard - Get Started Now
+            </a>
+        </div>
+
+        <div class="section">
+            <h2>Phase 3 - Advanced CRM System</h2>
+            <ul>
+                <li>
+                    <a href="enhanced-client-proposal-phase3.html">
+                        🎯 Smart Configurator (Phase 3)
+                        <span class="status-indicator status-ready">Ready</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="analytics-dashboard.html">
+                        📊 Analytics Dashboard
+                        <span class="status-indicator status-ready">Ready</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="crm-dashboard.html">
+                        👥 CRM Dashboard
+                        <span class="status-indicator status-ready">Ready</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>Phase 2 - Enhanced Features</h2>
+            <ul>
+                <li>
+                    <a href="client-portal.html">
+                        📱 Client Portal
+                        <span class="status-indicator status-ready">Ready</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="enhanced-gallery-preview.html">
+                        📸 Photo Galleries
+                        <span class="status-indicator status-ready">Ready</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="admin-dashboard.html">
+                        ⚙️ Admin Dashboard
+                        <span class="status-indicator status-ready">Ready</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>Setup & Configuration</h2>
+            <ul>
+                <li>
+                    <a href="go-live-setup.html">
+                        🚀 Go-Live Setup Wizard
+                        <span class="status-indicator status-setup">Required</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="Phase-3-Integration-Guide.md">
+                        📖 Integration Guide
+                        <span class="status-indicator status-ready">Ready</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>Additional Tools</h2>
+            <ul>
+                <li>
+                    <a href="app-launcher.html">
+                        🚀 App Launcher
+                        <span class="status-indicator status-ready">Ready</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="enhanced-client-proposal.html">
+                        📋 Client Proposal (Legacy)
+                        <span class="status-indicator status-ready">Ready</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="integrated-cabinet-proposal-system.html">
+                        🔧 Integrated Proposal System
+                        <span class="status-indicator status-ready">Ready</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
 </body>
 </html>
