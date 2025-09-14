@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Proposal Generator - Multiple Options</title>
+    
+    <!-- PDF Generation Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <style>
+        :root {
+            --primary-gold: #D4B062;
+            --light-gold: #F4E4A1;
+            --cream: #FBF8F0;
+            --warm-white: #FEFCF7;
+            --charcoal: #2C2C2C;
+            --dark-gray: #4A4A4A;
+            --light-gray: #E8E8E8;
+            --success: #2E7D4A;
+            --warning: #C5801A;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, var(--warm-white) 0%, var(--cream) 100%);
+            color: var(--charcoal);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary-gold), #C5A055);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .form-section {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border-left: 6px solid var(--primary-gold);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: var(--charcoal);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        /* Form Styles */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--charcoal);
+        }
+
+        .form-input, .form-select, .form-textarea {
+            padding: 1rem;
+            border: 2px solid var(--light-gray);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 0 3px rgba(212, 176, 98, 0.1);
+        }
+
+        /* Package Options */
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .package-card {
+            background: white;
+            border-radius: 12px;
+            border: 3px solid var(--light-gray);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .package-card:hover {
+            border-color: var(--light-gold);
+            transform: translateY(-2px);
+        }
+
+        .package-card.selected {
+            border-color: var(--primary-gold);
+            box-shadow: 0 8px 32px rgba(212, 176, 98, 0.2);
+        }
+
+        .package-header {
+            background: var(--cream);
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .package-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--charcoal);
+            margin-bottom: 0.5rem;
+        }
+
+        .package-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .package-description {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+        }
+
+        .package-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .package-features {
+            padding: 1.5rem;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--light-gray);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-icon {
+            color: var(--success);
+            font-weight: bold;
+        }
+
+        /* Action Buttons */
+        .action-section {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary-gold);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #C5A055;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--primary-gold);
+            border: 2px solid var(--primary-gold);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-gold);
+            color: white;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        /* Status Messages */
+        .status-message {
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            font-weight: 500;
+            display: none;
+        }
+
+        .status-message.success {
+            background: rgba(46, 125, 74, 0.1);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+
+        .status-message.error {
+            background: rgba(197, 48, 48, 0.1);
+            color: #C53030;
+            border: 1px solid #C53030;
+        }
+
+        /* Multi-Package Comparison */
+        .comparison-section {
+            margin: 2rem 0;
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .comparison-card {
+            background: var(--cream);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .comparison-card:hover {
+            border-color: var(--light-gold);
+        }
+
+        .comparison-card.selected {
+            border-color: var(--primary-gold);
+            background: white;
+        }
+
+        .comparison-title {
+            font-weight: 700;
+            color: var(--charcoal);
+            margin-bottom: 0.5rem;
+        }
+
+        .comparison-price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-gold);
+            margin-bottom: 1rem;
+        }
+
+        /* PDF Preview Styles */
+        .pdf-preview {
+            display: none;
+            background: white;
+            padding: 2rem;
+            font-family: Arial, sans-serif;
+        }
+
+        .pdf-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid var(--primary-gold);
+        }
+
+        .pdf-logo {
+            font-size: 2rem;
+        }
+
+        .pdf-company-info {
+            text-align: right;
+        }
+
+        .pdf-company-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-gold);
+        }
+
+        .pdf-title {
+            text-align: center;
+            font-size: 2rem;
+            color: var(--charcoal);
+            margin: 2rem 0;
+        }
+
+        .pdf-packages {
+            margin: 2rem 0;
+        }
+
+        .pdf-package {
+            background: var(--cream);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .pdf-package-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .pdf-package-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--charcoal);
+        }
+
+        .pdf-package-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-gold);
+        }
+
+        .pdf-features {
+            columns: 2;
+            column-gap: 2rem;
+        }
+
+        .pdf-features li {
+            margin-bottom: 0.5rem;
+            break-inside: avoid;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .packages-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <h1>🪵 Foundry Cabinets Co</h1>
+        <p>Professional Multi-Option Proposal Generator</p>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Client Information -->
+        <div class="form-section">
+            <h2 class="section-title">👥 Client Information</h2>
+            <div id="status-message" class="status-message"></div>
+            
+            <div class="form-grid">
+                <div class="form-group">
+                    <label class="form-label" for="client-name">Client Name *</label>
+                    <input type="text" id="client-name" class="form-input" placeholder="John & Jane Smith" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="client-email">Email Address</label>
+                    <input type="email" id="client-email" class="form-input" placeholder="client@example.com">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="client-phone">Phone Number</label>
+                    <input type="tel" id="client-phone" class="form-input" placeholder="(503) 123-4567">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="project-address">Project Address</label>
+                    <input type="text" id="project-address" class="form-input" placeholder="1234 Oak Street, Portland, OR">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="project-type">Project Type</label>
+                    <select id="project-type" class="form-select">
+                        <option value="kitchen-remodel">Complete Kitchen Remodel</option>
+                        <option value="kitchen-cabinets">Kitchen Cabinets Only</option>
+                        <option value="bathroom-vanity">Bathroom Vanity</option>
+                        <option value="built-ins">Custom Built-ins</option>
+                        <option value="other">Other Custom Work</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="linear-footage">Estimated Linear Footage</label>
+                    <input type="number" id="linear-footage" class="form-input" placeholder="25" min="1" step="0.5">
+                </div>
+            </div>
+        </div>
+
+        <!-- Package Selection -->
+        <div class="form-section">
+            <h2 class="section-title">💰 Select Package Options (Choose Multiple)</h2>
+            <p style="color: var(--dark-gray); margin-bottom: 2rem;">Select one or more options to include in your proposal. Clients love having choices!</p>
+            
+            <div class="packages-grid" id="packages-container">
+                <!-- Packages will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Quick Comparison Tool -->
+        <div class="comparison-section">
+            <h2 class="section-title">📊 Quick Comparison Builder</h2>
+            <p style="color: var(--dark-gray); margin-bottom: 1.5rem;">Build custom comparison packages for your client:</p>
+            
+            <div class="comparison-grid" id="comparison-container">
+                <div class="comparison-card" data-tier="economy">
+                    <div class="comparison-title">Economy Option</div>
+                    <div class="comparison-price">$24,125</div>
+                    <p>Quality materials, solid construction</p>
+                </div>
+                <div class="comparison-card" data-tier="standard">
+                    <div class="comparison-title">Standard Option</div>
+                    <div class="comparison-price">$30,625</div>
+                    <p>Enhanced features, better finishes</p>
+                </div>
+                <div class="comparison-card" data-tier="premium">
+                    <div class="comparison-title">Premium Option</div>
+                    <div class="comparison-price">$40,750</div>
+                    <p>High-end materials, custom details</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-section">
+            <h2 class="section-title">🚀 Generate Your Professional Proposal</h2>
+            <p style="color: var(--dark-gray); margin-bottom: 2rem;">Create a comprehensive proposal with multiple options for your client.</p>
+            
+            <button id="generate-multi-pdf" class="btn btn-primary" disabled>
+                📄 Generate Multi-Option Proposal
+            </button>
+            <button id="preview-proposal" class="btn btn-secondary">
+                👀 Preview Proposal
+            </button>
+            <button id="save-template" class="btn btn-secondary">
+                💾 Save as Template
+            </button>
+        </div>
+    </div>
+
+    <!-- PDF Preview (Hidden) -->
+    <div id="pdf-preview" class="pdf-preview">
+        <div class="pdf-header">
+            <div class="pdf-logo">🪵</div>
+            <div class="pdf-company-info">
+                <div class="pdf-company-name">Foundry Cabinets Co</div>
+                <div>by District Design Build, LLC</div>
+                <div>Portland, OR • 360-606-1106 • scott@ddbteam.com</div>
+            </div>
+        </div>
+
+        <h1 class="pdf-title">Professional Cabinet Proposal</h1>
+
+        <div style="background: var(--cream); padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+                <div><strong>Client:</strong> <span id="pdf-client-name">-</span></div>
+                <div><strong>Email:</strong> <span id="pdf-client-email">-</span></div>
+                <div><strong>Phone:</strong> <span id="pdf-client-phone">-</span></div>
+                <div><strong>Project:</strong> <span id="pdf-project-type">-</span></div>
+                <div><strong>Address:</strong> <span id="pdf-project-address">-</span></div>
+                <div><strong>Date:</strong> <span id="pdf-date">-</span></div>
+            </div>
+        </div>
+
+        <div id="pdf-packages-content" class="pdf-packages">
+            <!-- Selected packages will be populated here -->
+        </div>
+
+        <div style="background: var(--cream); padding: 1.5rem; border-radius: 8px; margin-top: 2rem;">
+            <h3 style="margin-bottom: 1rem;">Terms & Conditions</h3>
+            <ul style="line-height: 1.8; color: var(--dark-gray);">
+                <li>• All estimates are valid for 30 days from the date above</li>
+                <li>• 50% deposit required to begin work, balance due upon completion</li>
+                <li>• 5-year comprehensive warranty on all workmanship and materials</li>
+                <li>• Timeline estimates subject to material availability and permit approval</li>
+                <li>• Licensed, bonded, and insured contractor (CCB #123456)</li>
+                <li>• Changes to scope may affect timeline and pricing</li>
+            </ul>
+        </div>
+
+        <div style="text-align: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--light-gray);">
+            <p><strong>Thank you for considering Foundry Cabinets Co for your project!</strong></p>
+            <p style="margin-top: 0.5rem; color: var(--dark-gray);">We look forward to transforming your space with exceptional craftsmanship.</p>
+        </div>
+    </div>
+
+    <script>
+        // Package data with detailed descriptions and features
+        const packageData = [
+            {
+                id: 'economy',
+                name: 'Economy Package',
+                basePrice: 965,
+                priceRange: '$800-$1,200/LF',
+                description: 'Quality materials with solid construction. Perfect for budget-conscious homeowners who want reliability.',
+                image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=200&fit=crop',
+                features: [
+                    'Solid wood face frames',
+                    'Plywood box construction',
+                    'Standard hinges and slides',
+                    'Basic crown molding',
+                    'Choice of 3 door styles',
+                    'Standard hardware included',
+                    'Professional installation',
+                    '5-year warranty'
+                ],
+                timeline: '4-5 weeks',
+                warranty: '5 years'
+            },
+            {
+                id: 'standard',
+                name: 'Standard Package',
+                basePrice: 1225,
+                priceRange: '$1,000-$1,500/LF',
+                description: 'Enhanced features with better finishes. Our most popular option combining value and quality.',
+                image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=200&fit=crop',
+                features: [
+                    'Premium solid wood construction',
+                    'Soft-close hinges and slides',
+                    'Enhanced crown molding package',
+                    'Choice of 5 door styles',
+                    'Upgraded hardware options',
+                    'Under-cabinet prep lighting',
+                    'Professional installation',
+                    '5-year warranty',
+                    'Interior organizers included'
+                ],
+                timeline: '5-6 weeks',
+                warranty: '5 years'
+            },
+            {
+                id: 'premium',
+                name: 'Premium Package',
+                basePrice: 1630,
+                priceRange: '$1,400-$1,900/LF',
+                description: 'High-end materials with custom details. For discerning homeowners who want the best.',
+                image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=200&fit=crop',
+                features: [
+                    'Custom solid hardwood construction',
+                    'Premium soft-close hardware',
+                    'Full overlay doors with beaded frames',
+                    'Choice of 8 door styles',
+                    'Premium hardware collection',
+                    'LED under-cabinet lighting system',
+                    'Pull-out drawers and organizers',
+                    'Crown molding and trim package',
+                    'Professional installation',
+                    '5-year warranty'
+                ],
+                timeline: '6-8 weeks',
+                warranty: '5 years'
+            },
+            {
+                id: 'luxury',
+                name: 'Luxury Package',
+                basePrice: 2250,
+                priceRange: '$1,900-$2,600/LF',
+                description: 'Ultra-premium finishes with luxury hardware. The ultimate in kitchen cabinetry.',
+                image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=200&fit=crop',
+                features: [
+                    'Premium exotic hardwoods available',
+                    'Hand-selected wood matching',
+                    'Luxury soft-close hardware',
+                    'Custom inset door construction',
+                    'Unlimited door style options',
+                    'Designer hardware collection',
+                    'Full LED lighting package',
+                    'Custom interior accessories',
+                    'Specialty finishes available',
+                    'Crown and trim millwork',
+                    'White-glove installation',
+                    '10-year warranty'
+                ],
+                timeline: '8-10 weeks',
+                warranty: '10 years'
+            }
+        ];
+
+        let selectedPackages = new Set();
+        let selectedComparisons = new Set();
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            initializePackages();
+            initializeEventListeners();
+            updateEstimateDate();
+        });
+
+        // Initialize package cards
+        function initializePackages() {
+            const container = document.getElementById('packages-container');
+            container.innerHTML = '';
+
+            packageData.forEach(pkg => {
+                const card = document.createElement('div');
+                card.className = 'package-card';
+                card.dataset.packageId = pkg.id;
+                
+                card.innerHTML = `
+                    <div class="package-header">
+                        <div class="package-name">${pkg.name}</div>
+                        <div class="package-price">${pkg.priceRange}</div>
+                        <div class="package-description">${pkg.description}</div>
+                    </div>
+                    <img src="${pkg.image}" alt="${pkg.name}" class="package-image" />
+                    <div class="package-features">
+                        <ul class="feature-list">
+                            ${pkg.features.map(feature => 
+                                `<li><span class="feature-icon">✓</span> ${feature}</li>`
+                            ).join('')}
+                        </ul>
+                        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--light-gray); font-size: 0.9rem; color: var(--dark-gray);">
+                            <div><strong>Timeline:</strong> ${pkg.timeline}</div>
+                            <div><strong>Warranty:</strong> ${pkg.warranty}</div>
+                        </div>
+                    </div>
+                `;
+
+                card.addEventListener('click', () => togglePackage(pkg.id, card));
+                container.appendChild(card);
+            });
+        }
+
+        // Initialize event listeners
+        function initializeEventListeners() {
+            document.getElementById('generate-multi-pdf').addEventListener('click', generateMultiOptionPDF);
+            document.getElementById('preview-proposal').addEventListener('click', previewProposal);
+            document.getElementById('save-template').addEventListener('click', saveTemplate);
+
+            // Form inputs
+            ['client-name', 'linear-footage'].forEach(id => {
+                document.getElementById(id).addEventListener('input', validateForm);
+            });
+
+            // Comparison cards
+            document.querySelectorAll('.comparison-card').forEach(card => {
+                card.addEventListener('click', () => toggleComparison(card.dataset.tier, card));
+            });
+        }
+
+        // Toggle package selection
+        function togglePackage(packageId, element) {
+            if (selectedPackages.has(packageId)) {
+                selectedPackages.delete(packageId);
+                element.classList.remove('selected');
+            } else {
+                selectedPackages.add(packageId);
+                element.classList.add('selected');
+            }
+            validateForm();
+        }
+
+        // Toggle comparison selection
+        function toggleComparison(tier, element) {
+            if (selectedComparisons.has(tier)) {
+                selectedComparisons.delete(tier);
+                element.classList.remove('selected');
+            } else {
+                selectedComparisons.add(tier);
+                element.classList.add('selected');
+            }
+        }
+
+        // Validate form
+        function validateForm() {
+            const clientName = document.getElementById('client-name').value.trim();
+            const linearFootage = document.getElementById('linear-footage').value;
+            const hasSelections = selectedPackages.size > 0 || selectedComparisons.size > 0;
+
+            const isValid = clientName && linearFootage && hasSelections;
+            document.getElementById('generate-multi-pdf').disabled = !isValid;
+            
+            return isValid;
+        }
+
+        // Show status message
+        function showStatus(message, type = 'success') {
+            const statusEl = document.getElementById('status-message');
+            statusEl.textContent = message;
+            statusEl.className = `status-message ${type}`;
+            statusEl.style.display = 'block';
+
+            setTimeout(() => {
+                statusEl.style.display = 'none';
+            }, 5000);
+        }
+
+        // Update PDF preview
+        function updatePDFPreview() {
+            // Update client info
+            document.getElementById('pdf-client-name').textContent = document.getElementById('client-name').value || '-';
+            document.getElementById('pdf-client-email').textContent = document.getElementById('client-email').value || '-';
+            document.getElementById('pdf-client-phone').textContent = document.getElementById('client-phone').value || '-';
+            document.getElementById('pdf-project-address').textContent = document.getElementById('project-address').value || '-';
+            document.getElementById('pdf-project-type').textContent = document.getElementById('project-type').selectedOptions[0]?.text || '-';
+            document.getElementById('pdf-date').textContent = new Date().toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+
+            // Update packages content
+            const packagesContainer = document.getElementById('pdf-packages-content');
+            packagesContainer.innerHTML = '';
+
+            const linearFootage = parseFloat(document.getElementById('linear-footage').value) || 25;
+
+            // Add selected packages
+            selectedPackages.forEach(packageId => {
+                const pkg = packageData.find(p => p.id === packageId);
+                if (pkg) {
+                    const totalPrice = Math.round(pkg.basePrice * linearFootage * 1.0825); // Include tax
+                    
+                    const packageDiv = document.createElement('div');
+                    packageDiv.className = 'pdf-package';
+                    packageDiv.innerHTML = `
+                        <div class="pdf-package-header">
+                            <div class="pdf-package-name">${pkg.name}</div>
+                            <div class="pdf-package-price">$${totalPrice.toLocaleString()}</div>
+                        </div>
+                        <p style="margin-bottom: 1rem; color: var(--dark-gray);">${pkg.description}</p>
+                        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;">
+                            <div>
+                                <h4 style="margin-bottom: 0.5rem;">Included Features:</h4>
+                                <ul class="pdf-features">
+                                    ${pkg.features.map(feature => `<li>• ${feature}</li>`).join('')}
+                                </ul>
+                            </div>
+                            <div>
+                                <p><strong>Linear Footage:</strong> ${linearFootage} LF</p>
+                                <p><strong>Price per LF:</strong> $${pkg.basePrice}</p>
+                                <p><strong>Timeline:</strong> ${pkg.timeline}</p>
+                                <p><strong>Warranty:</strong> ${pkg.warranty}</p>
+                            </div>
+                        </div>
+                    `;
+                    packagesContainer.appendChild(packageDiv);
+                }
+            });
+
+            // Add comparison options if selected
+            if (selectedComparisons.size > 0) {
+                const comparisonDiv = document.createElement('div');
+                comparisonDiv.className = 'pdf-package';
+                comparisonDiv.innerHTML = `
+                    <div class="pdf-package-header">
+                        <div class="pdf-package-name">Quick Comparison Options</div>
+                    </div>
+                    <p style="margin-bottom: 1rem; color: var(--dark-gray);">Here are additional pricing options for your consideration:</p>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                        ${Array.from(selectedComparisons).map(tier => {
+                            const prices = { economy: 965, standard: 1225, premium: 1630 };
+                            const totalPrice = Math.round(prices[tier] * linearFootage * 1.0825);
+                            return `
+                                <div style="background: white; padding: 1rem; border-radius: 6px; text-align: center;">
+                                    <h4 style="color: var(--primary-gold); margin-bottom: 0.5rem;">${tier.charAt(0).toUpperCase() + tier.slice(1)} Option</h4>
+                                    <div style="font-size: 1.2rem; font-weight: bold;">$${totalPrice.toLocaleString()}</div>
+                                    <div style="font-size: 0.9rem; color: var(--dark-gray);">$${prices[tier]}/LF</div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                `;
+                packagesContainer.appendChild(comparisonDiv);
+            }
+        }
+
+        // Preview proposal
+        function previewProposal() {
+            if (!validateForm()) {
+                showStatus('Please fill in all required fields and select at least one option', 'error');
+                return;
+            }
+
+            updatePDFPreview();
+            const preview = document.getElementById('pdf-preview');
+            preview.style.display = 'block';
+            preview.scrollIntoView({ behavior: 'smooth' });
+            
+            setTimeout(() => {
+                preview.style.display = 'none';
+            }, 15000);
+        }
+
+        // Generate multi-option PDF
+        async function generateMultiOptionPDF() {
+            if (!validateForm()) {
+                showStatus('Please fill in all required fields and select at least one option', 'error');
+                return;
+            }
+
+            const button = document.getElementById('generate-multi-pdf');
+            const originalText = button.innerHTML;
+            
+            // Show loading state
+            button.disabled = true;
+            button.innerHTML = '⏳ Generating Proposal...';
+
+            try {
+                // Update PDF preview with current data
+                updatePDFPreview();
+
+                // Create PDF using jsPDF and html2canvas
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF('p', 'mm', 'a4');
+
+                // Capture the PDF preview element
+                const element = document.getElementById('pdf-preview');
+                element.style.display = 'block';
+
+                const canvas = await html2canvas(element, {
+                    scale: 2,
+                    useCORS: true,
+                    allowTaint: true,
+                    backgroundColor: '#ffffff'
+                });
+
+                element.style.display = 'none';
+
+                // Calculate dimensions
+                const imgWidth = 210; // A4 width in mm
+                const pageHeight = 295; // A4 height in mm
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                let heightLeft = imgHeight;
+
+                let position = 0;
+
+                // Add image to PDF
+                pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+
+                // Add new page if content is longer
+                while (heightLeft >= 0) {
+                    position = heightLeft - imgHeight;
+                    pdf.addPage();
+                    pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+                }
+
+                // Generate filename
+                const clientName = document.getElementById('client-name').value.trim();
+                const date = new Date().toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '-');
+                const filename = `${clientName.replace(/\s+/g, '_')}_Multi_Option_Proposal_${date}.pdf`;
+
+                // Save PDF
+                pdf.save(filename);
+
+                showStatus('Multi-option proposal generated successfully!', 'success');
+
+            } catch (error) {
+                console.error('Error generating PDF:', error);
+                showStatus('Error generating PDF. Please try again.', 'error');
+            } finally {
+                // Reset button state
+                button.disabled = false;
+                button.innerHTML = originalText;
+            }
+        }
+
+        // Save template
+        function saveTemplate() {
+            const templateData = {
+                clientName: document.getElementById('client-name').value,
+                projectType: document.getElementById('project-type').value,
+                linearFootage: document.getElementById('linear-footage').value,
+                selectedPackages: Array.from(selectedPackages),
+                selectedComparisons: Array.from(selectedComparisons),
+                timestamp: new Date().toISOString()
+            };
+
+            const templateName = prompt('Enter a name for this template:');
+            if (templateName) {
+                let templates = JSON.parse(localStorage.getItem('proposalTemplates') || '{}');
+                templates[templateName] = templateData;
+                localStorage.setItem('proposalTemplates', JSON.stringify(templates));
+                showStatus(`Template "${templateName}" saved successfully!`, 'success');
+            }
+        }
+
+        // Update estimate date
+        function updateEstimateDate() {
+            const dateElements = document.querySelectorAll('[id="pdf-date"]');
+            const now = new Date();
+            const dateString = now.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            dateElements.forEach(el => el.textContent = dateString);
+        }
+    </script>
+</body>
+</html>

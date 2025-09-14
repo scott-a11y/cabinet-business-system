@@ -3,11 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Business Hub - Cabinet Management System</title>
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <title id="page-title">Foundry Cabinets Co - Business Hub</title>
     
     <!-- Configuration System -->
     <script src="config.js"></script>
@@ -53,365 +49,359 @@
             max-width: 1200px;
             margin: 0 auto;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 2rem;
-        }
-
-        .nav-brand {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .nav-logo {
-            font-size: 2rem;
-        }
-
-        .nav-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--charcoal);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .nav-link {
-            color: var(--dark-gray);
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-
-        .nav-link:hover {
-            background: var(--light-gold);
-            color: var(--charcoal);
-        }
-
-        .nav-link.active {
-            background: var(--primary-gold);
-            color: white;
-        }
-
-        /* Configuration Bar */
-        .config-bar {
-            background: var(--cream);
-            padding: 1rem 0;
-            border-bottom: 1px solid var(--light-gray);
-        }
-
-        .config-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: flex;
             justify-content: center;
-            align-items: center;
-            gap: 1rem;
+            gap: 1.5rem;
+            padding: 0 2rem;
             flex-wrap: wrap;
         }
 
-        .config-label {
+        .nav-item {
             color: var(--dark-gray);
-            font-weight: 500;
-        }
-
-        .config-btn {
-            background: var(--light-gray);
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.9rem;
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
             transition: all 0.3s ease;
-            color: var(--dark-gray);
+            font-weight: 500;
+            font-size: 0.9rem;
         }
 
-        .config-btn:hover {
+        .nav-item:hover {
             background: var(--light-gold);
+            color: var(--charcoal);
         }
 
-        .config-btn.active {
+        .nav-item.active {
             background: var(--primary-gold);
             color: white;
+        }
+
+        /* Header */
+        .business-header {
+            background: linear-gradient(135deg, var(--primary-gold), #C5A055);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .company-logo {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .company-name {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .company-subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        .company-tagline {
+            font-size: 1.2rem;
+            font-style: italic;
+            opacity: 0.8;
+            margin-bottom: 2rem;
+        }
+
+        .company-contact {
+            font-size: 1rem;
+            opacity: 0.9;
         }
 
         /* Main Content */
         .main-content {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 2rem;
+            padding: 4rem 2rem;
         }
 
-        /* Hero Section */
-        .hero-section {
-            background: linear-gradient(135deg, var(--primary-gold), #C5A055);
-            color: white;
-            padding: 3rem;
-            border-radius: 16px;
-            margin-bottom: 3rem;
-            text-align: center;
-        }
-
-        .hero-title {
+        .section-title {
             font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-
-        .hero-subtitle {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            margin-bottom: 2rem;
-        }
-
-        .hero-stats {
-            display: flex;
-            justify-content: center;
-            gap: 3rem;
-            flex-wrap: wrap;
-        }
-
-        .hero-stat {
+            color: var(--charcoal);
             text-align: center;
+            margin-bottom: 1rem;
+            font-weight: 600;
         }
 
-        .hero-stat-number {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-
-        .hero-stat-label {
-            font-size: 0.9rem;
-            opacity: 0.8;
-        }
-
-        /* Dashboard Grid */
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--dark-gray);
+            text-align: center;
             margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        .dashboard-card {
+        /* Feature Cards Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .feature-card {
             background: white;
             border-radius: 16px;
-            padding: 2rem;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
             border-left: 6px solid var(--primary-gold);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .dashboard-card:hover {
+        .feature-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+            box-shadow: 0 12px 48px rgba(0,0,0,0.15);
+        }
+
+        .feature-card.highlight {
+            border-left-color: var(--success);
+            background: linear-gradient(145deg, white 0%, rgba(46, 125, 74, 0.02) 100%);
+        }
+
+        .feature-card.new {
+            border-left-color: #ff6b35;
+            background: linear-gradient(145deg, white 0%, rgba(255, 107, 53, 0.02) 100%);
         }
 
         .card-header {
             display: flex;
             align-items: center;
+            justify-content: space-between;
             margin-bottom: 1.5rem;
         }
 
         .card-icon {
-            font-size: 2rem;
-            margin-right: 1rem;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
         }
 
         .card-title {
-            font-size: 1.3rem;
-            font-weight: 600;
+            font-size: 1.5rem;
+            font-weight: 700;
             color: var(--charcoal);
+            margin-bottom: 0.5rem;
+        }
+
+        .card-badge {
+            background: #ff6b35;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .card-badge.priority {
+            background: var(--success);
         }
 
         .card-description {
             color: var(--dark-gray);
             margin-bottom: 1.5rem;
+            line-height: 1.7;
         }
 
-        .card-button {
+        .card-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-tag {
+            background: var(--cream);
+            color: var(--dark-gray);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .card-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
             background: var(--primary-gold);
             color: white;
-            padding: 0.75rem 2rem;
-            border: none;
+            padding: 1rem 1.5rem;
             border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
             text-decoration: none;
-            display: inline-block;
+            font-weight: 600;
+            transition: all 0.3s ease;
         }
 
-        .card-button:hover {
+        .card-action:hover {
             background: #C5A055;
             transform: translateY(-2px);
         }
 
-        /* Project Gallery */
-        .project-gallery {
+        /* Stats Section */
+        .stats-section {
             background: white;
             border-radius: 16px;
-            padding: 2rem;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-            margin-bottom: 3rem;
+            padding: 3rem;
+            margin: 4rem 0;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
         }
 
-        .gallery-title {
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: var(--charcoal);
-            margin-bottom: 1rem;
-        }
-
-        .gallery-subtitle {
-            color: var(--dark-gray);
-            margin-bottom: 2rem;
-        }
-
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .gallery-item {
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
-        }
-
-        .gallery-item:hover {
-            transform: translateY(-2px);
-        }
-
-        .gallery-image {
-            width: 100%;
-            height: 200px;
-            background: linear-gradient(135deg, var(--light-gold), var(--primary-gold));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            color: white;
-        }
-
-        .gallery-content {
-            padding: 1rem;
-            background: white;
-        }
-
-        .gallery-project-title {
-            font-weight: 600;
-            color: var(--charcoal);
-            margin-bottom: 0.5rem;
-        }
-
-        .gallery-project-details {
-            color: var(--dark-gray);
-            font-size: 0.9rem;
-        }
-
-        /* Quick Actions */
-        .quick-actions {
+        .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-bottom: 3rem;
-        }
-
-        .quick-action {
-            background: white;
-            border-radius: 12px;
-            padding: 1.5rem;
+            gap: 2rem;
             text-align: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: 2px solid transparent;
         }
 
-        .quick-action:hover {
-            border-color: var(--primary-gold);
-            transform: translateY(-2px);
+        .stat-item {
+            padding: 1rem;
         }
 
-        .quick-action-icon {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-        }
-
-        .quick-action-title {
-            font-weight: 600;
-            color: var(--charcoal);
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-gold);
             margin-bottom: 0.5rem;
         }
 
-        .quick-action-description {
+        .stat-label {
             color: var(--dark-gray);
-            font-size: 0.9rem;
+            font-weight: 500;
         }
 
-        /* Footer */
-        .footer {
-            background: var(--charcoal);
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--charcoal), var(--dark-gray));
             color: white;
-            text-align: center;
-            padding: 2rem;
             border-radius: 16px;
-            margin-top: 3rem;
+            padding: 4rem 2rem;
+            text-align: center;
+            margin: 4rem 0;
         }
 
-        .footer-content {
+        .cta-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .cta-description {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
             max-width: 600px;
-            margin: 0 auto;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .cta-btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .cta-btn.primary {
+            background: var(--primary-gold);
+            color: white;
+        }
+
+        .cta-btn.primary:hover {
+            background: #C5A055;
+            transform: translateY(-2px);
+        }
+
+        .cta-btn.secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .cta-btn.secondary:hover {
+            background: white;
+            color: var(--charcoal);
         }
 
         /* Responsive Design */
         @media (max-width: 768px) {
             .nav-container {
                 flex-direction: column;
-                gap: 1rem;
+                align-items: center;
+                gap: 0.5rem;
             }
 
-            .nav-links {
-                order: -1;
-                width: 100%;
-                justify-content: center;
+            .nav-item {
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
             }
 
-            .config-content {
-                flex-direction: column;
-                text-align: center;
+            .business-header {
+                padding: 3rem 0;
+            }
+
+            .company-name {
+                font-size: 2.5rem;
             }
 
             .main-content {
-                padding: 1rem;
+                padding: 3rem 1rem;
             }
 
-            .hero-section {
-                padding: 2rem 1rem;
-            }
-
-            .hero-title {
+            .section-title {
                 font-size: 2rem;
             }
 
-            .hero-stats {
+            .features-grid {
+                grid-template-columns: 1fr;
                 gap: 1.5rem;
             }
 
-            .dashboard-grid,
-            .gallery-grid {
-                grid-template-columns: 1fr;
+            .feature-card {
+                padding: 2rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .cta-section {
+                padding: 3rem 1rem;
+            }
+
+            .cta-title {
+                font-size: 2rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
             }
         }
     </style>
@@ -420,237 +410,306 @@
     <!-- Navigation -->
     <nav class="nav-header">
         <div class="nav-container">
-            <div class="nav-brand">
-                <span class="nav-logo" id="nav-logo">🪵</span>
-                <span class="nav-title" id="nav-title">Business Hub</span>
-            </div>
-            <div class="nav-links">
-                <a href="app-launcher.html" class="nav-link">🚀 System Home</a>
-                <a href="index.html" class="nav-link active">🏠 Business Hub</a>
-                <a href="admin-dashboard.html" class="nav-link">⚙️ Admin</a>
-                <a href="demo.html" class="nav-link">🎭 Demo</a>
-                <a href="client-proposal.html" class="nav-link">📋 Proposals</a>
-            </div>
+            <a href="index.html" class="nav-item active">🏠 Business Hub</a>
+            <a href="admin-dashboard.html" class="nav-item">📊 Admin Dashboard</a>
+            <a href="client-proposal.html" class="nav-item">📋 Client Proposals</a>
+            <a href="pdf-proposal-generator.html" class="nav-item">📄 PDF Generator</a>
+            <a href="enhanced-multi-option-proposal-generator.html" class="nav-item">🔥 Multi-Option Proposals</a>
+            <a href="client-portal.html" class="nav-item">👥 Client Portal</a>
+            <a href="multi-photo-gallery.html" class="nav-item">📸 Photo Gallery</a>
+            <a href="before-after-showcase.html" class="nav-item">🔄 Before/After</a>
+            <a href="360-project-viewer.html" class="nav-item">🌐 Virtual Tours</a>
+            <a href="interactive-estimate-calculator.html" class="nav-item">🧮 Calculator</a>
+            <a href="comprehensive-demo.html" class="nav-item">🎭 Full Demo</a>
         </div>
     </nav>
 
-    <!-- Configuration Bar -->
-    <div class="config-bar">
-        <div class="config-content">
-            <span class="config-label">Business Configuration:</span>
-            <button class="config-btn active" id="btn-foundry_cabinets" onclick="switchConfig('foundry_cabinets')">
-                🪵 Foundry Cabinets
-            </button>
-            <button class="config-btn" id="btn-seattle_cabinets" onclick="switchConfig('seattle_cabinets')">
-                🏔️ Seattle Cabinets
-            </button>
-            <button class="config-btn" id="btn-district_design" onclick="switchConfig('district_design')">
-                🏗️ District Design
-            </button>
-            <button class="config-btn" id="btn-luxury_kitchens" onclick="switchConfig('luxury_kitchens')">
-                💎 Luxury Kitchens
-            </button>
+    <!-- Business Header -->
+    <header class="business-header">
+        <div class="header-content">
+            <div class="company-logo" id="company-logo">🪵</div>
+            <h1 class="company-name" id="company-name">Foundry Cabinets Co</h1>
+            <p class="company-subtitle" id="company-subtitle">by District Design Build, LLC</p>
+            <p class="company-tagline" id="company-tagline">Driven by Precision. Evolved by Design.</p>
+            <p class="company-contact" data-config="contact-info">Portland, OR • 360-606-1106 • scott@ddbteam.com • www.ddb503.com</p>
         </div>
-    </div>
+    </header>
 
     <!-- Main Content -->
-    <div class="main-content">
-        <!-- Hero Section -->
-        <section class="hero-section">
-            <h1 class="hero-title" id="hero-title">Welcome to Foundry Cabinets Co</h1>
-            <p class="hero-subtitle" id="hero-subtitle">Your comprehensive business management dashboard</p>
-            <div class="hero-stats">
-                <div class="hero-stat">
-                    <div class="hero-stat-number">24</div>
-                    <div class="hero-stat-label">Active Projects</div>
-                </div>
-                <div class="hero-stat">
-                    <div class="hero-stat-number">$485K</div>
-                    <div class="hero-stat-label">Revenue This Quarter</div>
-                </div>
-                <div class="hero-stat">
-                    <div class="hero-stat-number">98%</div>
-                    <div class="hero-stat-label">Client Satisfaction</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Dashboard Grid -->
-        <section class="dashboard-grid">
-            <div class="dashboard-card">
-                <div class="card-header">
-                    <span class="card-icon">📋</span>
-                    <h3 class="card-title">Client Proposals</h3>
-                </div>
-                <p class="card-description">
-                    Create professional, interactive proposals with real-time pricing and PDF generation.
-                </p>
-                <a href="client-proposal.html" class="card-button">Create Proposal</a>
-            </div>
-
-            <div class="dashboard-card">
-                <div class="card-header">
-                    <span class="card-icon">📱</span>
-                    <h3 class="card-title">Client Portal</h3>
-                </div>
-                <p class="card-description">
-                    Give clients access to project timelines, photo uploads, and communication tools.
-                </p>
-                <a href="client-portal.html" class="card-button">Client Portal</a>
-            </div>
-
-            <div class="dashboard-card">
-                <div class="card-header">
-                    <span class="card-icon">📸</span>
-                    <h3 class="card-title">Photo Gallery</h3>
-                </div>
-                <p class="card-description">
-                    Showcase your work with professional galleries and before/after comparisons.
-                </p>
-                <a href="multi-photo-gallery.html" class="card-button">View Gallery</a>
-            </div>
-
-            <div class="dashboard-card">
-                <div class="card-header">
-                    <span class="card-icon">🌐</span>
-                    <h3 class="card-title">Virtual Tours</h3>
-                </div>
-                <p class="card-description">
-                    Create immersive 360° virtual tours of your completed projects.
-                </p>
-                <a href="360-project-viewer.html" class="card-button">Virtual Tours</a>
-            </div>
-        </section>
-
-        <!-- Project Gallery -->
-        <section class="project-gallery">
-            <h2 class="gallery-title">Featured Projects</h2>
-            <p class="gallery-subtitle">Showcase of recent cabinet installations and custom millwork projects</p>
-            
-            <div class="gallery-grid">
-                <div class="gallery-item">
-                    <div class="gallery-image">🏠</div>
-                    <div class="gallery-content">
-                        <div class="gallery-project-title">Modern Kitchen Renovation</div>
-                        <div class="gallery-project-details">Complete kitchen transformation • $45,000</div>
-                    </div>
-                </div>
-
-                <div class="gallery-item">
-                    <div class="gallery-image">🏢</div>
-                    <div class="gallery-content">
-                        <div class="gallery-project-title">Executive Office Built-ins</div>
-                        <div class="gallery-project-details">Custom millwork and storage • $28,500</div>
-                    </div>
-                </div>
-
-                <div class="gallery-item">
-                    <div class="gallery-image">🏪</div>
-                    <div class="gallery-content">
-                        <div class="gallery-project-title">Retail Display Cabinets</div>
-                        <div class="gallery-project-details">Commercial installation • $67,200</div>
-                    </div>
-                </div>
-
-                <div class="gallery-item">
-                    <div class="gallery-image">🏛️</div>
-                    <div class="gallery-content">
-                        <div class="gallery-project-title">Historic Home Restoration</div>
-                        <div class="gallery-project-details">Period-appropriate cabinetry • $52,800</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Quick Actions -->
-        <section class="quick-actions">
-            <div class="quick-action" onclick="location.href='admin-dashboard.html'">
-                <div class="quick-action-icon">📊</div>
-                <div class="quick-action-title">View Analytics</div>
-                <div class="quick-action-description">Business metrics and performance data</div>
-            </div>
-
-            <div class="quick-action" onclick="location.href='pdf-proposal-generator.html'">
-                <div class="quick-action-icon">📄</div>
-                <div class="quick-action-title">Generate PDF</div>
-                <div class="quick-action-description">Create professional proposal documents</div>
-            </div>
-
-            <div class="quick-action" onclick="location.href='before-after-showcase.html'">
-                <div class="quick-action-icon">🔄</div>
-                <div class="quick-action-title">Before/After</div>
-                <div class="quick-action-description">Interactive comparison showcases</div>
-            </div>
-
-            <div class="quick-action" onclick="location.href='demo.html'">
-                <div class="quick-action-icon">🎭</div>
-                <div class="quick-action-title">System Demo</div>
-                <div class="quick-action-description">Interactive feature demonstrations</div>
-            </div>
-        </section>
-    </div>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <h3 id="footer-company-name">Foundry Cabinets Co</h3>
-            <p id="footer-tagline">Driven by Precision. Evolved by Design.</p>
-            <p style="margin-top: 1rem; opacity: 0.8;" id="footer-contact">
-                Portland, OR • 360-606-1106 • scott@ddbteam.com
+    <main class="main-content">
+        <!-- Introduction -->
+        <section class="intro-section">
+            <h2 class="section-title">Professional Cabinet Business System</h2>
+            <p class="section-subtitle">
+                Complete business management tools designed for modern cabinet contractors. 
+                Generate professional proposals, track projects, showcase your work, and delight clients.
             </p>
-        </div>
-    </footer>
+        </section>
+
+        <!-- Core Business Tools -->
+        <section class="features-section">
+            <div class="features-grid">
+                <!-- NEW: Enhanced Multi-Option Proposals -->
+                <div class="feature-card new">
+                    <div class="card-header">
+                        <div>
+                            <div class="card-icon">🔥</div>
+                            <div class="card-title">Multi-Option Proposals</div>
+                        </div>
+                        <div class="card-badge">NEW</div>
+                    </div>
+                    <div class="card-description">
+                        <strong>Game-changing proposal system!</strong> Create professional proposals with multiple package options, photos, and detailed descriptions. Let clients choose from Economy, Standard, Premium, and Luxury packages. Perfect for closing more deals with higher values.
+                    </div>
+                    <div class="card-features">
+                        <span class="feature-tag">4 Package Tiers</span>
+                        <span class="feature-tag">Photo Integration</span>
+                        <span class="feature-tag">Detailed Descriptions</span>
+                        <span class="feature-tag">Professional PDFs</span>
+                        <span class="feature-tag">Multiple Selection</span>
+                    </div>
+                    <a href="enhanced-multi-option-proposal-generator.html" class="card-action">
+                        🚀 Create Multi-Option Proposal
+                    </a>
+                </div>
+
+                <!-- PDF Proposal Generator -->
+                <div class="feature-card highlight">
+                    <div class="card-header">
+                        <div>
+                            <div class="card-icon">📄</div>
+                            <div class="card-title">PDF Proposal Generator</div>
+                        </div>
+                        <div class="card-badge priority">CORE</div>
+                    </div>
+                    <div class="card-description">
+                        Generate professional, branded PDF proposals with real-time calculations. Includes Portland tax rates, template system, and mobile-optimized interface. Perfect for single-option estimates.
+                    </div>
+                    <div class="card-features">
+                        <span class="feature-tag">jsPDF Integration</span>
+                        <span class="feature-tag">Real-time Math</span>
+                        <span class="feature-tag">Template System</span>
+                        <span class="feature-tag">Mobile Optimized</span>
+                    </div>
+                    <a href="pdf-proposal-generator.html" class="card-action">
+                        📋 Generate PDF Proposal
+                    </a>
+                </div>
+
+                <!-- Client Portal -->
+                <div class="feature-card">
+                    <div class="card-header">
+                        <div>
+                            <div class="card-icon">👥</div>
+                            <div class="card-title">Client Portal</div>
+                        </div>
+                    </div>
+                    <div class="card-description">
+                        Professional client dashboard for project tracking, photo uploads, messaging, and document access. Reduces communication overhead and improves client satisfaction.
+                    </div>
+                    <div class="card-features">
+                        <span class="feature-tag">Project Timeline</span>
+                        <span class="feature-tag">Photo Upload</span>
+                        <span class="feature-tag">Messaging</span>
+                        <span class="feature-tag">Document Access</span>
+                    </div>
+                    <a href="client-portal.html" class="card-action">
+                        🔑 Access Portal
+                    </a>
+                </div>
+
+                <!-- Multi-Photo Gallery -->
+                <div class="feature-card">
+                    <div class="card-header">
+                        <div>
+                            <div class="card-icon">📸</div>
+                            <div class="card-title">Professional Portfolio</div>
+                        </div>
+                    </div>
+                    <div class="card-description">
+                        Showcase your completed work with a professional photo gallery. Features lightbox viewing, project categorization, and smooth mobile navigation.
+                    </div>
+                    <div class="card-features">
+                        <span class="feature-tag">Lightbox Gallery</span>
+                        <span class="feature-tag">Project Categories</span>
+                        <span class="feature-tag">Mobile Optimized</span>
+                        <span class="feature-tag">Admin Upload</span>
+                    </div>
+                    <a href="multi-photo-gallery.html" class="card-action">
+                        🖼️ View Portfolio
+                    </a>
+                </div>
+
+                <!-- Before/After Showcase -->
+                <div class="feature-card">
+                    <div class="card-header">
+                        <div>
+                            <div class="card-icon">🔄</div>
+                            <div class="card-title">Before/After Showcase</div>
+                        </div>
+                    </div>
+                    <div class="card-description">
+                        Interactive comparison sliders that dramatically demonstrate your transformation work. Touch-friendly controls with auto-play mode for client presentations.
+                    </div>
+                    <div class="card-features">
+                        <span class="feature-tag">Interactive Sliders</span>
+                        <span class="feature-tag">Auto-Play Mode</span>
+                        <span class="feature-tag">Touch Controls</span>
+                        <span class="feature-tag">Fullscreen View</span>
+                    </div>
+                    <a href="before-after-showcase.html" class="card-action">
+                        ⚡ View Transformations
+                    </a>
+                </div>
+
+                <!-- 360° Virtual Tours -->
+                <div class="feature-card">
+                    <div class="card-header">
+                        <div>
+                            <div class="card-icon">🌐</div>
+                            <div class="card-title">360° Virtual Tours</div>
+                        </div>
+                    </div>
+                    <div class="card-description">
+                        Immersive virtual tours using Three.js technology. Interactive hotspot annotations, VR-ready design, and cutting-edge client experience.
+                    </div>
+                    <div class="card-features">
+                        <span class="feature-tag">Three.js Powered</span>
+                        <span class="feature-tag">Interactive Hotspots</span>
+                        <span class="feature-tag">VR Ready</span>
+                        <span class="feature-tag">Mobile Optimized</span>
+                    </div>
+                    <a href="360-project-viewer.html" class="card-action">
+                        🎭 Take Virtual Tour
+                    </a>
+                </div>
+
+                <!-- Interactive Calculator -->
+                <div class="feature-card">
+                    <div class="card-header">
+                        <div>
+                            <div class="card-icon">🧮</div>
+                            <div class="card-title">Estimate Calculator</div>
+                        </div>
+                    </div>
+                    <div class="card-description">
+                        Client-facing 4-step configurator for lead generation. Real-time pricing with Portland market intelligence and professional lead capture.
+                    </div>
+                    <div class="card-features">
+                        <span class="feature-tag">4-Step Process</span>
+                        <span class="feature-tag">Real-time Pricing</span>
+                        <span class="feature-tag">Lead Capture</span>
+                        <span class="feature-tag">Market Intelligence</span>
+                    </div>
+                    <a href="interactive-estimate-calculator.html" class="card-action">
+                        💰 Calculate Estimate
+                    </a>
+                </div>
+
+                <!-- Admin Dashboard -->
+                <div class="feature-card">
+                    <div class="card-header">
+                        <div>
+                            <div class="card-icon">📊</div>
+                            <div class="card-title">Admin Dashboard</div>
+                        </div>
+                    </div>
+                    <div class="card-description">
+                        Complete project management with visual project cards, client database, revenue tracking, and performance analytics. Your business command center.
+                    </div>
+                    <div class="card-features">
+                        <span class="feature-tag">Project Cards</span>
+                        <span class="feature-tag">Client Database</span>
+                        <span class="feature-tag">Revenue Analytics</span>
+                        <span class="feature-tag">Performance Tracking</span>
+                    </div>
+                    <a href="admin-dashboard.html" class="card-action">
+                        📈 View Dashboard
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Business Stats -->
+        <section class="stats-section">
+            <h3 style="text-align: center; font-size: 2rem; color: var(--charcoal); margin-bottom: 2rem;">
+                Proven Business Excellence
+            </h3>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number" data-config="experience">15+</div>
+                    <div class="stat-label">Years Experience</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-config="projects-completed">150+</div>
+                    <div class="stat-label">Projects Completed</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-config="on-time-rate">92%</div>
+                    <div class="stat-label">On-Time Delivery</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-config="satisfaction-rate">98%</div>
+                    <div class="stat-label">Client Satisfaction</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-config="warranty-years">5</div>
+                    <div class="stat-label">Year Warranty</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-config="avg-timeline">4-6</div>
+                    <div class="stat-label">Week Timeline</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action -->
+        <section class="cta-section">
+            <h2 class="cta-title">Ready to Transform Your Business?</h2>
+            <p class="cta-description">
+                Experience the power of professional cabinet business management. 
+                Start with our enhanced multi-option proposals and watch your close rates soar.
+            </p>
+            <div class="cta-buttons">
+                <a href="enhanced-multi-option-proposal-generator.html" class="cta-btn primary">
+                    🔥 Start with Multi-Option Proposals
+                </a>
+                <a href="comprehensive-demo.html" class="cta-btn secondary">
+                    🎭 View Full System Demo
+                </a>
+            </div>
+        </section>
+    </main>
 
     <script>
-        // Apply configuration to business hub
-        function applyConfiguration() {
-            if (!window.CONFIG) {
-                console.warn('⚠️ No configuration available');
-                return false;
-            }
-
-            const config = window.CONFIG;
-            
-            // Update navigation
-            document.getElementById('nav-logo').textContent = config.logo || '🪵';
-            document.getElementById('nav-title').textContent = config.companyName || 'Business Hub';
-            
-            // Update hero section
-            document.getElementById('hero-title').textContent = `Welcome to ${config.companyName}`;
-            document.getElementById('hero-subtitle').textContent = config.companyTagline || 'Your comprehensive business management dashboard';
-            
-            // Update footer
-            document.getElementById('footer-company-name').textContent = config.companyName;
-            document.getElementById('footer-tagline').textContent = config.companyTagline;
-            document.getElementById('footer-contact').textContent = `${config.location} • ${config.phone} • ${config.email}`;
-            
-            // Update page title
-            document.title = `${config.companyName} - Business Hub`;
-            
-            console.log('✅ Business hub configuration applied:', config.companyName);
-            return true;
-        }
-
-        // Initialize on page load
+        // Enhanced configuration application
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('🏠 Business Hub initialized successfully');
+            
+            // Update stats from config if available
             setTimeout(() => {
-                if (window.CONFIG) {
-                    applyConfiguration();
-                } else {
-                    // Retry after config loads
-                    setTimeout(applyConfiguration, 500);
+                if (window.CONFIG && CONFIG.businessStats) {
+                    const stats = CONFIG.businessStats;
+                    
+                    // Update stat displays
+                    const statUpdates = {
+                        'experience': stats.experience,
+                        'projects-completed': stats.projectsCompleted,
+                        'on-time-rate': stats.onTimeRate,
+                        'satisfaction-rate': stats.satisfactionRate,
+                        'warranty-years': stats.warrantyYears,
+                        'avg-timeline': stats.avgTimeline
+                    };
+                    
+                    Object.entries(statUpdates).forEach(([key, value]) => {
+                        const el = document.querySelector(`[data-config="${key}"]`);
+                        if (el && value) {
+                            el.textContent = value;
+                        }
+                    });
                 }
-                console.log('🏠 Business Hub initialized successfully');
-            }, 100);
+            }, 200);
         });
-
-        // Configuration switching with page updates
-        function switchConfig(configName) {
-            if (typeof window.switchConfig === 'function') {
-                window.switchConfig(configName);
-                setTimeout(applyConfiguration, 100);
-            }
-        }
     </script>
 </body>
 </html>
