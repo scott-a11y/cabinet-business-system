@@ -1,11 +1,11 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="page-title">Admin Dashboard - Foundry Cabinets Co</title>
     
-    <!-- ðŸ›¡ï¸ BULLETPROOF CONFIGURATION SYSTEM -->
+    <!-- 🛡️ BULLETPROOF CONFIGURATION SYSTEM -->
     <script src="config.js"></script>
     
     <style>
@@ -792,13 +792,13 @@
     <!-- Navigation -->
     <nav class="nav-header">
         <div class="nav-container">
-            <a href="index.html" class="nav-item">ðŸ  Business Hub</a>
-            <a href="admin-dashboard.html" class="nav-item active">ðŸ“Š Admin Dashboard</a>
-            <a href="client-proposal.html" class="nav-item">ðŸ“‹ Client Proposals</a>
-            <a href="pdf-proposal-generator.html" class="nav-item">ðŸ“„ PDF Generator</a>
-            <a href="client-portal.html" class="nav-item">ðŸ‘¥ Client Portal</a>
-            <a href="multi-photo-gallery.html" class="nav-item">ðŸ“¸ Photo Gallery</a>
-            <a href="demo.html" class="nav-item">ðŸŽ­ Live Demo</a>
+            <a href="index.html" class="nav-item">🏠 Business Hub</a>
+            <a href="admin-dashboard.html" class="nav-item active">📊 Admin Dashboard</a>
+            <a href="client-proposal.html" class="nav-item">📋 Client Proposals</a>
+            <a href="pdf-proposal-generator.html" class="nav-item">📄 PDF Generator</a>
+            <a href="client-portal.html" class="nav-item">👥 Client Portal</a>
+            <a href="multi-photo-gallery.html" class="nav-item">📸 Photo Gallery</a>
+            <a href="demo.html" class="nav-item">🎭 Live Demo</a>
         </div>
     </nav>
 
@@ -812,13 +812,13 @@
             
             <div class="header-actions">
                 <a href="pdf-proposal-generator.html" class="quick-action-btn">
-                    ðŸ“„ <span>New Proposal</span>
+                    📄 <span>New Proposal</span>
                 </a>
                 <button class="quick-action-btn" onclick="addProject()">
-                    âž• <span>Add Project</span>
+                    ➕ <span>Add Project</span>
                 </button>
                 <button class="quick-action-btn" onclick="viewReports()">
-                    ðŸ“Š <span>Reports</span>
+                    📊 <span>Reports</span>
                 </button>
                 <div class="last-updated" id="last-updated">
                     Last updated: <span id="update-time">Loading...</span>
@@ -834,7 +834,7 @@
             <div class="stat-card">
                 <div class="stat-header">
                     <span class="stat-title">Active Projects</span>
-                    <span class="stat-icon">ðŸ—ï¸</span>
+                    <span class="stat-icon">🏗️</span>
                 </div>
                 <div class="stat-value" id="active-projects">12</div>
                 <div class="stat-change positive">+3 from last month</div>
@@ -843,7 +843,7 @@
             <div class="stat-card">
                 <div class="stat-header">
                     <span class="stat-title">Monthly Revenue</span>
-                    <span class="stat-icon">ðŸ’°</span>
+                    <span class="stat-icon">💰</span>
                 </div>
                 <div class="stat-value" id="monthly-revenue">$124K</div>
                 <div class="stat-change positive">+18% from last month</div>
@@ -852,7 +852,7 @@
             <div class="stat-card">
                 <div class="stat-header">
                     <span class="stat-title">Client Satisfaction</span>
-                    <span class="stat-icon">â­</span>
+                    <span class="stat-icon">⭐</span>
                 </div>
                 <div class="stat-value" id="satisfaction-score">98%</div>
                 <div class="stat-change positive">+2% from last month</div>
@@ -861,7 +861,7 @@
             <div class="stat-card">
                 <div class="stat-header">
                     <span class="stat-title">Completion Rate</span>
-                    <span class="stat-icon">âœ…</span>
+                    <span class="stat-icon">✅</span>
                 </div>
                 <div class="stat-value" id="completion-rate">92%</div>
                 <div class="stat-change positive">On-time delivery</div>
@@ -886,9 +886,9 @@
                             </div>
                             
                             <div class="view-toggle-small">
-                                <button class="view-btn-small active" onclick="toggleProjectView('grid')">âŠž</button>
-                                <button class="view-btn-small" onclick="toggleProjectView('list')">â˜°</button>
-                                <button class="view-btn-small" onclick="toggleProjectView('timeline')">ðŸ“…</button>
+                                <button class="view-btn-small active" onclick="toggleProjectView('grid')">⊞</button>
+                                <button class="view-btn-small" onclick="toggleProjectView('list')">☰</button>
+                                <button class="view-btn-small" onclick="toggleProjectView('timeline')">📅</button>
                             </div>
                         </div>
                     </div>
@@ -921,7 +921,7 @@
                 <div class="analytics-card">
                     <h3 class="section-title">Performance Analytics</h3>
                     <div class="analytics-chart">
-                        ðŸ“ˆ Revenue Trend Chart
+                        📈 Revenue Trend Chart
                         <br><small>(Chart integration ready)</small>
                     </div>
                     <div class="analytics-summary">
@@ -944,7 +944,7 @@
         function applyConfiguration() {
             try {
                 if (!window.CONFIG) {
-                    console.warn('âš ï¸ No configuration available');
+                    console.warn('⚠️ No configuration available');
                     return false;
                 }
 
@@ -968,7 +968,7 @@
 
                 return true;
             } catch (error) {
-                console.error('ðŸš¨ Error applying configuration:', error);
+                console.error('🚨 Error applying configuration:', error);
                 return false;
             }
         }
@@ -1006,7 +1006,7 @@
             },
             {
                 id: 3,
-                title: "Luxury Master Bathroom",
+                title: "premium Master Bathroom",
                 client: "Davis Estate",
                 status: "completed",
                 progress: 100,
@@ -1095,7 +1095,7 @@
             renderClients();
             updateStats();
             
-            console.log('ðŸ“Š Admin Dashboard initialized with', projectsData.length, 'projects');
+            console.log('📊 Admin Dashboard initialized with', projectsData.length, 'projects');
         }
 
         // Update last updated time
@@ -1132,7 +1132,7 @@
             if (filteredProjects.length === 0) {
                 grid.innerHTML = `
                     <div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--dark-gray);">
-                        <div style="font-size: 3rem; margin-bottom: 1rem;">ðŸ“‹</div>
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">📋</div>
                         <h3>No projects found</h3>
                         <p>Try adjusting your filter settings or add a new project.</p>
                     </div>
@@ -1180,13 +1180,13 @@
                     
                     <div class="project-actions">
                         <button class="action-btn-small primary" onclick="editProject(${project.id}); event.stopPropagation();">
-                            âœï¸ Edit
+                            ✏️ Edit
                         </button>
                         <button class="action-btn-small" onclick="contactClient('${project.client}'); event.stopPropagation();">
-                            ðŸ“ž Contact
+                            📞 Contact
                         </button>
                         <button class="action-btn-small" onclick="viewProgress(${project.id}); event.stopPropagation();">
-                            ðŸ“Š Progress
+                            📊 Progress
                         </button>
                     </div>
                 `;
@@ -1238,7 +1238,7 @@
             }
 
             renderProjects();
-            console.log('ðŸ” Projects filtered:', filter, '-', filteredProjects.length, 'results');
+            console.log('🔍 Projects filtered:', filter, '-', filteredProjects.length, 'results');
         }
 
         // Toggle project view
@@ -1272,7 +1272,7 @@
                 renderProjects();
             }
 
-            console.log('ðŸ‘ï¸ Project view changed to:', view);
+            console.log('👁️ Project view changed to:', view);
         }
 
         // Render timeline view
@@ -1292,10 +1292,10 @@
                 const startDate = formatDate(project.startDate);
                 const endDate = formatDate(project.endDate);
                 const statusIcon = {
-                    planning: 'ðŸ“‹',
-                    active: 'ðŸ—ï¸',
-                    installation: 'ðŸ”§',
-                    completed: 'âœ…'
+                    planning: '📋',
+                    active: '🏗️',
+                    installation: '🔧',
+                    completed: '✅'
                 };
 
                 item.innerHTML = `
@@ -1321,46 +1321,46 @@
         function openProjectDetails(projectId) {
             const project = projectsData.find(p => p.id === projectId);
             alert(`Project Details: ${project.title}\n\nClient: ${project.client}\nStatus: ${project.status}\nProgress: ${project.progress}%\nValue: ${project.value}\n\n${project.description}`);
-            console.log('ðŸ“‹ Opened project details:', project.title);
+            console.log('📋 Opened project details:', project.title);
         }
 
         function editProject(projectId) {
             const project = projectsData.find(p => p.id === projectId);
             alert(`Edit Project: ${project.title}\n\nThis would open a detailed project editing form with all project specifications, timeline, and client information.`);
-            console.log('âœï¸ Edit project:', project.title);
+            console.log('✏️ Edit project:', project.title);
         }
 
         function contactClient(clientName) {
             const client = clientsData.find(c => c.name === clientName);
             if (window.CONFIG) {
-                alert(`Contact ${clientName}\n\nThis would open your preferred communication method:\n\nðŸ“ž Phone: ${window.CONFIG.phone}\nðŸ“§ Email: ${window.CONFIG.email}\nðŸ’¬ Text message\nðŸ“… Schedule meeting`);
+                alert(`Contact ${clientName}\n\nThis would open your preferred communication method:\n\n📞 Phone: ${window.CONFIG.phone}\n📧 Email: ${window.CONFIG.email}\n💬 Text message\n📅 Schedule meeting`);
             } else {
                 alert(`Contact ${clientName}\n\nThis would open communication options for the client.`);
             }
-            console.log('ðŸ“ž Contact client:', clientName);
+            console.log('📞 Contact client:', clientName);
         }
 
         function viewProgress(projectId) {
             const project = projectsData.find(p => p.id === projectId);
             alert(`Project Progress: ${project.title}\n\n${project.progress}% Complete\n\nThis would show detailed progress tracking, milestones, photos, and timeline updates.`);
-            console.log('ðŸ“Š View progress:', project.title);
+            console.log('📊 View progress:', project.title);
         }
 
         function openClientDetails(clientName) {
             const client = clientsData.find(c => c.name === clientName);
             alert(`Client Details: ${clientName}\n\nProject: ${client.project}\nStatus: ${client.status}\n\nThis would show complete client history, contact information, project details, and communication log.`);
-            console.log('ðŸ‘¥ Opened client details:', clientName);
+            console.log('👥 Opened client details:', clientName);
         }
 
         // Header actions
         function addProject() {
-            alert('Add New Project\n\nThis would open a comprehensive project creation form with:\n\nâ€¢ Client information\nâ€¢ Project specifications\nâ€¢ Timeline and milestones\nâ€¢ Pricing and materials\nâ€¢ Initial documentation');
-            console.log('âž• Add new project initiated');
+            alert('Add New Project\n\nThis would open a comprehensive project creation form with:\n\n• Client information\n• Project specifications\n• Timeline and milestones\n• Pricing and materials\n• Initial documentation');
+            console.log('➕ Add new project initiated');
         }
 
         function viewReports() {
-            alert('Business Reports\n\nThis would show detailed analytics including:\n\nðŸ“Š Revenue tracking\nðŸ“ˆ Project completion rates\nðŸ‘¥ Client satisfaction metrics\nâ° Timeline performance\nðŸ’° Profit margins');
-            console.log('ðŸ“Š View reports initiated');
+            alert('Business Reports\n\nThis would show detailed analytics including:\n\n📊 Revenue tracking\n📈 Project completion rates\n👥 Client satisfaction metrics\n⏰ Timeline performance\n💰 Profit margins');
+            console.log('📊 View reports initiated');
         }
 
         // Utility functions
@@ -1379,7 +1379,7 @@
                 // Simulate real-time updates
                 if (Math.random() < 0.1) { // 10% chance every interval
                     updateStats();
-                    console.log('ðŸ”„ Dashboard auto-refreshed');
+                    console.log('🔄 Dashboard auto-refreshed');
                 }
             }, 60000); // Refresh every minute
         }
@@ -1389,10 +1389,12 @@
             setTimeout(() => {
                 initializeDashboard();
                 startAutoRefresh();
-                console.log('âœ… Enhanced Admin Dashboard initialized successfully');
+                console.log('✅ Enhanced Admin Dashboard initialized successfully');
             }, 200);
         });
     </script>
 </body>
 </html>
+
+
 

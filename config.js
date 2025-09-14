@@ -41,13 +41,10 @@ const FOUNDRY_CABINETS = {
             name: 'Premium',
             description: 'High-end materials and custom options'
         },
-        luxury: {
+        
             min: 1900,
             max: 2600,
             avg: 2250,
-            name: 'Luxury',
-            description: 'Luxury finishes, premium hardware'
-        }
     },
     
     // Business Features & Statistics
