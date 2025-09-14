@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Go-Live Setup Wizard - Cabinet Business System</title>
+    <style>
+        :root {
+            --primary: #2C5282;
+            --secondary: #4A5568;
+            --success: #38A169;
+            --warning: #D69E2E;
+            --danger: #E53E3E;
+            --light: #F7FAFC;
+            --dark: #1A202C;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--dark);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .wizard-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .wizard-header {
+            background: var(--primary);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .wizard-header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        .wizard-header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .progress-bar {
+            background: rgba(255,255,255,0.2);
+            height: 6px;
+            border-radius: 3px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: var(--success);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .wizard-content {
+            padding: 40px;
+        }
+
+        .step {
+            display: none;
+        }
+
+        .step.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .step h2 {
+            color: var(--primary);
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+        }
+
+        .config-group {
+            margin-bottom: 30px;
+            padding: 25px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            background: #f8fafc;
+        }
+
+        .config-group h3 {
+            color: var(--secondary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--secondary);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 10px;
+            background: white;
+            border-radius: 6px;
+            border-left: 4px solid var(--warning);
+        }
+
+        .checklist-item.completed {
+            border-left-color: var(--success);
+        }
+
+        .checklist-item input[type="checkbox"] {
+            margin-right: 15px;
+            transform: scale(1.3);
+        }
+
+        .status-indicator {
+            padding: 6px 12px;
+            border-radius: 20px;
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background: var(--warning);
+        }
+
+        .status-completed {
+            background: var(--success);
+        }
+
+        .status-required {
+            background: var(--danger);
+        }
+
+        .wizard-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #e2e8f0;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2a4f7a;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #2f855a;
+            transform: translateY(-2px);
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+
+        .alert-info {
+            background: rgba(66, 153, 225, 0.1);
+            border: 1px solid #4299e1;
+            color: #2c5aa0;
+        }
+
+        .alert-warning {
+            background: rgba(214, 158, 46, 0.1);
+            border: 1px solid #d69e2e;
+            color: #975a16;
+        }
+
+        .alert-success {
+            background: rgba(56, 161, 105, 0.1);
+            border: 1px solid #38a169;
+            color: #22543d;
+        }
+
+        .generated-config {
+            background: #1a202c;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="wizard-container">
+        <div class="wizard-header">
+            <h1>🚀 Go-Live Setup Wizard</h1>
+            <p>Get your Cabinet Business System ready for launch in minutes</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+
+        <div class="wizard-content">
+            <!-- Step 1: Business Information -->
+            <div class="step active" id="step1">
+                <h2>📊 Business Information</h2>
+                
+                <div class="alert alert-info">
+                    <strong>Welcome!</strong> This wizard will help you configure your Cabinet Business System for production use. We'll set up your business details, integrations, and ensure everything is ready for your customers.
+                </div>
+
+                <div class="config-group">
+                    <h3>Company Details</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="companyName">Company Name *</label>
+                            <input type="text" id="companyName" placeholder="e.g., Foundry Cabinets Co" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="tagline">Company Tagline</label>
+                            <input type="text" id="tagline" placeholder="e.g., Driven by Precision. Evolved by Design.">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="contactEmail">Contact Email *</label>
+                            <input type="email" id="contactEmail" placeholder="info@yourcompany.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contactPhone">Contact Phone *</label>
+                            <input type="tel" id="contactPhone" placeholder="(555) 123-4567" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="address">Business Address</label>
+                        <textarea id="address" rows="3" placeholder="123 Main Street, City, State 12345"></textarea>
+                    </div>
+                </div>
+
+                <div class="config-group">
+                    <h3>Pricing Configuration</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="kitchenStartPrice">Kitchen Starting Price ($)</label>
+                            <input type="number" id="kitchenStartPrice" value="15000" min="0" step="500">
+                        </div>
+                        <div class="form-group">
+                            <label for="bathroomStartPrice">Bathroom Starting Price ($)</label>
+                            <input type="number" id="bathroomStartPrice" value="3500" min="0" step="250">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="depositPercent">Deposit Percentage (%)</label>
+                            <input type="number" id="depositPercent" value="25" min="10" max="50">
+                        </div>
+                        <div class="form-group">
+                            <label for="rushPremium">Rush Job Premium (%)</label>
+                            <input type="number" id="rushPremium" value="15" min="0" max="50">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: Email Configuration -->
+            <div class="step" id="step2">
+                <h2>📧 Email Configuration</h2>
+                
+                <div class="alert alert-warning">
+                    <strong>Important:</strong> Email automation is crucial for lead nurturing. You can start with EmailJS (free tier: 200 emails/month) or upgrade to SendGrid for higher volume.
+                </div>
+
+                <div class="config-group">
+                    <h3>EmailJS Setup (Recommended for Getting Started)</h3>
+                    <p style="margin-bottom: 15px; color: #666;">
+                        <a href="https://www.emailjs.com/" target="_blank" style="color: var(--primary);">Create a free EmailJS account</a> and get your credentials:
+                    </p>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="emailjsUserId">EmailJS User ID</label>
+                            <input type="text" id="emailjsUserId" placeholder="user_xxxxxxxxxxxxx">
+                        </div>
+                        <div class="form-group">
+                            <label for="emailjsServiceId">EmailJS Service ID</label>
+                            <input type="text" id="emailjsServiceId" placeholder="service_xxxxxxx">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="emailjsTemplateId">EmailJS Template ID (Welcome Email)</label>
+                        <input type="text" id="emailjsTemplateId" placeholder="template_xxxxxxx">
+                    </div>
+                </div>
+
+                <div class="config-group">
+                    <h3>Email Templates Preview</h3>
+                    <div class="alert alert-info">
+                        Your welcome email will be sent automatically to new leads. Customize this message to match your brand voice.
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="welcomeEmailSubject">Welcome Email Subject</label>
+                        <input type="text" id="welcomeEmailSubject" value="Thank you for your cabinet project inquiry!">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="welcomeEmailBody">Welcome Email Body</label>
+                        <textarea id="welcomeEmailBody" rows="6" placeholder="Dear {{name}}, Thank you for your interest in our cabinet services..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3: Payment Setup -->
+            <div class="step" id="step3">
+                <h2>💳 Payment Configuration</h2>
+                
+                <div class="alert alert-warning">
+                    <strong>SSL Required:</strong> Payment processing requires HTTPS. Make sure your website has an SSL certificate installed.
+                </div>
+
+                <div class="config-group">
+                    <h3>Stripe Integration (Recommended)</h3>
+                    <p style="margin-bottom: 15px; color: #666;">
+                        <a href="https://stripe.com/" target="_blank" style="color: var(--primary);">Create a Stripe account</a> to accept credit card payments for deposits:
+                    </p>
+                    
+                    <div class="form-group">
+                        <label for="stripePublishableKey">Stripe Publishable Key</label>
+                        <input type="text" id="stripePublishableKey" placeholder="pk_live_xxxxxxxxxxxx">
+                        <small style="color: #666;">This is safe to use in your frontend code</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="enablePayments"> Enable online deposit payments
+                        </label>
+                    </div>
+                </div>
+
+                <div class="config-group">
+                    <h3>Payment Options</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="minDeposit">Minimum Deposit ($)</label>
+                            <input type="number" id="minDeposit" value="500" min="100" step="50">
+                        </div>
+                        <div class="form-group">
+                            <label for="maxDeposit">Maximum Deposit ($)</label>
+                            <input type="number" id="maxDeposit" value="5000" min="500" step="100">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 4: Go-Live Checklist -->
+            <div class="step" id="step4">
+                <h2>✅ Pre-Launch Checklist</h2>
+                
+                <div class="alert alert-success">
+                    <strong>Almost Ready!</strong> Complete these final steps to launch your system:
+                </div>
+
+                <div class="config-group">
+                    <h3>Essential Checks</h3>
+                    <div id="checklistItems">
+                        <div class="checklist-item">
+                            <input type="checkbox" id="check1">
+                            <label for="check1">Business information entered and reviewed</label>
+                            <span class="status-indicator status-pending" id="status1">Pending</span>
+                        </div>
+                        
+                        <div class="checklist-item">
+                            <input type="checkbox" id="check2">
+                            <label for="check2">Email configuration tested</label>
+                            <span class="status-indicator status-pending" id="status2">Pending</span>
+                        </div>
+                        
+                        <div class="checklist-item">
+                            <input type="checkbox" id="check3">
+                            <label for="check3">Payment processing configured (if enabled)</label>
+                            <span class="status-indicator status-pending" id="status3">Pending</span>
+                        </div>
+                        
+                        <div class="checklist-item">
+                            <input type="checkbox" id="check4">
+                            <label for="check4">Website has SSL certificate (HTTPS)</label>
+                            <span class="status-indicator status-required" id="status4">Required</span>
+                        </div>
+                        
+                        <div class="checklist-item">
+                            <input type="checkbox" id="check5">
+                            <label for="check5">Tested complete customer journey</label>
+                            <span class="status-indicator status-pending" id="status5">Pending</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 5: Configuration Generation -->
+            <div class="step" id="step5">
+                <h2>🔧 Configuration Generated</h2>
+                
+                <div class="alert alert-success">
+                    <strong>Configuration Complete!</strong> Your production-ready configuration has been generated. Copy the code below and save it as instructed.
+                </div>
+
+                <div class="config-group">
+                    <h3>Generated Configuration</h3>
+                    <p style="margin-bottom: 15px; color: #666;">
+                        Replace the contents of <code>enhanced-config-phase3.js</code> with this configuration:
+                    </p>
+                    
+                    <div class="generated-config" id="generatedConfig">
+                        <!-- Configuration will be generated here -->
+                    </div>
+                    
+                    <button class="btn btn-secondary" id="copyConfig" style="margin-top: 15px;">
+                        📋 Copy Configuration
+                    </button>
+                </div>
+
+                <div class="config-group">
+                    <h3>Next Steps</h3>
+                    <ol style="padding-left: 20px; color: var(--secondary);">
+                        <li style="margin-bottom: 10px;">Save the generated configuration to <code>enhanced-config-phase3.js</code></li>
+                        <li style="margin-bottom: 10px;">Test your configurator with a real lead</li>
+                        <li style="margin-bottom: 10px;">Verify email delivery and payment processing</li>
+                        <li style="margin-bottom: 10px;">Launch your system and start accepting leads!</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="wizard-buttons">
+                <button class="btn btn-secondary" id="prevBtn" onclick="wizardController.changeStep(-1)" style="display: none;">
+                    ← Previous
+                </button>
+                <button class="btn btn-primary" id="nextBtn" onclick="wizardController.changeStep(1)">
+                    Next →
+                </button>
+                <button class="btn btn-success" id="generateBtn" onclick="wizardController.generateConfiguration()" style="display: none;">
+                    🚀 Generate Configuration
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const wizardController = {
+            currentStep: 1,
+            totalSteps: 5,
+
+            updateProgress() {
+                const progress = (this.currentStep / this.totalSteps) * 100;
+                document.getElementById('progressFill').style.width = progress + '%';
+            },
+
+            changeStep(direction) {
+                // Hide current step
+                document.getElementById(`step${this.currentStep}`).classList.remove('active');
+                
+                // Calculate new step
+                this.currentStep += direction;
+                
+                // Show new step
+                document.getElementById(`step${this.currentStep}`).classList.add('active');
+                
+                // Update buttons
+                this.updateButtons();
+                this.updateProgress();
+                
+                // Update checklist if on step 4
+                if (this.currentStep === 4) {
+                    this.updateChecklist();
+                }
+            },
+
+            updateButtons() {
+                const prevBtn = document.getElementById('prevBtn');
+                const nextBtn = document.getElementById('nextBtn');
+                const generateBtn = document.getElementById('generateBtn');
+                
+                prevBtn.style.display = this.currentStep > 1 ? 'block' : 'none';
+                
+                if (this.currentStep === this.totalSteps - 1) {
+                    nextBtn.style.display = 'none';
+                    generateBtn.style.display = 'block';
+                } else if (this.currentStep === this.totalSteps) {
+                    nextBtn.style.display = 'none';
+                    generateBtn.style.display = 'none';
+                } else {
+                    nextBtn.style.display = 'block';
+                    generateBtn.style.display = 'none';
+                }
+            },
+
+            updateChecklist() {
+                const companyName = document.getElementById('companyName').value;
+                const contactEmail = document.getElementById('contactEmail').value;
+                const emailjsUserId = document.getElementById('emailjsUserId').value;
+                const enablePayments = document.getElementById('enablePayments').checked;
+                const stripeKey = document.getElementById('stripePublishableKey').value;
+                
+                // Check 1: Business information
+                const status1 = document.getElementById('status1');
+                const check1 = document.getElementById('check1');
+                if (companyName && contactEmail) {
+                    status1.textContent = 'Completed';
+                    status1.className = 'status-indicator status-completed';
+                    check1.checked = true;
+                    check1.parentElement.classList.add('completed');
+                }
+                
+                // Check 2: Email configuration
+                const status2 = document.getElementById('status2');
+                const check2 = document.getElementById('check2');
+                if (emailjsUserId) {
+                    status2.textContent = 'Completed';
+                    status2.className = 'status-indicator status-completed';
+                    check2.checked = true;
+                    check2.parentElement.classList.add('completed');
+                }
+                
+                // Check 3: Payment processing
+                const status3 = document.getElementById('status3');
+                const check3 = document.getElementById('check3');
+                if (!enablePayments || (enablePayments && stripeKey)) {
+                    status3.textContent = 'Completed';
+                    status3.className = 'status-indicator status-completed';
+                    check3.checked = true;
+                    check3.parentElement.classList.add('completed');
+                }
+            },
+
+            generateConfiguration() {
+                const config = {
+                    companyName: document.getElementById('companyName').value || 'Your Cabinet Company',
+                    tagline: document.getElementById('tagline').value || 'Quality Cabinets, Exceptional Service',
+                    contactEmail: document.getElementById('contactEmail').value || 'info@yourcompany.com',
+                    contactPhone: document.getElementById('contactPhone').value || '(555) 123-4567',
+                    address: document.getElementById('address').value || '',
+                    pricing: {
+                        kitchen: parseInt(document.getElementById('kitchenStartPrice').value) || 15000,
+                        bathroom: parseInt(document.getElementById('bathroomStartPrice').value) || 3500,
+                        depositPercent: parseInt(document.getElementById('depositPercent').value) || 25,
+                        rushPremium: parseInt(document.getElementById('rushPremium').value) || 15
+                    },
+                    email: {
+                        userId: document.getElementById('emailjsUserId').value || 'YOUR_EMAILJS_USER_ID',
+                        serviceId: document.getElementById('emailjsServiceId').value || 'YOUR_EMAILJS_SERVICE_ID',
+                        templateId: document.getElementById('emailjsTemplateId').value || 'template_welcome',
+                        subject: document.getElementById('welcomeEmailSubject').value || 'Thank you for your cabinet project inquiry!',
+                        body: document.getElementById('welcomeEmailBody').value || 'Thank you for your interest in our cabinet services!'
+                    },
+                    payments: {
+                        enabled: document.getElementById('enablePayments').checked,
+                        stripeKey: document.getElementById('stripePublishableKey').value || 'pk_test_YOUR_STRIPE_KEY',
+                        minDeposit: parseInt(document.getElementById('minDeposit').value) || 500,
+                        maxDeposit: parseInt(document.getElementById('maxDeposit').value) || 5000
+                    }
+                };
+
+                const configCode = this.generateConfigurationCode(config);
+                document.getElementById('generatedConfig').textContent = configCode;
+                
+                this.changeStep(1); // Move to final step
+            },
+
+            generateConfigurationCode(config) {
+            return `// Production Configuration - Generated ${new Date().toLocaleString()}
+// Cabinet Business Management System - Phase 3
+
+class Phase3ConfigurationManager {
+    constructor() {
+        this.currentConfig = 'production';
+        this.apiKeys = this.loadAPIKeys();
+        this.businessRules = this.loadBusinessRules();
+        this.integrations = this.loadIntegrations();
+        this.analytics = this.loadAnalyticsConfig();
+        this.init();
+    }
+
+    init() {
+        this.applyConfiguration();
+        this.initializeIntegrations();
+        this.setupAnalytics();
+        console.log('✅ Production Configuration loaded successfully');
+    }
+
+    loadAPIKeys() {
+        return {
+            emailjs: {
+                userId: '${config.email.userId}',
+                serviceId: '${config.email.serviceId}',
+                templateIds: {
+                    welcome: '${config.email.templateId}',
+                    followUp: 'template_followup',
+                    proposal: 'template_proposal',
+                    reminder: 'template_reminder'
+                }
+            },
+            stripe: {
+                publishableKey: '${config.payments.stripeKey}',
+                enabled: ${config.payments.enabled}
+            },
+            analytics: {
+                googleAnalytics: 'GA_MEASUREMENT_ID', // Add your GA ID
+                mixpanel: 'MIXPANEL_PROJECT_TOKEN'    // Add your Mixpanel token
+            }
+        };
+    }
+
+    loadBusinessRules() {
+        return {
+            pricing: {
+                kitchen: ${config.pricing.kitchen},
+                bathroom: ${config.pricing.bathroom},
+                depositPercent: ${config.pricing.depositPercent},
+                rushPremium: ${config.pricing.rushPremium},
+                minDeposit: ${config.payments.minDeposit},
+                maxDeposit: ${config.payments.maxDeposit}
+            },
+            leadScoring: {
+                email: 5,
+                phone: 10,
+                projectType: {
+                    kitchen: 15,
+                    bathroom: 10,
+                    custom: 20
+                },
+                projectValue: {
+                    under15k: 5,
+                    '15k-30k': 10,
+                    '30k-50k': 15,
+                    over50k: 20
+                }
+            },
+            automation: {
+                welcomeEmail: {
+                    enabled: true,
+                    delay: 5,
+                    template: 'welcome',
+                    subject: '${config.email.subject}',
+                    body: \`\${config.email.body}\`
+                },
+                followUpEmail: {
+                    enabled: true,
+                    delay: 72,
+                    template: 'followUp'
+                }
+            }
+        };
+    }
+
+    // Company information
+    getCompanyInfo() {
+        return {
+            name: '${config.companyName}',
+            tagline: '${config.tagline}',
+            email: '${config.contactEmail}',
+            phone: '${config.contactPhone}',
+            address: \`\${config.address}\`
+        };
+    }
+
+    // Apply configuration to current page
+    applyConfiguration() {
+        try {
+            const company = this.getCompanyInfo();
+            
+            // Update company name in title and headers
+            const titleElements = document.querySelectorAll('h1, .company-name, [data-company-name]');
+            titleElements.forEach(el => {
+                if (el.textContent.includes('Foundry Cabinets') || el.textContent.includes('Your Cabinet Company')) {
+                    el.textContent = el.textContent.replace(/Foundry Cabinets Co|Your Cabinet Company/g, company.name);
+                }
+            });
+
+            // Update tagline
+            const taglineElements = document.querySelectorAll('.tagline, [data-tagline]');
+            taglineElements.forEach(el => {
+                el.textContent = company.tagline;
+            });
+
+            // Update contact information
+            const emailElements = document.querySelectorAll('[data-contact-email]');
+            emailElements.forEach(el => {
+                el.textContent = company.email;
+                if (el.tagName === 'A') el.href = 'mailto:' + company.email;
+            });
+
+            const phoneElements = document.querySelectorAll('[data-contact-phone]');
+            phoneElements.forEach(el => {
+                el.textContent = company.phone;
+                if (el.tagName === 'A') el.href = 'tel:' + company.phone.replace(/[^0-9]/g, '');
+            });
+
+            console.log('✅ Configuration applied successfully');
+        } catch (error) {
+            console.error('❌ Error applying configuration:', error);
+        }
+    }
+}
+
+// Initialize configuration
+const phase3Config = new Phase3ConfigurationManager();
+
+// Export for use in other files
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = phase3Config;
+}\`;
+                return configCode;
+            }
+        };
+
+        function copyConfiguration() {
+            const configText = document.getElementById('generatedConfig').textContent;
+            navigator.clipboard.writeText(configText).then(() => {
+                const btn = document.getElementById('copyConfig');
+                const originalText = btn.textContent;
+                btn.textContent = '✅ Copied!';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                }, 2000);
+            });
+        }
+
+        // Initialize
+        wizardController.updateProgress();
+        wizardController.updateButtons();
+
+        // Event listeners
+        document.getElementById('copyConfig').addEventListener('click', copyConfiguration);
+
+        // Auto-fill some defaults for demo
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('welcomeEmailBody').value = \`Dear {{name}},
+
+Thank you for your interest in our cabinet services! We're excited to help bring your vision to life.
+
+Your project details have been received and one of our design specialists will contact you within 24 hours to discuss your requirements and schedule a consultation.
+
+In the meantime, feel free to browse our portfolio at {{website}} or call us at {{phone}} if you have any immediate questions.
+
+Best regards,
+The {{company}} Team\`;
+        });
+    </script>
+</body>
+</html>`;
+        
