@@ -684,6 +684,10 @@
                 <button class="config-btn active" id="btn-foundry_cabinets" onclick="switchConfig('foundry_cabinets')">
                     🪵 Foundry Cabinets
                 </button>
+                <button class="config-btn" id="btn-seattle_cabinets" onclick="switchConfig('seattle_cabinets')">
+                    🏔️ Seattle Cabinets
+                </button>
+                <button class="config-btn" id="btn-district_design" onclick="switchConfig('district_design')">
                     🗗️ District Design
                 </button>
                 <button class="config-btn" id="btn-premium_upgrade" onclick="switchConfig('premium_upgrade')">
@@ -697,7 +701,7 @@
     <header class="proposal-header">
         <div class="header-content">
             <h1 class="company-logo-text" id="company-name">Foundry Cabinets Co</h1>
-            <p class="company-subtitle" id="company-subtitle">Premium Cabinet Solutions</p>
+            <p class="company-subtitle" id="company-subtitle">by District Design Build, LLC</p>
             <p class="company-tagline" id="company-tagline">Driven by Precision. Evolved by Design.</p>
             <p class="contact-info" id="contact-info">Portland, OR • 360-606-1106 • scott@ddbteam.com • www.ddb503.com</p>
         </div>
@@ -1006,7 +1010,7 @@
     <div class="pdf-content-hidden" id="pdf-content">
         <div class="pdf-header">
             <div class="pdf-company-name" id="pdf-company-name">Foundry Cabinets Co</div>
-            <div class="pdf-company-subtitle" id="pdf-company-subtitle">Premium Cabinet Solutions</div>
+            <div class="pdf-company-subtitle" id="pdf-company-subtitle">by District Design Build, LLC</div>
             <p id="pdf-contact-info">Portland, OR • 360-606-1106 • scott@ddbteam.com</p>
         </div>
         
@@ -1064,7 +1068,25 @@
                 economy: 965,
                 standard: 1225,
                 premium: 1630,
-                luxury: 2250
+                premium: 2250
+            },
+            seattle_cabinets: {
+                economy: 1060,
+                standard: 1347,
+                premium: 1793,
+                premium: 2475
+            },
+            district_design: {
+                economy: 1200,
+                standard: 1563,
+                premium: 2081,
+                premium: 2850
+            },
+            premium_upgrade: {
+                economy: 1800,
+                standard: 2344,
+                premium: 3121,
+                premium: 4500
             }
         };
 
@@ -1317,7 +1339,7 @@
             const currentConfig = window.CONFIG || {};
             
             document.getElementById('pdf-company-name').textContent = currentConfig.companyName || 'Foundry Cabinets Co';
-            document.getElementById('pdf-company-subtitle').textContent = currentConfig.companySubtitle || 'Premium Cabinet Solutions';
+            document.getElementById('pdf-company-subtitle').textContent = currentConfig.companySubtitle || 'by District Design Build, LLC';
             document.getElementById('pdf-contact-info').textContent = 
                 `${currentConfig.location || 'Portland, OR'} • ${currentConfig.phone || '360-606-1106'} • ${currentConfig.email || 'scott@ddbteam.com'}`;
             

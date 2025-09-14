@@ -1,11 +1,11 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="page-title">Photo Gallery - Foundry Cabinets Co</title>
     
-    <!-- 🛡️ BULLETPROOF CONFIGURATION SYSTEM -->
+    <!-- ðŸ›¡ï¸ BULLETPROOF CONFIGURATION SYSTEM -->
     <script src="config.js"></script>
     
     <style>
@@ -787,13 +787,13 @@
     <!-- Navigation -->
     <nav class="nav-header">
         <div class="nav-container">
-            <a href="index.html" class="nav-item">🏠 Business Hub</a>
-            <a href="admin-dashboard.html" class="nav-item">📊 Admin Dashboard</a>
-            <a href="client-proposal.html" class="nav-item">📋 Client Proposals</a>
-            <a href="pdf-proposal-generator.html" class="nav-item">📄 PDF Generator</a>
-            <a href="client-portal.html" class="nav-item">👥 Client Portal</a>
-            <a href="multi-photo-gallery.html" class="nav-item active">📸 Photo Gallery</a>
-            <a href="demo.html" class="nav-item">🎭 Live Demo</a>
+            <a href="index.html" class="nav-item">ðŸ  Business Hub</a>
+            <a href="admin-dashboard.html" class="nav-item">ðŸ“Š Admin Dashboard</a>
+            <a href="client-proposal.html" class="nav-item">ðŸ“‹ Client Proposals</a>
+            <a href="pdf-proposal-generator.html" class="nav-item">ðŸ“„ PDF Generator</a>
+            <a href="client-portal.html" class="nav-item">ðŸ‘¥ Client Portal</a>
+            <a href="multi-photo-gallery.html" class="nav-item active">ðŸ“¸ Photo Gallery</a>
+            <a href="demo.html" class="nav-item">ðŸŽ­ Live Demo</a>
         </div>
     </nav>
 
@@ -830,16 +830,16 @@
                     All Projects
                 </button>
                 <button class="filter-btn" data-filter="kitchen" onclick="filterGallery('kitchen')">
-                    🍳 Kitchens
+                    ðŸ³ Kitchens
                 </button>
                 <button class="filter-btn" data-filter="bathroom" onclick="filterGallery('bathroom')">
-                    🛁 Bathrooms
+                    ðŸ› Bathrooms
                 </button>
                 <button class="filter-btn" data-filter="builtin" onclick="filterGallery('builtin')">
-                    📚 Built-ins
+                    ðŸ“š Built-ins
                 </button>
                 <button class="filter-btn" data-filter="commercial" onclick="filterGallery('commercial')">
-                    🏢 Commercial
+                    ðŸ¢ Commercial
                 </button>
             </div>
             
@@ -849,10 +849,10 @@
                 
                 <div class="view-toggle">
                     <button class="view-btn active" id="grid-btn" onclick="toggleView('grid')">
-                        ⊞
+                        âŠž
                     </button>
                     <button class="view-btn" id="list-btn" onclick="toggleView('list')">
-                        ☰
+                        â˜°
                     </button>
                 </div>
                 
@@ -874,25 +874,25 @@
 
     <!-- Lightbox -->
     <div class="lightbox" id="lightbox">
-        <button class="lightbox-close" onclick="closeLightbox()">×</button>
+        <button class="lightbox-close" onclick="closeLightbox()">Ã—</button>
         
         <div class="slideshow-controls">
             <button class="slideshow-btn" id="slideshow-toggle" onclick="toggleSlideshow()">
-                ▶️ Start Slideshow
+                â–¶ï¸ Start Slideshow
             </button>
             <button class="slideshow-btn" onclick="toggleZoom()">
-                🔍 Zoom
+                ðŸ” Zoom
             </button>
             <button class="slideshow-btn" onclick="downloadPhoto()">
-                ⬇️ Download
+                â¬‡ï¸ Download
             </button>
             <button class="slideshow-btn" onclick="sharePhoto()">
-                📤 Share
+                ðŸ“¤ Share
             </button>
         </div>
         
-        <button class="lightbox-nav lightbox-prev" onclick="previousPhoto()">‹</button>
-        <button class="lightbox-nav lightbox-next" onclick="nextPhoto()">›</button>
+        <button class="lightbox-nav lightbox-prev" onclick="previousPhoto()">â€¹</button>
+        <button class="lightbox-nav lightbox-next" onclick="nextPhoto()">â€º</button>
         
         <div class="lightbox-content">
             <img class="lightbox-image" id="lightbox-image" src="" alt="">
@@ -913,16 +913,16 @@
         <div class="upload-content">
             <div class="upload-header">
                 <h3 class="upload-title">Upload New Photos</h3>
-                <button class="upload-close" onclick="closeUploadModal()">×</button>
+                <button class="upload-close" onclick="closeUploadModal()">Ã—</button>
             </div>
             
             <div class="upload-zone" id="upload-zone">
-                <div class="upload-icon">📸</div>
+                <div class="upload-icon">ðŸ“¸</div>
                 <div>
                     <p><strong>Drag & drop photos here</strong></p>
                     <p>or click to browse your files</p>
                     <p style="font-size: 0.9rem; color: var(--dark-gray); margin-top: 0.5rem;">
-                        Supports: JPG, PNG, WebP • Max 10MB per file
+                        Supports: JPG, PNG, WebP â€¢ Max 10MB per file
                     </p>
                 </div>
                 <input type="file" id="photo-files" multiple accept="image/*" style="display: none;">
@@ -970,7 +970,7 @@
         function applyConfiguration() {
             try {
                 if (!window.CONFIG) {
-                    console.warn('⚠️ No configuration available');
+                    console.warn('âš ï¸ No configuration available');
                     return false;
                 }
 
@@ -994,7 +994,7 @@
 
                 return true;
             } catch (error) {
-                console.error('🚨 Error applying configuration:', error);
+                console.error('ðŸš¨ Error applying configuration:', error);
                 return false;
             }
         }
@@ -1035,13 +1035,13 @@
             },
             {
                 id: 3,
-                title: "premium Master Bathroom",
+                title: "Premium Master Bathroom",
                 category: "bathroom",
                 description: "Custom vanity with dual sinks, medicine cabinets with LED lighting, and premium soft-close drawers.",
                 client: "Davis Estate",
                 date: "February 2025",
                 views: 156,
-                image: generateSampleImage("premium Bathroom", "#e6f3ff"),
+                image: generateSampleImage("Premium Bathroom", "#e6f3ff"),
                 featured: true
             },
             {
@@ -1133,7 +1133,7 @@
             filteredData = [...galleryData];
             updateStats();
             renderGallery();
-            console.log('📸 Gallery initialized with', galleryData.length, 'photos');
+            console.log('ðŸ“¸ Gallery initialized with', galleryData.length, 'photos');
         }
 
         // Update statistics
@@ -1153,7 +1153,7 @@
             if (filteredData.length === 0) {
                 grid.innerHTML = `
                     <div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--dark-gray);">
-                        <div style="font-size: 3rem; margin-bottom: 1rem;">📸</div>
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">ðŸ“¸</div>
                         <h3>No photos found</h3>
                         <p>Try adjusting your search or filter settings.</p>
                     </div>
@@ -1175,7 +1175,7 @@
                         <div class="photo-meta">
                             <span class="photo-date">${photo.date}</span>
                             <span class="photo-views">
-                                👁️ ${photo.views} views
+                                ðŸ‘ï¸ ${photo.views} views
                             </span>
                         </div>
                     </div>
@@ -1188,10 +1188,10 @@
         // Get category display name
         function getCategoryDisplay(category) {
             const categories = {
-                kitchen: '🍳 Kitchen',
-                bathroom: '🛁 Bathroom',
-                builtin: '📚 Built-ins',
-                commercial: '🏢 Commercial'
+                kitchen: 'ðŸ³ Kitchen',
+                bathroom: 'ðŸ› Bathroom',
+                builtin: 'ðŸ“š Built-ins',
+                commercial: 'ðŸ¢ Commercial'
             };
             return categories[category] || category;
         }
@@ -1224,7 +1224,7 @@
             }
             
             renderGallery();
-            console.log('🔍 Filtered gallery:', filter, '-', filteredData.length, 'results');
+            console.log('ðŸ” Filtered gallery:', filter, '-', filteredData.length, 'results');
         }
 
         // Search gallery
@@ -1260,7 +1260,7 @@
             // Update grid class
             grid.className = `gallery-grid ${view}-view`;
             
-            console.log('👁️ View changed to:', view);
+            console.log('ðŸ‘ï¸ View changed to:', view);
         }
 
         // Lightbox functionality
@@ -1285,7 +1285,7 @@
             // Prevent body scroll
             document.body.style.overflow = 'hidden';
             
-            console.log('🖼️ Lightbox opened for:', photo.title);
+            console.log('ðŸ–¼ï¸ Lightbox opened for:', photo.title);
         }
 
         function closeLightbox() {
@@ -1309,7 +1309,7 @@
             // Restore body scroll
             document.body.style.overflow = '';
             
-            console.log('❌ Lightbox closed');
+            console.log('âŒ Lightbox closed');
         }
 
         function nextPhoto() {
@@ -1365,18 +1365,18 @@
             if (isSlideshow) {
                 clearInterval(slideshowInterval);
                 isSlideshow = false;
-                btn.textContent = '▶️ Start Slideshow';
+                btn.textContent = 'â–¶ï¸ Start Slideshow';
                 btn.classList.remove('active');
             } else {
                 slideshowInterval = setInterval(() => {
                     nextPhoto();
                 }, 3000);
                 isSlideshow = true;
-                btn.textContent = '⏸️ Stop Slideshow';
+                btn.textContent = 'â¸ï¸ Stop Slideshow';
                 btn.classList.add('active');
             }
             
-            console.log('🎬 Slideshow:', isSlideshow ? 'started' : 'stopped');
+            console.log('ðŸŽ¬ Slideshow:', isSlideshow ? 'started' : 'stopped');
         }
 
         // Zoom functionality
@@ -1384,7 +1384,7 @@
             const img = document.getElementById('lightbox-image');
             isZoomed = !isZoomed;
             img.classList.toggle('zoomed', isZoomed);
-            console.log('🔍 Zoom:', isZoomed ? 'enabled' : 'disabled');
+            console.log('ðŸ” Zoom:', isZoomed ? 'enabled' : 'disabled');
         }
 
         // Click to zoom
@@ -1397,7 +1397,7 @@
             link.href = photo.image;
             link.download = `${photo.title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.jpg`;
             link.click();
-            console.log('⬇️ Downloaded:', photo.title);
+            console.log('â¬‡ï¸ Downloaded:', photo.title);
         }
 
         // Share functionality
@@ -1418,13 +1418,13 @@
                 });
             }
             
-            console.log('📤 Shared:', photo.title);
+            console.log('ðŸ“¤ Shared:', photo.title);
         }
 
         // Admin upload functionality
         function openUploadModal() {
             document.getElementById('upload-modal').style.display = 'flex';
-            console.log('📤 Upload modal opened');
+            console.log('ðŸ“¤ Upload modal opened');
         }
 
         function closeUploadModal() {
@@ -1458,12 +1458,12 @@
                 return;
             }
             
-            console.log('📷 Selected', imageFiles.length, 'image files');
+            console.log('ðŸ“· Selected', imageFiles.length, 'image files');
             
             // Update upload zone to show file count
             const uploadZone = document.getElementById('upload-zone');
             uploadZone.innerHTML = `
-                <div class="upload-icon">📷</div>
+                <div class="upload-icon">ðŸ“·</div>
                 <div>
                     <p><strong>${imageFiles.length} photo(s) selected</strong></p>
                     <p>Ready to upload with project details</p>
@@ -1507,7 +1507,7 @@
             
             // Show success message
             alert('Photos uploaded successfully!');
-            console.log('✅ New project added:', title);
+            console.log('âœ… New project added:', title);
         }
 
         function getRandomColor() {
@@ -1544,12 +1544,11 @@
         document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => {
                 initializeGallery();
-                console.log('✅ Multi-Photo Gallery initialized successfully');
+                console.log('âœ… Multi-Photo Gallery initialized successfully');
             }, 200);
         });
     </script>
 </body>
 </html>
-
 
 

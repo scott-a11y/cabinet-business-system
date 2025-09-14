@@ -1,11 +1,11 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title">360° Virtual Tours - Foundry Cabinets Co</title>
+    <title id="page-title">360Â° Virtual Tours - Foundry Cabinets Co</title>
     
-    <!-- 🛡️ BULLETPROOF CONFIGURATION SYSTEM -->
+    <!-- ðŸ›¡ï¸ BULLETPROOF CONFIGURATION SYSTEM -->
     <script src="config.js"></script>
     
     <!-- Three.js CDN for 3D panoramic viewing -->
@@ -539,25 +539,25 @@
     <!-- Navigation -->
     <nav class="nav-header">
         <div class="nav-container">
-            <a href="index.html" class="nav-item">🏠 Business Hub</a>
-            <a href="admin-dashboard.html" class="nav-item">📊 Admin Dashboard</a>
-            <a href="client-proposal.html" class="nav-item">📋 Client Proposals</a>
-            <a href="pdf-proposal-generator.html" class="nav-item">📄 PDF Generator</a>
-            <a href="client-portal.html" class="nav-item">👥 Client Portal</a>
-            <a href="multi-photo-gallery.html" class="nav-item">📸 Photo Gallery</a>
-            <a href="before-after-showcase.html" class="nav-item">🔄 Before/After</a>
-            <a href="360-project-viewer.html" class="nav-item active">🌐 Virtual Tours</a>
-            <a href="interactive-estimate-calculator.html" class="nav-item">🧮 Calculator</a>
-            <a href="comprehensive-demo.html" class="nav-item">🎭 Full Demo</a>
+            <a href="index.html" class="nav-item">ðŸ  Business Hub</a>
+            <a href="admin-dashboard.html" class="nav-item">ðŸ“Š Admin Dashboard</a>
+            <a href="client-proposal.html" class="nav-item">ðŸ“‹ Client Proposals</a>
+            <a href="pdf-proposal-generator.html" class="nav-item">ðŸ“„ PDF Generator</a>
+            <a href="client-portal.html" class="nav-item">ðŸ‘¥ Client Portal</a>
+            <a href="multi-photo-gallery.html" class="nav-item">ðŸ“¸ Photo Gallery</a>
+            <a href="before-after-showcase.html" class="nav-item">ðŸ”„ Before/After</a>
+            <a href="360-project-viewer.html" class="nav-item active">ðŸŒ Virtual Tours</a>
+            <a href="interactive-estimate-calculator.html" class="nav-item">ðŸ§® Calculator</a>
+            <a href="comprehensive-demo.html" class="nav-item">ðŸŽ­ Full Demo</a>
         </div>
     </nav>
 
     <!-- Header Section -->
     <header class="tour-header">
         <div class="header-content">
-            <h1 class="header-title">360° Virtual Tours</h1>
+            <h1 class="header-title">360Â° Virtual Tours</h1>
             <p class="header-subtitle">Immerse yourself in our completed projects with cutting-edge virtual reality technology</p>
-            <div class="vr-badge">🥽 VR Ready Experience</div>
+            <div class="vr-badge">ðŸ¥½ VR Ready Experience</div>
         </div>
     </header>
 
@@ -592,33 +592,33 @@
         <div class="instructions">
             <div class="instructions-title">How to Navigate</div>
             <ul class="instructions-list">
-                <li>🖱️ Drag to look around</li>
-                <li>📱 Touch & swipe on mobile</li>
-                <li>⚪ Click hotspots for details</li>
-                <li>🎯 Use scene buttons to move</li>
-                <li>⛶ Fullscreen for VR mode</li>
+                <li>ðŸ–±ï¸ Drag to look around</li>
+                <li>ðŸ“± Touch & swipe on mobile</li>
+                <li>âšª Click hotspots for details</li>
+                <li>ðŸŽ¯ Use scene buttons to move</li>
+                <li>â›¶ Fullscreen for VR mode</li>
             </ul>
         </div>
 
         <!-- Control Panel -->
         <div class="control-panel">
             <button class="control-btn" id="auto-rotate-btn">
-                🔄 Auto Rotate
+                ðŸ”„ Auto Rotate
             </button>
             <button class="control-btn" id="fullscreen-btn">
-                ⛶ Fullscreen
+                â›¶ Fullscreen
             </button>
             <button class="control-btn" id="reset-view-btn">
-                🎯 Reset View
+                ðŸŽ¯ Reset View
             </button>
             <button class="control-btn" id="info-toggle-btn">
-                ℹ️ Show Info
+                â„¹ï¸ Show Info
             </button>
         </div>
 
         <!-- Hotspot Info Panel -->
         <div class="hotspot-info" id="hotspot-info">
-            <button class="info-close" id="info-close">×</button>
+            <button class="info-close" id="info-close">Ã—</button>
             <div class="info-title" id="info-title"></div>
             <div class="info-description" id="info-description"></div>
             <div class="info-specs" id="info-specs"></div>
@@ -640,7 +640,7 @@
             {
                 id: 'modern-kitchen-360',
                 title: 'Modern Kitchen Transformation',
-                icon: '🍳',
+                icon: 'ðŸ³',
                 description: 'Award-winning contemporary kitchen design',
                 scenes: [
                     {
@@ -689,8 +689,8 @@
             },
             {
                 id: 'premium-bathroom-360',
-                title: 'premium Master Bathroom',
-                icon: '🛁',
+                title: 'Premium Master Bathroom',
+                icon: 'ðŸ›',
                 description: 'Spa-inspired bathroom retreat',
                 scenes: [
                     {
@@ -726,7 +726,7 @@
             {
                 id: 'home-office-360',
                 title: 'Custom Home Office',
-                icon: '💼',
+                icon: 'ðŸ’¼',
                 description: 'Professional workspace with built-in storage',
                 scenes: [
                     {
@@ -1119,7 +1119,7 @@
                 this.autoRotate = !this.autoRotate;
                 const btn = document.getElementById('auto-rotate-btn');
                 btn.classList.toggle('active', this.autoRotate);
-                btn.textContent = this.autoRotate ? '⏸ Stop Rotate' : '🔄 Auto Rotate';
+                btn.textContent = this.autoRotate ? 'â¸ Stop Rotate' : 'ðŸ”„ Auto Rotate';
             }
             
             toggleFullscreen() {
@@ -1192,10 +1192,10 @@
             applyConfiguration() {
                 try {
                     if (window.CONFIG) {
-                        document.title = `${window.CONFIG.companyName} - 360° Virtual Tours`;
+                        document.title = `${window.CONFIG.companyName} - 360Â° Virtual Tours`;
                     }
                 } catch (error) {
-                    console.warn('⚠️ Configuration application failed:', error);
+                    console.warn('âš ï¸ Configuration application failed:', error);
                 }
             }
         }
@@ -1203,7 +1203,7 @@
         // Global functions
         function requestSimilarProject(projectId) {
             const project = virtualTourProjects.find(p => p.id === projectId);
-            console.log('🎯 Quote requested for similar project:', project.title);
+            console.log('ðŸŽ¯ Quote requested for similar project:', project.title);
             alert(`Thank you for your interest in a ${project.title} project! We'll contact you within 24 hours with a custom estimate based on your specific space and requirements.`);
         }
 
@@ -1211,7 +1211,7 @@
         let tourViewer;
         document.addEventListener('DOMContentLoaded', function() {
             tourViewer = new VirtualTourViewer();
-            console.log('✅ 360° Virtual Tour Viewer initialized successfully');
+            console.log('âœ… 360Â° Virtual Tour Viewer initialized successfully');
         });
 
         // Handle fullscreen change
@@ -1226,4 +1226,3 @@
     </script>
 </body>
 </html>
-

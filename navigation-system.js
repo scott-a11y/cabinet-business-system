@@ -1,76 +1,76 @@
-// 🧭 STANDARDIZED NAVIGATION SYSTEM
+// ðŸ§­ STANDARDIZED NAVIGATION SYSTEM
 // Consistent navigation across all pages with dynamic updates
 
-// 🔗 NAVIGATION STRUCTURE
+// ðŸ"— NAVIGATION STRUCTURE
 window.NAVIGATION_CONFIG = {
     items: [
         { 
             id: 'home',
             label: 'Business Hub', 
-            icon: '🏠', 
+            icon: 'ðŸ ', 
             href: 'index.html',
             description: 'Main dashboard and overview'
         },
         { 
             id: 'admin',
             label: 'Admin Dashboard', 
-            icon: '📊', 
+            icon: 'ðŸ"Š', 
             href: 'admin-dashboard.html',
             description: 'Project management and analytics'
         },
         { 
             id: 'proposals',
             label: 'Client Proposals', 
-            icon: '📋', 
+            icon: 'ðŸ"‹', 
             href: 'client-proposal.html',
             description: 'Professional client proposals'
         },
         { 
             id: 'pdf-generator',
             label: 'PDF Generator', 
-            icon: '📄', 
+            icon: 'ðŸ"„', 
             href: 'pdf-proposal-generator.html',
             description: 'Create branded PDF proposals'
         },
         { 
             id: 'client-portal',
             label: 'Client Portal', 
-            icon: '👥', 
+            icon: 'ðŸ'¥', 
             href: 'client-portal.html',
             description: 'Client communication dashboard'
         },
         { 
             id: 'gallery',
             label: 'Photo Gallery', 
-            icon: '📸', 
+            icon: 'ðŸ"¸', 
             href: 'multi-photo-gallery.html',
             description: 'Professional project showcase'
         },
         { 
             id: 'before-after',
             label: 'Before/After', 
-            icon: '📄', 
+            icon: 'ðŸ"„', 
             href: 'before-after-showcase.html',
             description: 'Interactive transformation demos'
         },
         { 
             id: 'virtual-tours',
             label: 'Virtual Tours', 
-            icon: '🌐', 
+            icon: 'ðŸŒ', 
             href: '360-project-viewer.html',
             description: 'Immersive 360° project views'
         },
         { 
             id: 'calculator',
             label: 'Calculator', 
-            icon: '🧮', 
+            icon: 'ðŸ§®', 
             href: 'interactive-estimate-calculator.html',
             description: 'Real-time pricing estimates'
         },
         { 
             id: 'demo',
             label: 'Live Demo', 
-            icon: '🎭', 
+            icon: 'ðŸŽ­', 
             href: 'demo.html',
             description: 'Complete system demonstration'
         }
@@ -91,7 +91,7 @@ window.NAVIGATION_CONFIG = {
     }
 };
 
-// 🎨 NAVIGATION STYLES
+// ðŸŽ¨ NAVIGATION STYLES
 const NAVIGATION_STYLES = `
     /* Navigation Header */
     .nav-header {
@@ -207,7 +207,7 @@ const NAVIGATION_STYLES = `
     }
 `;
 
-// 🗄️ NAVIGATION BUILDER
+// ðŸ—ï¸ NAVIGATION BUILDER
 function createNavigationHTML() {
     const currentPage = detectActivePage();
     const isMobile = window.innerWidth <= NAVIGATION_CONFIG.mobile.breakpoint;
@@ -252,7 +252,7 @@ function createNavigationHTML() {
     return navHTML;
 }
 
-// 🕵️ ACTIVE PAGE DETECTION
+// ðŸ•µï¸ ACTIVE PAGE DETECTION
 function detectActivePage() {
     // Try URL-based detection first
     if (NAVIGATION_CONFIG.detection.byUrl) {
@@ -281,7 +281,7 @@ function detectActivePage() {
     return NAVIGATION_CONFIG.detection.fallback;
 }
 
-// 📱 MOBILE NAVIGATION TOGGLE
+// ðŸ"± MOBILE NAVIGATION TOGGLE
 function toggleMobileNavigation() {
     const navItems = document.querySelector('.nav-items');
     const toggle = document.querySelector('.nav-mobile-toggle');
@@ -301,7 +301,7 @@ function toggleMobileNavigation() {
     }
 }
 
-// 🎯 NAVIGATION INJECTION
+// ðŸŽ¯ NAVIGATION INJECTION
 function injectNavigation() {
     try {
         // Inject styles if not already present
@@ -331,12 +331,12 @@ function injectNavigation() {
         return true;
         
     } catch (error) {
-        console.error('🚨 Navigation injection failed:', error);
+        console.error('ðŸš¨ Navigation injection failed:', error);
         return false;
     }
 }
 
-// 📱 MOBILE NAVIGATION SETUP
+// ðŸ"± MOBILE NAVIGATION SETUP
 function setupMobileNavigation() {
     // Handle window resize
     let resizeTimeout;
@@ -376,7 +376,7 @@ function setupMobileNavigation() {
     });
 }
 
-// 📄 NAVIGATION UPDATES
+// ðŸ"„ NAVIGATION UPDATES
 function updateNavigation() {
     const currentActive = document.querySelector('.nav-item.active');
     const correctActive = detectActivePage();
@@ -395,7 +395,7 @@ function updateNavigation() {
     }
 }
 
-// 🗂️ NAVIGATION MANAGEMENT
+// ðŸ—‚ï¸ NAVIGATION MANAGEMENT
 window.NAVIGATION = {
     inject: injectNavigation,
     update: updateNavigation,
@@ -416,7 +416,7 @@ window.NAVIGATION = {
     }
 };
 
-// 🚀 AUTO-INITIALIZATION
+// ðŸšš AUTO-INITIALIZATION
 function initializeNavigation() {
     // Wait for DOM to be ready
     if (document.readyState === 'loading') {
@@ -435,7 +435,7 @@ function initializeNavigation() {
 // Initialize navigation
 initializeNavigation();
 
-console.log('🧭 Standardized Navigation System loaded');
+console.log('ðŸ§­ Standardized Navigation System loaded');
 
 // Make toggle function globally available for onclick handlers
 window.toggleMobileNavigation = toggleMobileNavigation;

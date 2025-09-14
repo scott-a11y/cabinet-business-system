@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -419,7 +419,7 @@
 
     <!-- Header -->
     <header class="header">
-        <h1>ðŸªµ Foundry Cabinets Co</h1>
+        <h1>🪵 Foundry Cabinets Co</h1>
         <p>Professional Multi-Option Proposal Generator</p>
     </header>
 
@@ -427,7 +427,7 @@
     <div class="container">
         <!-- Client Information -->
         <div class="form-section">
-            <h2 class="section-title">ðŸ‘¥ Client Information</h2>
+            <h2 class="section-title">👥 Client Information</h2>
             <div id="status-message" class="status-message"></div>
             
             <div class="form-grid">
@@ -466,7 +466,7 @@
 
         <!-- Package Selection -->
         <div class="form-section">
-            <h2 class="section-title">ðŸ’° Select Package Options (Choose Multiple)</h2>
+            <h2 class="section-title">💰 Select Package Options (Choose Multiple)</h2>
             <p style="color: var(--dark-gray); margin-bottom: 2rem;">Select one or more options to include in your proposal. Clients love having choices!</p>
             
             <div class="packages-grid" id="packages-container">
@@ -476,7 +476,7 @@
 
         <!-- Quick Comparison Tool -->
         <div class="comparison-section">
-            <h2 class="section-title">ðŸ“Š Quick Comparison Builder</h2>
+            <h2 class="section-title">📊 Quick Comparison Builder</h2>
             <p style="color: var(--dark-gray); margin-bottom: 1.5rem;">Build custom comparison packages for your client:</p>
             
             <div class="comparison-grid" id="comparison-container">
@@ -500,17 +500,17 @@
 
         <!-- Action Buttons -->
         <div class="action-section">
-            <h2 class="section-title">ðŸš€ Generate Your Professional Proposal</h2>
+            <h2 class="section-title">🚀 Generate Your Professional Proposal</h2>
             <p style="color: var(--dark-gray); margin-bottom: 2rem;">Create a comprehensive proposal with multiple options for your client.</p>
             
             <button id="generate-multi-pdf" class="btn btn-primary" disabled>
-                ðŸ“„ Generate Multi-Option Proposal
+                📄 Generate Multi-Option Proposal
             </button>
             <button id="preview-proposal" class="btn btn-secondary">
-                ðŸ‘€ Preview Proposal
+                👀 Preview Proposal
             </button>
             <button id="save-template" class="btn btn-secondary">
-                ðŸ’¾ Save as Template
+                💾 Save as Template
             </button>
         </div>
     </div>
@@ -518,11 +518,11 @@
     <!-- PDF Preview (Hidden) -->
     <div id="pdf-preview" class="pdf-preview">
         <div class="pdf-header">
-            <div class="pdf-logo">ðŸªµ</div>
+            <div class="pdf-logo">🪵</div>
             <div class="pdf-company-info">
                 <div class="pdf-company-name">Foundry Cabinets Co</div>
-                <div>Premium Cabinet Solutions</div>
-                <div>Portland, OR â€¢ 360-606-1106 â€¢ scott@ddbteam.com</div>
+                <div>by District Design Build, LLC</div>
+                <div>Portland, OR • 360-606-1106 • scott@ddbteam.com</div>
             </div>
         </div>
 
@@ -546,12 +546,12 @@
         <div style="background: var(--cream); padding: 1.5rem; border-radius: 8px; margin-top: 2rem;">
             <h3 style="margin-bottom: 1rem;">Terms & Conditions</h3>
             <ul style="line-height: 1.8; color: var(--dark-gray);">
-                <li>â€¢ All estimates are valid for 30 days from the date above</li>
-                <li>â€¢ 50% deposit required to begin work, balance due upon completion</li>
-                <li>â€¢ 5-year comprehensive warranty on all workmanship and materials</li>
-                <li>â€¢ Timeline estimates subject to material availability and permit approval</li>
-                <li>â€¢ Licensed, bonded, and insured contractor (CCB #123456)</li>
-                <li>â€¢ Changes to scope may affect timeline and pricing</li>
+                <li>• All estimates are valid for 30 days from the date above</li>
+                <li>• 50% deposit required to begin work, balance due upon completion</li>
+                <li>• 5-year comprehensive warranty on all workmanship and materials</li>
+                <li>• Timeline estimates subject to material availability and permit approval</li>
+                <li>• Licensed, bonded, and insured contractor (CCB #123456)</li>
+                <li>• Changes to scope may affect timeline and pricing</li>
             </ul>
         </div>
 
@@ -628,16 +628,16 @@
                 warranty: '5 years'
             },
             {
-                id: 'luxury',
-                name: 'Luxury Package',
+                id: 'premium',
+                name: 'premium Package',
                 basePrice: 2250,
                 priceRange: '$1,900-$2,600/LF',
-                description: 'Ultra-premium finishes with luxury hardware. The ultimate in kitchen cabinetry.',
+                description: 'Ultra-premium finishes with premium hardware. The ultimate in kitchen cabinetry.',
                 image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=200&fit=crop',
                 features: [
                     'Premium exotic hardwoods available',
                     'Hand-selected wood matching',
-                    'Luxury soft-close hardware',
+                    'premium soft-close hardware',
                     'Custom inset door construction',
                     'Unlimited door style options',
                     'Designer hardware collection',
@@ -683,7 +683,7 @@
                     <div class="package-features">
                         <ul class="feature-list">
                             ${pkg.features.map(feature => 
-                                `<li><span class="feature-icon">âœ“</span> ${feature}</li>`
+                                `<li><span class="feature-icon">✓</span> ${feature}</li>`
                             ).join('')}
                         </ul>
                         <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--light-gray); font-size: 0.9rem; color: var(--dark-gray);">
@@ -800,7 +800,7 @@
                             <div>
                                 <h4 style="margin-bottom: 0.5rem;">Included Features:</h4>
                                 <ul class="pdf-features">
-                                    ${pkg.features.map(feature => `<li>â€¢ ${feature}</li>`).join('')}
+                                    ${pkg.features.map(feature => `<li>• ${feature}</li>`).join('')}
                                 </ul>
                             </div>
                             <div>
@@ -871,7 +871,7 @@
             
             // Show loading state
             button.disabled = true;
-            button.innerHTML = 'â³ Generating Proposal...';
+            button.innerHTML = '⏳ Generating Proposal...';
 
             try {
                 // Update PDF preview with current data
@@ -968,5 +968,7 @@
     </script>
 </body>
 </html>
+
+
 
 
