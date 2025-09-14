@@ -1,0 +1,1599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Your Custom Cabinet Estimate</title>
+    
+    <!-- Configuration System -->
+    <script src="config.js"></script>
+    <script src="enhanced-config.js"></script>
+    
+    <style>
+        :root {
+            --primary-gold: #D4B062;
+            --light-gold: #F4E4A1;
+            --cream: #FBF8F0;
+            --warm-white: #FEFCF7;
+            --charcoal: #2C2C2C;
+            --dark-gray: #4A4A4A;
+            --light-gray: #E8E8E8;
+            --success: #2E7D4A;
+            --warning: #C5801A;
+            --danger: #C53030;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, var(--warm-white) 0%, var(--cream) 100%);
+            color: var(--charcoal);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary-gold), #C5A055);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .company-logo {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .header-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .header-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        .header-tagline {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        /* Progress Indicator */
+        .progress-container {
+            background: white;
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--light-gray);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .progress-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .progress-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            position: relative;
+        }
+
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--light-gray);
+            color: var(--dark-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .step-circle.active {
+            background: var(--primary-gold);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .step-circle.completed {
+            background: var(--success);
+            color: white;
+        }
+
+        .step-title {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--dark-gray);
+            text-align: center;
+        }
+
+        .step-title.active {
+            color: var(--primary-gold);
+            font-weight: 600;
+        }
+
+        .progress-line {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            right: -50%;
+            height: 2px;
+            background: var(--light-gray);
+            z-index: -1;
+        }
+
+        .progress-line.completed {
+            background: var(--success);
+        }
+
+        .progress-step:last-child .progress-line {
+            display: none;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Form Steps */
+        .form-step {
+            display: none;
+            background: white;
+            border-radius: 16px;
+            padding: 3rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .form-step.active {
+            display: block;
+            animation: slideInUp 0.5s ease-out;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .step-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .step-title-main {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--charcoal);
+            margin-bottom: 0.5rem;
+        }
+
+        .step-description {
+            font-size: 1.1rem;
+            color: var(--dark-gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Selection Grid */
+        .selection-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .selection-card {
+            background: var(--cream);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .selection-card:hover {
+            border-color: var(--light-gold);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        }
+
+        .selection-card.selected {
+            border-color: var(--primary-gold);
+            background: white;
+            box-shadow: 0 4px 16px rgba(212, 176, 98, 0.2);
+        }
+
+        .selection-card.selected::before {
+            content: "✓";
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: var(--primary-gold);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .selection-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .selection-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--charcoal);
+            margin-bottom: 0.5rem;
+        }
+
+        .selection-description {
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+            line-height: 1.5;
+        }
+
+        .selection-price {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--primary-gold);
+            margin-top: 0.5rem;
+        }
+
+        /* Form Fields */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .form-field {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: var(--charcoal);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--light-gray);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 0 3px rgba(212, 176, 98, 0.1);
+        }
+
+        .form-input.error,
+        .form-select.error,
+        .form-textarea.error {
+            border-color: var(--danger);
+        }
+
+        .form-error {
+            color: var(--danger);
+            font-size: 0.9rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+
+        .form-error.show {
+            display: block;
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* Range Slider */
+        .range-container {
+            margin: 2rem 0;
+        }
+
+        .range-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .range-value {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary-gold);
+        }
+
+        .range-slider {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: var(--light-gray);
+            outline: none;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+            -webkit-appearance: none;
+        }
+
+        .range-slider:hover {
+            opacity: 1;
+        }
+
+        .range-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--primary-gold);
+            cursor: pointer;
+        }
+
+        .range-slider::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--primary-gold);
+            cursor: pointer;
+            border: none;
+        }
+
+        /* Estimate Display */
+        .estimate-display {
+            background: var(--cream);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+            border-left: 6px solid var(--primary-gold);
+        }
+
+        .estimate-title {
+            font-size: 1.2rem;
+            color: var(--charcoal);
+            margin-bottom: 1rem;
+        }
+
+        .estimate-price {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary-gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .estimate-range {
+            font-size: 1.1rem;
+            color: var(--dark-gray);
+            margin-bottom: 1rem;
+        }
+
+        .estimate-details {
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+            line-height: 1.6;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 3rem;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            min-width: 140px;
+        }
+
+        .btn-primary {
+            background: var(--primary-gold);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #C5A055;
+            transform: translateY(-2px);
+        }
+
+        .btn-primary:disabled {
+            background: var(--light-gray);
+            color: var(--dark-gray);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--dark-gray);
+            border: 2px solid var(--light-gray);
+        }
+
+        .btn-secondary:hover {
+            background: var(--light-gray);
+        }
+
+        /* Thank You Step */
+        .thank-you-content {
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        .thank-you-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .thank-you-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--success);
+            margin-bottom: 1rem;
+        }
+
+        .thank-you-message {
+            font-size: 1.2rem;
+            color: var(--dark-gray);
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+
+        .next-steps {
+            background: var(--cream);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: left;
+        }
+
+        .next-steps h3 {
+            color: var(--charcoal);
+            margin-bottom: 1rem;
+        }
+
+        .next-steps ol {
+            color: var(--dark-gray);
+            padding-left: 1.5rem;
+        }
+
+        .next-steps li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Mobile Optimization */
+        @media (max-width: 768px) {
+            .header {
+                padding: 1.5rem 0;
+            }
+
+            .header-title {
+                font-size: 2rem;
+            }
+
+            .main-content {
+                padding: 2rem 1rem;
+            }
+
+            .form-step {
+                padding: 2rem 1.5rem;
+            }
+
+            .step-title-main {
+                font-size: 1.5rem;
+            }
+
+            .selection-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .progress-bar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .progress-step {
+                flex-direction: row;
+                justify-content: center;
+                gap: 1rem;
+            }
+
+            .progress-line {
+                display: none;
+            }
+
+            .estimate-price {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* Touch Enhancements */
+        @media (hover: none) and (pointer: coarse) {
+            .selection-card {
+                padding: 2.5rem 2rem;
+            }
+
+            .btn {
+                padding: 1.25rem 2rem;
+                min-height: 50px;
+            }
+
+            .form-input,
+            .form-select,
+            .form-textarea {
+                padding: 1.25rem;
+                font-size: 16px; /* Prevent zoom on iOS */
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="company-logo" id="company-logo">🪵</div>
+            <h1 class="header-title">Get Your Custom Cabinet Estimate</h1>
+            <p class="header-subtitle" id="header-subtitle">Professional quality, competitive pricing, expert craftsmanship</p>
+            <p class="header-tagline" id="header-tagline">Get your personalized estimate in just 4 easy steps</p>
+        </div>
+    </header>
+
+    <!-- Progress Indicator -->
+    <div class="progress-container">
+        <div class="progress-content">
+            <div class="progress-bar">
+                <div class="progress-step">
+                    <div class="step-circle active" id="step-circle-1">1</div>
+                    <div class="step-title active" id="step-title-1">Project Type</div>
+                    <div class="progress-line" id="progress-line-1"></div>
+                </div>
+                <div class="progress-step">
+                    <div class="step-circle" id="step-circle-2">2</div>
+                    <div class="step-title" id="step-title-2">Size & Scope</div>
+                    <div class="progress-line" id="progress-line-2"></div>
+                </div>
+                <div class="progress-step">
+                    <div class="step-circle" id="step-circle-3">3</div>
+                    <div class="step-title" id="step-title-3">Features & Options</div>
+                    <div class="progress-line" id="progress-line-3"></div>
+                </div>
+                <div class="progress-step">
+                    <div class="step-circle" id="step-circle-4">4</div>
+                    <div class="step-title" id="step-title-4">Your Information</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Step 1: Project Type -->
+        <div class="form-step active" id="step-1">
+            <div class="step-header">
+                <h2 class="step-title-main">What type of project do you have?</h2>
+                <p class="step-description">Choose the option that best describes your cabinet project needs.</p>
+            </div>
+
+            <div class="selection-grid">
+                <div class="selection-card" data-selection="kitchen" onclick="selectOption('project-type', 'kitchen', this)">
+                    <div class="selection-icon">🏠</div>
+                    <div class="selection-title">Kitchen Cabinets</div>
+                    <div class="selection-description">Complete kitchen cabinet installation or renovation</div>
+                    <div class="selection-price">Most Popular</div>
+                </div>
+
+                <div class="selection-card" data-selection="bathroom" onclick="selectOption('project-type', 'bathroom', this)">
+                    <div class="selection-icon">🛁</div>
+                    <div class="selection-title">Bathroom Vanities</div>
+                    <div class="selection-description">Custom bathroom vanities and storage solutions</div>
+                </div>
+
+                <div class="selection-card" data-selection="office" onclick="selectOption('project-type', 'office', this)">
+                    <div class="selection-icon">🏢</div>
+                    <div class="selection-title">Office Built-ins</div>
+                    <div class="selection-description">Custom office storage and built-in solutions</div>
+                </div>
+
+                <div class="selection-card" data-selection="entertainment" onclick="selectOption('project-type', 'entertainment', this)">
+                    <div class="selection-icon">📺</div>
+                    <div class="selection-title">Entertainment Centers</div>
+                    <div class="selection-description">Media centers and living room storage</div>
+                </div>
+
+                <div class="selection-card" data-selection="closet" onclick="selectOption('project-type', 'closet', this)">
+                    <div class="selection-icon">👔</div>
+                    <div class="selection-title">Closet Systems</div>
+                    <div class="selection-description">Walk-in closets and wardrobe organization</div>
+                </div>
+
+                <div class="selection-card" data-selection="other" onclick="selectOption('project-type', 'other', this)">
+                    <div class="selection-icon">🔧</div>
+                    <div class="selection-title">Other Custom Work</div>
+                    <div class="selection-description">Custom millwork and specialized projects</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2: Size & Scope -->
+        <div class="form-step" id="step-2">
+            <div class="step-header">
+                <h2 class="step-title-main">Tell us about your project size</h2>
+                <p class="step-description">Help us understand the scope of your project for accurate pricing.</p>
+            </div>
+
+            <div class="form-grid">
+                <div class="form-field">
+                    <label class="form-label">Project Size</label>
+                    <select class="form-select" id="project-size" onchange="updateEstimate()">
+                        <option value="">Select project size</option>
+                        <option value="small">Small (5-15 linear feet)</option>
+                        <option value="medium">Medium (15-25 linear feet)</option>
+                        <option value="large">Large (25-40 linear feet)</option>
+                        <option value="extra-large">Extra Large (40+ linear feet)</option>
+                    </select>
+                </div>
+
+                <div class="form-field">
+                    <label class="form-label">Quality Level</label>
+                    <select class="form-select" id="quality-level" onchange="updateEstimate()">
+                        <option value="">Select quality level</option>
+                        <option value="economy">Economy - Great value</option>
+                        <option value="standard">Standard - Most popular</option>
+                        <option value="premium">Premium - High quality</option>
+                        <option value="luxury">Luxury - Top of the line</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="range-container">
+                <div class="range-label">
+                    <span>Estimated Linear Feet:</span>
+                    <span class="range-value" id="linear-feet-value">20</span>
+                </div>
+                <input type="range" class="range-slider" id="linear-feet" 
+                       min="5" max="60" value="20" 
+                       onchange="updateLinearFeet(this.value)">
+            </div>
+
+            <div class="estimate-display" id="estimate-display" style="display: none;">
+                <div class="estimate-title">Estimated Project Cost</div>
+                <div class="estimate-price" id="estimate-price">$25,500</div>
+                <div class="estimate-range" id="estimate-range">Range: $22,000 - $28,000</div>
+                <div class="estimate-details">
+                    This estimate includes materials, labor, and installation.
+                    Final pricing may vary based on specific requirements.
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3: Features & Options -->
+        <div class="form-step" id="step-3">
+            <div class="step-header">
+                <h2 class="step-title-main">Choose your features and options</h2>
+                <p class="step-description">Select the features that matter most to you.</p>
+            </div>
+
+            <div class="selection-grid">
+                <div class="selection-card" data-selection="soft-close" onclick="toggleOption('soft-close', this)">
+                    <div class="selection-icon">🔧</div>
+                    <div class="selection-title">Soft-Close Hardware</div>
+                    <div class="selection-description">Premium hinges and drawer slides</div>
+                    <div class="selection-price">+$350</div>
+                </div>
+
+                <div class="selection-card" data-selection="crown-molding" onclick="toggleOption('crown-molding', this)">
+                    <div class="selection-icon">👑</div>
+                    <div class="selection-title">Crown Molding</div>
+                    <div class="selection-description">Elegant finishing touch</div>
+                    <div class="selection-price">+$275</div>
+                </div>
+
+                <div class="selection-card" data-selection="custom-island" onclick="toggleOption('custom-island', this)">
+                    <div class="selection-icon">🏝️</div>
+                    <div class="selection-title">Kitchen Island</div>
+                    <div class="selection-description">Custom kitchen island design</div>
+                    <div class="selection-price">+$2,500</div>
+                </div>
+
+                <div class="selection-card" data-selection="glass-doors" onclick="toggleOption('glass-doors', this)">
+                    <div class="selection-icon">🔍</div>
+                    <div class="selection-title">Glass Door Inserts</div>
+                    <div class="selection-description">Display your finest pieces</div>
+                    <div class="selection-price">+$425</div>
+                </div>
+
+                <div class="selection-card" data-selection="lighting" onclick="toggleOption('lighting', this)">
+                    <div class="selection-icon">💡</div>
+                    <div class="selection-title">LED Cabinet Lighting</div>
+                    <div class="selection-description">Under-cabinet illumination</div>
+                    <div class="selection-price">+$650</div>
+                </div>
+
+                <div class="selection-card" data-selection="organizers" onclick="toggleOption('organizers', this)">
+                    <div class="selection-icon">📦</div>
+                    <div class="selection-title">Drawer Organizers</div>
+                    <div class="selection-description">Custom organization systems</div>
+                    <div class="selection-price">+$200</div>
+                </div>
+            </div>
+
+            <div class="form-field">
+                <label class="form-label">Additional Requirements or Preferences</label>
+                <textarea class="form-textarea" id="additional-requirements" 
+                          placeholder="Tell us about any special requirements, design preferences, or questions you have..."></textarea>
+            </div>
+        </div>
+
+        <!-- Step 4: Contact Information -->
+        <div class="form-step" id="step-4">
+            <div class="step-header">
+                <h2 class="step-title-main">Get your personalized estimate</h2>
+                <p class="step-description">We'll prepare your detailed estimate and contact you within 24 hours.</p>
+            </div>
+
+            <div class="form-grid">
+                <div class="form-field">
+                    <label class="form-label">First Name *</label>
+                    <input type="text" class="form-input" id="first-name" required>
+                    <div class="form-error" id="first-name-error">Please enter your first name</div>
+                </div>
+
+                <div class="form-field">
+                    <label class="form-label">Last Name *</label>
+                    <input type="text" class="form-input" id="last-name" required>
+                    <div class="form-error" id="last-name-error">Please enter your last name</div>
+                </div>
+
+                <div class="form-field">
+                    <label class="form-label">Email Address *</label>
+                    <input type="email" class="form-input" id="email" required>
+                    <div class="form-error" id="email-error">Please enter a valid email address</div>
+                </div>
+
+                <div class="form-field">
+                    <label class="form-label">Phone Number *</label>
+                    <input type="tel" class="form-input" id="phone" required>
+                    <div class="form-error" id="phone-error">Please enter your phone number</div>
+                </div>
+
+                <div class="form-field" style="grid-column: 1 / -1;">
+                    <label class="form-label">Project Address</label>
+                    <input type="text" class="form-input" id="address" 
+                           placeholder="Street address, City, State, ZIP">
+                </div>
+
+                <div class="form-field" style="grid-column: 1 / -1;">
+                    <label class="form-label">Best Time to Contact</label>
+                    <select class="form-select" id="contact-time">
+                        <option value="">Select preferred time</option>
+                        <option value="morning">Morning (8 AM - 12 PM)</option>
+                        <option value="afternoon">Afternoon (12 PM - 5 PM)</option>
+                        <option value="evening">Evening (5 PM - 8 PM)</option>
+                        <option value="flexible">I'm flexible</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="estimate-display">
+                <div class="estimate-title">Your Final Estimate</div>
+                <div class="estimate-price" id="final-estimate-price">$25,500</div>
+                <div class="estimate-range" id="final-estimate-range">Range: $22,000 - $28,000</div>
+                <div class="estimate-details" id="final-estimate-details">
+                    Includes: <span id="selected-features">Kitchen cabinets, standard quality</span>
+                </div>
+            </div>
+
+            <div style="margin: 2rem 0; padding: 1.5rem; background: var(--cream); border-radius: 8px; font-size: 0.9rem; color: var(--dark-gray);">
+                <label style="display: flex; align-items: start; gap: 0.5rem; line-height: 1.5;">
+                    <input type="checkbox" id="consent-checkbox" required style="margin-top: 2px;">
+                    I agree to receive communications about my cabinet project and understand that my information will be used to prepare my estimate and contact me about my project.
+                </label>
+            </div>
+        </div>
+
+        <!-- Thank You Step -->
+        <div class="form-step" id="step-thank-you">
+            <div class="thank-you-content">
+                <div class="thank-you-icon">🎉</div>
+                <h2 class="thank-you-title">Thank You!</h2>
+                <p class="thank-you-message">
+                    Your estimate request has been received. We're preparing your personalized 
+                    cabinet proposal and will contact you within 24 hours to discuss your project.
+                </p>
+
+                <div class="estimate-display">
+                    <div class="estimate-title">Your Project Estimate</div>
+                    <div class="estimate-price" id="thank-you-estimate-price">$25,500</div>
+                    <div class="estimate-range" id="thank-you-estimate-range">Estimated Range: $22,000 - $28,000</div>
+                </div>
+
+                <div class="next-steps">
+                    <h3>What happens next?</h3>
+                    <ol>
+                        <li>We'll review your project requirements and prepare a detailed proposal</li>
+                        <li>Our team will contact you within 24 hours to schedule a consultation</li>
+                        <li>We'll visit your location for precise measurements and design discussion</li>
+                        <li>You'll receive a comprehensive proposal with 3D renderings</li>
+                        <li>Upon approval, we'll schedule your project and get started!</li>
+                    </ol>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-primary" onclick="startNewEstimate()">
+                        Get Another Estimate
+                    </button>
+                    <a href="index.html" class="btn btn-secondary">
+                        Return to Website
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="action-buttons" id="navigation-buttons">
+            <button class="btn btn-secondary" id="back-button" onclick="previousStep()" style="display: none;">
+                ← Previous
+            </button>
+            <button class="btn btn-primary" id="next-button" onclick="nextStep()" disabled>
+                Next →
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentStep = 1;
+        let formData = {
+            projectType: '',
+            projectSize: '',
+            qualityLevel: '',
+            linearFeet: 20,
+            selectedOptions: [],
+            additionalRequirements: '',
+            contactInfo: {},
+            estimatedCost: 0
+        };
+
+        // Initialize configurator
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                initializeConfigurator();
+                updateEstimate();
+                console.log('🧮 Client Estimate Configurator initialized');
+            }, 500);
+        });
+
+        // Initialize configurator
+        function initializeConfigurator() {
+            // Apply current business configuration
+            if (window.configManager) {
+                const config = window.configManager.getCurrentConfig();
+                document.getElementById('company-logo').textContent = config.logo || '🪵';
+                document.getElementById('header-subtitle').textContent = config.companyTagline || 'Professional quality, competitive pricing, expert craftsmanship';
+                document.title = `Get Your ${config.companyName} Estimate`;
+
+                // Track configurator start
+                window.configManager.scoreInteraction('configurator_start', 1, {
+                    configuration: window.configManager.currentConfig,
+                    timestamp: new Date().toISOString()
+                });
+            }
+
+            // Load saved progress if available
+            loadSavedProgress();
+            
+            // Update step validation
+            validateCurrentStep();
+        }
+
+        // Select single option
+        function selectOption(type, value, element) {
+            // Remove previous selections
+            const cards = element.parentNode.querySelectorAll('.selection-card');
+            cards.forEach(card => card.classList.remove('selected'));
+
+            // Select current option
+            element.classList.add('selected');
+            formData[type] = value;
+
+            // Track selection
+            if (window.configManager) {
+                window.configManager.scoreInteraction('configurator_step_1', 1, {
+                    projectType: value,
+                    step: 1
+                });
+            }
+
+            // Save progress and validate
+            saveProgress();
+            validateCurrentStep();
+            updateEstimate();
+
+            console.log('Selected:', type, value);
+        }
+
+        // Toggle multiple options
+        function toggleOption(option, element) {
+            const isSelected = element.classList.contains('selected');
+            
+            if (isSelected) {
+                element.classList.remove('selected');
+                formData.selectedOptions = formData.selectedOptions.filter(opt => opt !== option);
+            } else {
+                element.classList.add('selected');
+                formData.selectedOptions.push(option);
+            }
+
+            // Track option selection
+            if (window.configManager) {
+                window.configManager.scoreInteraction('configurator_step_3', 1, {
+                    option: option,
+                    action: isSelected ? 'removed' : 'added',
+                    step: 3
+                });
+            }
+
+            saveProgress();
+            updateEstimate();
+
+            console.log('Toggled option:', option, 'Selected options:', formData.selectedOptions);
+        }
+
+        // Update linear feet
+        function updateLinearFeet(value) {
+            formData.linearFeet = parseInt(value);
+            document.getElementById('linear-feet-value').textContent = value;
+            
+            // Track slider interaction
+            if (window.configManager) {
+                window.configManager.scoreInteraction('configurator_step_2', 1, {
+                    linearFeet: value,
+                    step: 2
+                });
+            }
+
+            saveProgress();
+            updateEstimate();
+        }
+
+        // Update estimate calculation
+        function updateEstimate() {
+            if (!window.configManager) return;
+
+            const config = window.configManager.getCurrentConfig();
+            if (!config.pricingTiers) return;
+
+            let basePrice = 0;
+            let tierMultiplier = 1;
+
+            // Get base price from quality level
+            const qualityLevel = formData.qualityLevel || 'standard';
+            if (config.pricingTiers[qualityLevel]) {
+                basePrice = config.pricingTiers[qualityLevel].price;
+            }
+
+            // Apply project type multiplier
+            const typeMultipliers = {
+                'kitchen': 1.0,
+                'bathroom': 0.8,
+                'office': 0.9,
+                'entertainment': 0.7,
+                'closet': 0.6,
+                'other': 1.1
+            };
+
+            const projectMultiplier = typeMultipliers[formData.projectType] || 1.0;
+            
+            // Calculate base cost
+            let totalCost = basePrice * formData.linearFeet * projectMultiplier;
+
+            // Add options cost
+            const optionPrices = {
+                'soft-close': 350,
+                'crown-molding': 275,
+                'custom-island': 2500,
+                'glass-doors': 425,
+                'lighting': 650,
+                'organizers': 200
+            };
+
+            let optionsCost = 0;
+            formData.selectedOptions.forEach(option => {
+                optionsCost += optionPrices[option] || 0;
+            });
+
+            totalCost += optionsCost;
+
+            // Apply size adjustments
+            const sizeMultipliers = {
+                'small': 0.9,
+                'medium': 1.0,
+                'large': 1.1,
+                'extra-large': 1.2
+            };
+
+            const sizeMultiplier = sizeMultipliers[formData.projectSize] || 1.0;
+            totalCost *= sizeMultiplier;
+
+            // Store calculated cost
+            formData.estimatedCost = Math.round(totalCost);
+
+            // Update display
+            updateEstimateDisplay(formData.estimatedCost);
+        }
+
+        // Update estimate display
+        function updateEstimateDisplay(cost) {
+            const minCost = Math.round(cost * 0.85);
+            const maxCost = Math.round(cost * 1.15);
+            
+            const estimateElements = [
+                'estimate-price',
+                'final-estimate-price', 
+                'thank-you-estimate-price'
+            ];
+            
+            const rangeElements = [
+                'estimate-range',
+                'final-estimate-range',
+                'thank-you-estimate-range'
+            ];
+
+            // Update price displays
+            estimateElements.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.textContent = `$${cost.toLocaleString()}`;
+                }
+            });
+
+            // Update range displays
+            rangeElements.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.textContent = `Range: $${minCost.toLocaleString()} - $${maxCost.toLocaleString()}`;
+                }
+            });
+
+            // Show estimate if we have selections
+            const estimateDisplay = document.getElementById('estimate-display');
+            if (estimateDisplay && (formData.projectSize || formData.qualityLevel)) {
+                estimateDisplay.style.display = 'block';
+            }
+
+            // Update selected features summary
+            updateFeaturesSummary();
+        }
+
+        // Update features summary
+        function updateFeaturesSummary() {
+            const summaryElement = document.getElementById('selected-features');
+            if (!summaryElement) return;
+
+            let summary = [];
+            
+            if (formData.projectType) {
+                const types = {
+                    'kitchen': 'Kitchen cabinets',
+                    'bathroom': 'Bathroom vanities',
+                    'office': 'Office built-ins',
+                    'entertainment': 'Entertainment center',
+                    'closet': 'Closet system',
+                    'other': 'Custom millwork'
+                };
+                summary.push(types[formData.projectType]);
+            }
+
+            if (formData.qualityLevel) {
+                summary.push(`${formData.qualityLevel} quality`);
+            }
+
+            if (formData.linearFeet) {
+                summary.push(`${formData.linearFeet} linear feet`);
+            }
+
+            if (formData.selectedOptions.length > 0) {
+                const optionNames = {
+                    'soft-close': 'soft-close hardware',
+                    'crown-molding': 'crown molding',
+                    'custom-island': 'kitchen island',
+                    'glass-doors': 'glass doors',
+                    'lighting': 'LED lighting',
+                    'organizers': 'drawer organizers'
+                };
+
+                const optionsList = formData.selectedOptions.map(opt => optionNames[opt]).join(', ');
+                summary.push(optionsList);
+            }
+
+            summaryElement.textContent = summary.join(', ') || 'No selections made';
+        }
+
+        // Navigate to next step
+        function nextStep() {
+            if (!validateCurrentStep()) return;
+
+            // Track step completion
+            if (window.configManager) {
+                window.configManager.scoreInteraction(`configurator_step_${currentStep}`, 3, {
+                    step: currentStep,
+                    completedAt: new Date().toISOString()
+                });
+            }
+
+            if (currentStep === 4) {
+                submitForm();
+                return;
+            }
+
+            currentStep++;
+            updateStepDisplay();
+            saveProgress();
+
+            console.log('Advanced to step:', currentStep);
+        }
+
+        // Navigate to previous step
+        function previousStep() {
+            if (currentStep > 1) {
+                currentStep--;
+                updateStepDisplay();
+                saveProgress();
+                console.log('Returned to step:', currentStep);
+            }
+        }
+
+        // Update step display
+        function updateStepDisplay() {
+            // Hide all steps
+            document.querySelectorAll('.form-step').forEach(step => {
+                step.classList.remove('active');
+            });
+
+            // Show current step
+            document.getElementById(`step-${currentStep}`).classList.add('active');
+
+            // Update progress indicators
+            updateProgressIndicators();
+
+            // Update navigation buttons
+            updateNavigationButtons();
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Update progress indicators
+        function updateProgressIndicators() {
+            for (let i = 1; i <= 4; i++) {
+                const circle = document.getElementById(`step-circle-${i}`);
+                const title = document.getElementById(`step-title-${i}`);
+                const line = document.getElementById(`progress-line-${i}`);
+
+                if (i < currentStep) {
+                    // Completed steps
+                    circle.classList.add('completed');
+                    circle.classList.remove('active');
+                    circle.textContent = '✓';
+                    title.classList.remove('active');
+                    if (line) line.classList.add('completed');
+                } else if (i === currentStep) {
+                    // Current step
+                    circle.classList.add('active');
+                    circle.classList.remove('completed');
+                    circle.textContent = i;
+                    title.classList.add('active');
+                    if (line) line.classList.remove('completed');
+                } else {
+                    // Future steps
+                    circle.classList.remove('active', 'completed');
+                    circle.textContent = i;
+                    title.classList.remove('active');
+                    if (line) line.classList.remove('completed');
+                }
+            }
+        }
+
+        // Update navigation buttons
+        function updateNavigationButtons() {
+            const backButton = document.getElementById('back-button');
+            const nextButton = document.getElementById('next-button');
+
+            // Show/hide back button
+            backButton.style.display = currentStep > 1 ? 'block' : 'none';
+
+            // Update next button text
+            if (currentStep === 4) {
+                nextButton.textContent = 'Get My Estimate';
+            } else {
+                nextButton.textContent = 'Next →';
+            }
+
+            // Validate current step for button state
+            validateCurrentStep();
+        }
+
+        // Validate current step
+        function validateCurrentStep() {
+            let isValid = false;
+
+            switch (currentStep) {
+                case 1:
+                    isValid = formData.projectType !== '';
+                    break;
+                case 2:
+                    isValid = formData.projectSize !== '' && formData.qualityLevel !== '';
+                    // Also update form fields from saved data
+                    if (formData.projectSize) {
+                        document.getElementById('project-size').value = formData.projectSize;
+                    }
+                    if (formData.qualityLevel) {
+                        document.getElementById('quality-level').value = formData.qualityLevel;
+                    }
+                    break;
+                case 3:
+                    isValid = true; // Optional step
+                    break;
+                case 4:
+                    isValid = validateContactForm();
+                    break;
+            }
+
+            // Update next button state
+            const nextButton = document.getElementById('next-button');
+            nextButton.disabled = !isValid;
+
+            return isValid;
+        }
+
+        // Validate contact form
+        function validateContactForm() {
+            const fields = [
+                { id: 'first-name', required: true, type: 'text' },
+                { id: 'last-name', required: true, type: 'text' },
+                { id: 'email', required: true, type: 'email' },
+                { id: 'phone', required: true, type: 'tel' },
+                { id: 'consent-checkbox', required: true, type: 'checkbox' }
+            ];
+
+            let allValid = true;
+
+            fields.forEach(field => {
+                const element = document.getElementById(field.id);
+                const errorElement = document.getElementById(field.id + '-error');
+                let isValid = true;
+
+                if (field.required) {
+                    if (field.type === 'checkbox') {
+                        isValid = element.checked;
+                    } else {
+                        isValid = element.value.trim() !== '';
+                    }
+
+                    if (field.type === 'email' && isValid) {
+                        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                        isValid = emailRegex.test(element.value);
+                    }
+                }
+
+                // Update field appearance
+                if (isValid) {
+                    element.classList.remove('error');
+                    if (errorElement) errorElement.classList.remove('show');
+                } else {
+                    element.classList.add('error');
+                    if (errorElement) errorElement.classList.add('show');
+                    allValid = false;
+                }
+            });
+
+            return allValid;
+        }
+
+        // Submit form
+        function submitForm() {
+            if (!validateCurrentStep()) return;
+
+            // Collect contact information
+            formData.contactInfo = {
+                firstName: document.getElementById('first-name').value,
+                lastName: document.getElementById('last-name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                address: document.getElementById('address').value,
+                contactTime: document.getElementById('contact-time').value
+            };
+
+            formData.additionalRequirements = document.getElementById('additional-requirements').value;
+
+            // Track completion
+            if (window.configManager) {
+                window.configManager.scoreInteraction('configurator_complete', 15, {
+                    totalCost: formData.estimatedCost,
+                    projectType: formData.projectType,
+                    qualityLevel: formData.qualityLevel,
+                    linearFeet: formData.linearFeet,
+                    selectedOptions: formData.selectedOptions.length,
+                    completedAt: new Date().toISOString()
+                });
+
+                // Create lead record
+                const leadData = {
+                    ...formData.contactInfo,
+                    projectDetails: formData,
+                    estimatedValue: formData.estimatedCost,
+                    source: 'estimate_configurator',
+                    configuration: window.configManager.currentConfig
+                };
+
+                console.log('📝 Lead captured:', leadData);
+            }
+
+            // Save completed form
+            localStorage.setItem('configuratorCompleted', JSON.stringify(formData));
+            localStorage.removeItem('configuratorProgress');
+
+            // Show thank you page
+            document.querySelectorAll('.form-step').forEach(step => {
+                step.classList.remove('active');
+            });
+            document.getElementById('step-thank-you').classList.add('active');
+            document.getElementById('navigation-buttons').style.display = 'none';
+
+            // Update progress to show completion
+            document.querySelectorAll('.step-circle').forEach(circle => {
+                circle.classList.add('completed');
+                circle.classList.remove('active');
+                circle.textContent = '✓';
+            });
+            
+            document.querySelectorAll('.step-title').forEach(title => {
+                title.classList.remove('active');
+            });
+
+            document.querySelectorAll('.progress-line').forEach(line => {
+                line.classList.add('completed');
+            });
+
+            console.log('🎉 Form submitted successfully:', formData);
+        }
+
+        // Save progress to localStorage
+        function saveProgress() {
+            try {
+                localStorage.setItem('configuratorProgress', JSON.stringify({
+                    currentStep: currentStep,
+                    formData: formData,
+                    timestamp: new Date().toISOString()
+                }));
+            } catch (error) {
+                console.warn('Could not save progress:', error);
+            }
+        }
+
+        // Load saved progress
+        function loadSavedProgress() {
+            try {
+                const savedProgress = localStorage.getItem('configuratorProgress');
+                if (savedProgress) {
+                    const progress = JSON.parse(savedProgress);
+                    
+                    // Check if progress is recent (within 24 hours)
+                    const savedTime = new Date(progress.timestamp);
+                    const now = new Date();
+                    const hoursDiff = (now - savedTime) / (1000 * 60 * 60);
+                    
+                    if (hoursDiff < 24) {
+                        formData = { ...formData, ...progress.formData };
+                        // Don't restore current step - start from beginning but keep data
+                        restoreSelections();
+                        console.log('📂 Progress restored from:', savedTime);
+                    } else {
+                        localStorage.removeItem('configuratorProgress');
+                    }
+                }
+            } catch (error) {
+                console.warn('Could not load saved progress:', error);
+            }
+        }
+
+        // Restore selections from saved data
+        function restoreSelections() {
+            // Restore project type selection
+            if (formData.projectType) {
+                const projectCard = document.querySelector(`[data-selection="${formData.projectType}"]`);
+                if (projectCard) projectCard.classList.add('selected');
+            }
+
+            // Restore selected options
+            if (formData.selectedOptions) {
+                formData.selectedOptions.forEach(option => {
+                    const optionCard = document.querySelector(`[data-selection="${option}"]`);
+                    if (optionCard) optionCard.classList.add('selected');
+                });
+            }
+
+            // Restore form fields
+            if (formData.linearFeet) {
+                document.getElementById('linear-feet').value = formData.linearFeet;
+                document.getElementById('linear-feet-value').textContent = formData.linearFeet;
+            }
+        }
+
+        // Start new estimate
+        function startNewEstimate() {
+            // Clear saved data
+            localStorage.removeItem('configuratorProgress');
+            localStorage.removeItem('configuratorCompleted');
+
+            // Reset form data
+            formData = {
+                projectType: '',
+                projectSize: '',
+                qualityLevel: '',
+                linearFeet: 20,
+                selectedOptions: [],
+                additionalRequirements: '',
+                contactInfo: {},
+                estimatedCost: 0
+            };
+
+            // Reset UI
+            currentStep = 1;
+            updateStepDisplay();
+
+            // Clear all selections
+            document.querySelectorAll('.selection-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+
+            // Reset form fields
+            document.querySelectorAll('input, select, textarea').forEach(field => {
+                field.value = '';
+                field.classList.remove('error');
+                if (field.type === 'checkbox') field.checked = false;
+            });
+
+            document.getElementById('linear-feet').value = 20;
+            document.getElementById('linear-feet-value').textContent = '20';
+
+            // Hide estimate display
+            document.getElementById('estimate-display').style.display = 'none';
+
+            // Show navigation buttons
+            document.getElementById('navigation-buttons').style.display = 'flex';
+
+            console.log('🔄 Started new estimate');
+        }
+
+        // Event listeners
+        document.addEventListener('change', function(event) {
+            if (event.target.id === 'project-size') {
+                formData.projectSize = event.target.value;
+                saveProgress();
+                validateCurrentStep();
+                updateEstimate();
+            }
+            
+            if (event.target.id === 'quality-level') {
+                formData.qualityLevel = event.target.value;
+                saveProgress();
+                validateCurrentStep();
+                updateEstimate();
+            }
+
+            // Track form interactions
+            if (window.configManager && event.target.classList.contains('form-input')) {
+                window.configManager.scoreInteraction('configurator_step_4', 1, {
+                    field: event.target.id,
+                    step: 4
+                });
+            }
+        });
+
+        // Real-time form validation
+        document.addEventListener('input', function(event) {
+            if (currentStep === 4 && event.target.classList.contains('form-input')) {
+                validateCurrentStep();
+            }
+        });
+
+        // Track page exit (for analytics)
+        window.addEventListener('beforeunload', function() {
+            if (window.configManager && currentStep > 1 && currentStep < 5) {
+                window.configManager.trackEvent('configurator_exit', {
+                    step: currentStep,
+                    completionRate: (currentStep - 1) / 4 * 100,
+                    timeSpent: Date.now() - sessionStartTime
+                });
+            }
+        });
+
+        // Track session start time
+        const sessionStartTime = Date.now();
+    </script>
+</body>
+</html>

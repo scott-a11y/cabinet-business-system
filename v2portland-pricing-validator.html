@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portland Market Pricing Validator - ADMIN</title>
+    
+    <!-- Configuration System -->
+    <script src="config.js"></script>
+    <script src="enhanced-config.js"></script>
+    
+    <!-- Chart.js for Data Visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    
+    <style>
+        :root {
+            --primary-gold: #D4B062;
+            --light-gold: #F4E4A1;
+            --cream: #FBF8F0;
+            --warm-white: #FEFCF7;
+            --charcoal: #2C2C2C;
+            --dark-gray: #4A4A4A;
+            --light-gray: #E8E8E8;
+            --success: #2E7D4A;
+            --warning: #C5801A;
+            --danger: #C53030;
+            --info: #3182CE;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, var(--warm-white) 0%, var(--cream) 100%);
+            color: var(--charcoal);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Admin Header */
+        .admin-header {
+            background: linear-gradient(135deg, var(--charcoal), #1a1a1a);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .admin-nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .admin-brand {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .admin-logo {
+            font-size: 1.5rem;
+        }
+
+        .admin-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .admin-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .admin-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .admin-btn {
+            background: var(--primary-gold);
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .admin-btn:hover {
+            background: #C5A055;
+            transform: translateY(-1px);
+        }
+
+        .admin-btn.secondary {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .admin-btn.secondary:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Market Overview Cards */
+        .market-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            border-left: 6px solid var(--primary-gold);
+        }
+
+        .market-card.warning {
+            border-left-color: var(--warning);
+        }
+
+        .market-card.success {
+            border-left-color: var(--success);
+        }
+
+        .market-card.info {
+            border-left-color: var(--info);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--charcoal);
+            margin-bottom: 0.5rem;
+        }
+
+        .card-metric {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-gold);
+        }
+
+        .card-change {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .card-change.positive {
+            color: var(--success);
+        }
+
+        .card-change.negative {
+            color: var(--danger);
+        }
+
+        .card-description {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+        }
+
+        /* Pricing Analysis Section */
+        .pricing-section {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            margin-bottom: 3rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--charcoal);
+        }
+
+        .section-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .config-selector {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--light-gray);
+            border-radius: 6px;
+            background: white;
+            font-size: 0.9rem;
+        }
+
+        /* Chart Container */
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin: 2rem 0;
+        }
+
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .chart-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .chart-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--charcoal);
+            margin-bottom: 1rem;
+        }
+
+        /* Competitor Analysis Table */
+        .competitor-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .competitor-table th,
+        .competitor-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .competitor-table th {
+            background: var(--cream);
+            font-weight: 600;
+            color: var(--charcoal);
+        }
+
+        .competitor-table tbody tr:hover {
+            background: var(--warm-white);
+        }
+
+        .market-share-bar {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .bar-fill {
+            height: 8px;
+            background: var(--primary-gold);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .bar-container {
+            width: 100px;
+            height: 8px;
+            background: var(--light-gray);
+            border-radius: 4px;
+        }
+
+        /* Pricing Recommendations */
+        .recommendations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .recommendation-card {
+            background: var(--cream);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border-left: 4px solid var(--primary-gold);
+        }
+
+        .recommendation-card.competitive {
+            border-left-color: var(--success);
+        }
+
+        .recommendation-card.premium {
+            border-left-color: var(--warning);
+        }
+
+        .recommendation-card.luxury {
+            border-left-color: var(--info);
+        }
+
+        .recommendation-title {
+            font-weight: 600;
+            color: var(--charcoal);
+            margin-bottom: 0.5rem;
+        }
+
+        .recommendation-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .recommendation-details {
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+        }
+
+        .win-probability {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .probability-bar {
+            flex: 1;
+            height: 6px;
+            background: var(--light-gray);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .probability-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--danger), var(--warning), var(--success));
+            transition: width 0.3s ease;
+        }
+
+        /* Export Controls */
+        .export-section {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        }
+
+        .export-controls {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .export-btn {
+            background: var(--primary-gold);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .export-btn:hover {
+            background: #C5A055;
+            transform: translateY(-1px);
+        }
+
+        .export-btn.secondary {
+            background: var(--dark-gray);
+        }
+
+        .export-btn.secondary:hover {
+            background: var(--charcoal);
+        }
+
+        /* Status Indicators */
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-indicator.competitive {
+            background: rgba(46, 125, 74, 0.1);
+            color: var(--success);
+        }
+
+        .status-indicator.warning {
+            background: rgba(197, 128, 26, 0.1);
+            color: var(--warning);
+        }
+
+        .status-indicator.danger {
+            background: rgba(197, 48, 48, 0.1);
+            color: var(--danger);
+        }
+
+        /* Loading States */
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            color: var(--dark-gray);
+        }
+
+        .loading::before {
+            content: "";
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--light-gray);
+            border-top-color: var(--primary-gold);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 1rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 1rem;
+            }
+
+            .admin-nav {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .chart-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: start;
+            }
+
+            .export-controls {
+                justify-content: center;
+            }
+
+            .chart-container {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Admin Header -->
+    <header class="admin-header">
+        <nav class="admin-nav">
+            <div class="admin-brand">
+                <span class="admin-logo">📊</span>
+                <div>
+                    <div class="admin-title">Portland Market Pricing Validator</div>
+                    <div class="admin-subtitle">ADMIN - Market Intelligence Dashboard</div>
+                </div>
+            </div>
+            <div class="admin-actions">
+                <select class="config-selector" id="config-selector" onchange="switchConfiguration()">
+                    <option value="foundry_cabinets">🪵 Foundry Cabinets Co</option>
+                    <option value="seattle_cabinets">🏔️ Seattle Premium Cabinets</option>
+                    <option value="district_design">🏗️ District Design Build</option>
+                    <option value="luxury_kitchens">💎 Prestige Kitchen Studios</option>
+                </select>
+                <button class="admin-btn secondary" onclick="refreshData()">
+                    🔄 Refresh Data
+                </button>
+                <a href="admin-dashboard.html" class="admin-btn secondary">
+                    ⬅️ Back to Admin
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Market Overview Dashboard -->
+        <section class="dashboard-grid">
+            <div class="market-card">
+                <div class="card-header">
+                    <div>
+                        <div class="card-title">Market Position</div>
+                        <div class="card-metric" id="market-position">Competitive</div>
+                    </div>
+                    <span class="status-indicator competitive" id="position-status">
+                        ✅ Good Position
+                    </span>
+                </div>
+                <div class="card-description">
+                    Your pricing is well-positioned against Portland market averages
+                </div>
+            </div>
+
+            <div class="market-card warning">
+                <div class="card-header">
+                    <div>
+                        <div class="card-title">Win Probability</div>
+                        <div class="card-metric" id="win-probability">78%</div>
+                    </div>
+                    <span class="card-change positive" id="win-change">
+                        +5% vs last month
+                    </span>
+                </div>
+                <div class="card-description">
+                    Estimated win rate based on current pricing strategy
+                </div>
+            </div>
+
+            <div class="market-card success">
+                <div class="card-header">
+                    <div>
+                        <div class="card-title">Market Growth</div>
+                        <div class="card-metric">12.5%</div>
+                    </div>
+                    <span class="card-change positive">
+                        Annual growth rate
+                    </span>
+                </div>
+                <div class="card-description">
+                    Portland cabinet market showing strong growth
+                </div>
+            </div>
+
+            <div class="market-card info">
+                <div class="card-header">
+                    <div>
+                        <div class="card-title">Seasonal Factor</div>
+                        <div class="card-metric" id="seasonal-factor">+35%</div>
+                    </div>
+                    <span class="status-indicator competitive">
+                        Spring Peak Season
+                    </span>
+                </div>
+                <div class="card-description">
+                    Current seasonal demand adjustment for pricing
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Analysis Section -->
+        <section class="pricing-section">
+            <div class="section-header">
+                <h2 class="section-title">Market Pricing Analysis</h2>
+                <div class="section-controls">
+                    <button class="admin-btn" onclick="generatePricingReport()">
+                        📈 Generate Report
+                    </button>
+                    <button class="admin-btn secondary" onclick="exportPricingData()">
+                        📊 Export Data
+                    </button>
+                </div>
+            </div>
+
+            <!-- Market Pricing Chart -->
+            <div class="chart-container">
+                <canvas id="marketPricingChart"></canvas>
+            </div>
+
+            <!-- Pricing Recommendations -->
+            <div class="recommendations-grid" id="recommendations-grid">
+                <!-- Recommendations will be populated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Competitor Analysis Section -->
+        <section class="pricing-section">
+            <div class="section-header">
+                <h2 class="section-title">Competitor Analysis</h2>
+                <div class="section-controls">
+                    <button class="admin-btn" onclick="updateCompetitorData()">
+                        🔍 Update Analysis
+                    </button>
+                </div>
+            </div>
+
+            <table class="competitor-table">
+                <thead>
+                    <tr>
+                        <th>Competitor</th>
+                        <th>Market Share</th>
+                        <th>Avg Price/LF</th>
+                        <th>Positioning</th>
+                        <th>Competitive Status</th>
+                        <th>Key Strength</th>
+                    </tr>
+                </thead>
+                <tbody id="competitor-table-body">
+                    <!-- Competitor data will be populated by JavaScript -->
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Market Analytics Charts -->
+        <section class="pricing-section">
+            <div class="section-header">
+                <h2 class="section-title">Market Analytics</h2>
+            </div>
+
+            <div class="chart-grid">
+                <div class="chart-card">
+                    <div class="chart-title">Market Share Distribution</div>
+                    <canvas id="marketShareChart"></canvas>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-title">Seasonal Demand Patterns</div>
+                    <canvas id="seasonalChart"></canvas>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-title">Price vs Market Share</div>
+                    <canvas id="priceMarketShareChart"></canvas>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-title">Win Probability by Price Point</div>
+                    <canvas id="winProbabilityChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Export and Reporting -->
+        <section class="export-section">
+            <div class="section-header">
+                <h2 class="section-title">Export & Reporting</h2>
+            </div>
+
+            <div class="export-controls">
+                <button class="export-btn" onclick="exportToPDF()">
+                    📄 Export PDF Report
+                </button>
+                <button class="export-btn" onclick="exportToCSV()">
+                    📊 Export CSV Data
+                </button>
+                <button class="export-btn secondary" onclick="exportToExcel()">
+                    📋 Export Excel
+                </button>
+                <button class="export-btn secondary" onclick="scheduleReport()">
+                    ⏰ Schedule Weekly Report
+                </button>
+            </div>
+
+            <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--light-gray);">
+                <h3 style="margin-bottom: 1rem; color: var(--charcoal);">Report Configuration</h3>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+                    <label style="display: flex; align-items: center; gap: 0.5rem;">
+                        <input type="checkbox" id="include-competitors" checked>
+                        Include Competitor Analysis
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 0.5rem;">
+                        <input type="checkbox" id="include-charts" checked>
+                        Include Charts & Graphs
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 0.5rem;">
+                        <input type="checkbox" id="include-recommendations" checked>
+                        Include Pricing Recommendations
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 0.5rem;">
+                        <input type="checkbox" id="include-trends">
+                        Include Market Trends
+                    </label>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Global variables for charts and data
+        let marketPricingChart;
+        let marketShareChart;
+        let seasonalChart;
+        let priceMarketShareChart;
+        let winProbabilityChart;
+
+        // Initialize the pricing validator
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                initializePricingValidator();
+                loadMarketData();
+                createCharts();
+                updateDashboard();
+                console.log('📊 Portland Pricing Validator initialized');
+            }, 500);
+        });
+
+        // Initialize pricing validator
+        function initializePricingValidator() {
+            // Set initial configuration
+            const configSelector = document.getElementById('config-selector');
+            if (window.configManager) {
+                configSelector.value = window.configManager.currentConfig;
+            }
+
+            // Track admin access
+            if (typeof window.trackEvent === 'function') {
+                window.trackEvent('admin_pricing_validator_access', {
+                    timestamp: new Date().toISOString(),
+                    configuration: configSelector.value
+                });
+            }
+        }
+
+        // Switch configuration
+        function switchConfiguration() {
+            const configSelector = document.getElementById('config-selector');
+            const selectedConfig = configSelector.value;
+
+            if (typeof window.switchConfig === 'function') {
+                window.switchConfig(selectedConfig);
+                updateDashboard();
+                updateCharts();
+                
+                console.log('Configuration switched to:', selectedConfig);
+            }
+        }
+
+        // Load market data from enhanced config
+        function loadMarketData() {
+            if (window.configManager && window.configManager.marketData) {
+                const marketData = window.configManager.marketData.portland;
+                console.log('📊 Market data loaded:', marketData);
+                return marketData;
+            }
+            return null;
+        }
+
+        // Update dashboard metrics
+        function updateDashboard() {
+            const marketData = loadMarketData();
+            if (!marketData) return;
+
+            const currentConfig = window.configManager?.getCurrentConfig();
+            if (!currentConfig) return;
+
+            // Calculate current positioning
+            const avgMarketPrice = calculateAverageMarketPrice(marketData);
+            const currentAvgPrice = calculateCurrentAvgPrice(currentConfig);
+            
+            // Update market position
+            const positionRatio = currentAvgPrice / avgMarketPrice;
+            let positionText, positionStatus;
+            
+            if (positionRatio <= 0.8) {
+                positionText = 'Very Competitive';
+                positionStatus = 'competitive';
+            } else if (positionRatio <= 1.0) {
+                positionText = 'Competitive';
+                positionStatus = 'competitive';
+            } else if (positionRatio <= 1.2) {
+                positionText = 'Premium';
+                positionStatus = 'warning';
+            } else {
+                positionText = 'Luxury';
+                positionStatus = 'danger';
+            }
+
+            document.getElementById('market-position').textContent = positionText;
+            document.getElementById('position-status').className = `status-indicator ${positionStatus}`;
+            document.getElementById('position-status').textContent = 
+                positionStatus === 'competitive' ? '✅ Good Position' : 
+                positionStatus === 'warning' ? '⚠️ Premium Position' : 
+                '💰 Luxury Position';
+
+            // Update win probability
+            const winProb = calculateWinProbability(currentAvgPrice, marketData);
+            document.getElementById('win-probability').textContent = Math.round(winProb * 100) + '%';
+
+            // Update seasonal factor
+            const currentSeason = getCurrentSeason();
+            const seasonalMultiplier = marketData.trends.seasonality[currentSeason];
+            document.getElementById('seasonal-factor').textContent = '+' + seasonalMultiplier + '%';
+
+            // Update recommendations
+            updateRecommendations(marketData, currentConfig);
+            
+            // Update competitor table
+            updateCompetitorTable(marketData);
+        }
+
+        // Calculate average market price
+        function calculateAverageMarketPrice(marketData) {
+            const prices = Object.values(marketData.averagePricing);
+            const weightedSum = prices.reduce((sum, tier) => sum + (tier.avg * tier.marketShare), 0);
+            const totalShare = prices.reduce((sum, tier) => sum + tier.marketShare, 0);
+            return weightedSum / totalShare;
+        }
+
+        // Calculate current average price
+        function calculateCurrentAvgPrice(config) {
+            const prices = Object.values(config.pricingTiers);
+            return prices.reduce((sum, tier) => sum + tier.price, 0) / prices.length;
+        }
+
+        // Calculate win probability
+        function calculateWinProbability(price, marketData) {
+            const avgPrice = calculateAverageMarketPrice(marketData);
+            const ratio = price / avgPrice;
+            
+            if (ratio <= 0.8) return 0.95;
+            if (ratio <= 0.9) return 0.85;
+            if (ratio <= 1.0) return 0.78;
+            if (ratio <= 1.1) return 0.65;
+            if (ratio <= 1.2) return 0.50;
+            return 0.30;
+        }
+
+        // Get current season
+        function getCurrentSeason() {
+            const month = new Date().getMonth() + 1;
+            if (month >= 3 && month <= 5) return 'spring';
+            if (month >= 6 && month <= 8) return 'summer';
+            if (month >= 9 && month <= 11) return 'fall';
+            return 'winter';
+        }
+
+        // Update pricing recommendations
+        function updateRecommendations(marketData, currentConfig) {
+            const recommendationsGrid = document.getElementById('recommendations-grid');
+            recommendationsGrid.innerHTML = '';
+
+            Object.entries(marketData.averagePricing).forEach(([tier, data]) => {
+                const currentPrice = currentConfig.pricingTiers[tier]?.price || data.avg;
+                const winProb = calculateWinProbability(currentPrice, marketData);
+                const isCompetitive = currentPrice <= data.avg * 1.1;
+                
+                const card = document.createElement('div');
+                card.className = `recommendation-card ${tier}`;
+                
+                card.innerHTML = `
+                    <div class="recommendation-title">${tier.charAt(0).toUpperCase() + tier.slice(1)} Tier</div>
+                    <div class="recommendation-price">$${currentPrice}/LF</div>
+                    <div class="recommendation-details">
+                        Market Range: ${data.range}<br>
+                        Market Share: ${data.marketShare}%
+                    </div>
+                    <div class="win-probability">
+                        <span style="font-size: 0.8rem;">Win Rate:</span>
+                        <div class="probability-bar">
+                            <div class="probability-fill" style="width: ${winProb * 100}%"></div>
+                        </div>
+                        <span style="font-size: 0.8rem; font-weight: 600;">${Math.round(winProb * 100)}%</span>
+                    </div>
+                `;
+                
+                recommendationsGrid.appendChild(card);
+            });
+        }
+
+        // Update competitor table
+        function updateCompetitorTable(marketData) {
+            const tbody = document.getElementById('competitor-table-body');
+            tbody.innerHTML = '';
+
+            Object.entries(marketData.competitors).forEach(([name, data]) => {
+                const currentAvg = calculateAverageMarketPrice(marketData);
+                const competitive = data.avgPrice <= currentAvg * 1.2;
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td style="font-weight: 600;">${name}</td>
+                    <td>
+                        <div class="market-share-bar">
+                            <div class="bar-container">
+                                <div class="bar-fill" style="width: ${data.marketShare * 4}px;"></div>
+                            </div>
+                            <span>${data.marketShare}%</span>
+                        </div>
+                    </td>
+                    <td style="font-weight: 600;">$${data.avgPrice}</td>
+                    <td>${data.positioning}</td>
+                    <td>
+                        <span class="status-indicator ${competitive ? 'competitive' : 'warning'}">
+                            ${competitive ? '✅ Competitive' : '⚠️ Higher Priced'}
+                        </span>
+                    </td>
+                    <td style="font-size: 0.9rem;">${data.strength}</td>
+                `;
+                
+                tbody.appendChild(row);
+            });
+        }
+
+        // Create all charts
+        function createCharts() {
+            createMarketPricingChart();
+            createMarketShareChart();
+            createSeasonalChart();
+            createPriceMarketShareChart();
+            createWinProbabilityChart();
+        }
+
+        // Create market pricing chart
+        function createMarketPricingChart() {
+            const ctx = document.getElementById('marketPricingChart').getContext('2d');
+            const marketData = loadMarketData();
+            if (!marketData) return;
+
+            const currentConfig = window.configManager?.getCurrentConfig();
+            const tiers = Object.keys(marketData.averagePricing);
+            const marketPrices = tiers.map(tier => marketData.averagePricing[tier].avg);
+            const currentPrices = tiers.map(tier => currentConfig?.pricingTiers[tier]?.price || 0);
+
+            marketPricingChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: tiers.map(tier => tier.charAt(0).toUpperCase() + tier.slice(1)),
+                    datasets: [
+                        {
+                            label: 'Market Average',
+                            data: marketPrices,
+                            backgroundColor: 'rgba(212, 176, 98, 0.6)',
+                            borderColor: 'rgba(212, 176, 98, 1)',
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'Your Pricing',
+                            data: currentPrices,
+                            backgroundColor: 'rgba(74, 74, 74, 0.6)',
+                            borderColor: 'rgba(74, 74, 74, 1)',
+                            borderWidth: 2
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Market Pricing Comparison ($/Linear Foot)'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return '$' + value;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Create market share chart
+        function createMarketShareChart() {
+            const ctx = document.getElementById('marketShareChart').getContext('2d');
+            const marketData = loadMarketData();
+            if (!marketData) return;
+
+            const competitors = Object.entries(marketData.competitors);
+            const names = competitors.map(([name]) => name);
+            const shares = competitors.map(([, data]) => data.marketShare);
+
+            marketShareChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: names,
+                    datasets: [{
+                        data: shares,
+                        backgroundColor: [
+                            '#D4B062',
+                            '#2E7D4A', 
+                            '#C5801A',
+                            '#3182CE',
+                            '#C53030'
+                        ],
+                        borderWidth: 2,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+
+        // Create seasonal chart
+        function createSeasonalChart() {
+            const ctx = document.getElementById('seasonalChart').getContext('2d');
+            const marketData = loadMarketData();
+            if (!marketData) return;
+
+            const seasons = Object.entries(marketData.trends.seasonality);
+
+            seasonalChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: seasons.map(([season]) => season.charAt(0).toUpperCase() + season.slice(1)),
+                    datasets: [{
+                        label: 'Demand %',
+                        data: seasons.map(([, percentage]) => percentage),
+                        borderColor: '#D4B062',
+                        backgroundColor: 'rgba(212, 176, 98, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Seasonal Demand Distribution'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 40,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '%';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Create price vs market share chart
+        function createPriceMarketShareChart() {
+            const ctx = document.getElementById('priceMarketShareChart').getContext('2d');
+            const marketData = loadMarketData();
+            if (!marketData) return;
+
+            const competitors = Object.entries(marketData.competitors);
+            const data = competitors.map(([name, info]) => ({
+                x: info.avgPrice,
+                y: info.marketShare,
+                label: name
+            }));
+
+            priceMarketShareChart = new Chart(ctx, {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: 'Competitors',
+                        data: data,
+                        backgroundColor: '#D4B062',
+                        borderColor: '#C5A055',
+                        borderWidth: 2,
+                        pointRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Price vs Market Share Analysis'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${data[context.dataIndex].label}: $${context.parsed.x}, ${context.parsed.y}%`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Average Price ($/LF)'
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return '$' + value;
+                                }
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Market Share (%)'
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '%';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Create win probability chart
+        function createWinProbabilityChart() {
+            const ctx = document.getElementById('winProbabilityChart').getContext('2d');
+            
+            // Generate win probability data points
+            const pricePoints = [];
+            const winRates = [];
+            for (let price = 800; price <= 3000; price += 100) {
+                pricePoints.push(price);
+                const ratio = price / 1500; // Baseline average
+                let winRate;
+                if (ratio <= 0.8) winRate = 95;
+                else if (ratio <= 0.9) winRate = 85;
+                else if (ratio <= 1.0) winRate = 78;
+                else if (ratio <= 1.1) winRate = 65;
+                else if (ratio <= 1.2) winRate = 50;
+                else if (ratio <= 1.4) winRate = 35;
+                else if (ratio <= 1.6) winRate = 25;
+                else winRate = 15;
+                
+                winRates.push(winRate);
+            }
+
+            winProbabilityChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: pricePoints,
+                    datasets: [{
+                        label: 'Win Probability',
+                        data: winRates,
+                        borderColor: '#2E7D4A',
+                        backgroundColor: 'rgba(46, 125, 74, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Win Probability by Price Point'
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Price Point ($/LF)'
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return '$' + value;
+                                }
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Win Probability (%)'
+                            },
+                            min: 0,
+                            max: 100,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '%';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Update all charts
+        function updateCharts() {
+            if (marketPricingChart) {
+                marketPricingChart.destroy();
+                createMarketPricingChart();
+            }
+        }
+
+        // Export functions
+        function exportToPDF() {
+            console.log('📄 Exporting pricing report to PDF...');
+            // Integration with jsPDF would go here
+            alert('PDF export functionality would integrate with jsPDF library for production use.');
+            
+            // Track export
+            if (typeof window.trackEvent === 'function') {
+                window.trackEvent('pricing_report_pdf_export', {
+                    configuration: window.configManager?.currentConfig
+                });
+            }
+        }
+
+        function exportToCSV() {
+            console.log('📊 Exporting market data to CSV...');
+            const marketData = loadMarketData();
+            if (!marketData) return;
+
+            // Create CSV content
+            let csvContent = "data:text/csv;charset=utf-8,";
+            csvContent += "Competitor,Market Share,Avg Price,Positioning,Strength\n";
+            
+            Object.entries(marketData.competitors).forEach(([name, data]) => {
+                csvContent += `"${name}",${data.marketShare},${data.avgPrice},"${data.positioning}","${data.strength}"\n`;
+            });
+
+            // Download CSV
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "portland-market-analysis.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            // Track export
+            if (typeof window.trackEvent === 'function') {
+                window.trackEvent('pricing_data_csv_export', {
+                    configuration: window.configManager?.currentConfig
+                });
+            }
+        }
+
+        function exportToExcel() {
+            console.log('📋 Excel export would integrate with SheetJS library...');
+            alert('Excel export functionality would integrate with SheetJS library for production use.');
+        }
+
+        function scheduleReport() {
+            console.log('⏰ Scheduling weekly reports...');
+            alert('Report scheduling would integrate with email automation system.');
+        }
+
+        // Utility functions
+        function refreshData() {
+            console.log('🔄 Refreshing market data...');
+            updateDashboard();
+            updateCharts();
+            
+            // Show refresh feedback
+            const btn = event.target;
+            const originalText = btn.textContent;
+            btn.textContent = '🔄 Refreshing...';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.disabled = false;
+            }, 1000);
+        }
+
+        function generatePricingReport() {
+            console.log('📈 Generating comprehensive pricing report...');
+            alert('Comprehensive pricing report generation with market analysis and recommendations.');
+            
+            // Track report generation
+            if (typeof window.trackEvent === 'function') {
+                window.trackEvent('pricing_report_generated', {
+                    configuration: window.configManager?.currentConfig,
+                    timestamp: new Date().toISOString()
+                });
+            }
+        }
+
+        function exportPricingData() {
+            exportToCSV();
+        }
+
+        function updateCompetitorData() {
+            console.log('🔍 Updating competitor analysis...');
+            updateCompetitorTable(loadMarketData());
+            
+            // Show update feedback
+            const btn = event.target;
+            const originalText = btn.textContent;
+            btn.textContent = '🔍 Updating...';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.disabled = false;
+            }, 1500);
+        }
+    </script>
+</body>
+</html>
