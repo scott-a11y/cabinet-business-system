@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">Your Custom Estimate</title>
+    
+    <!-- 🛡️ BULLETPROOF CONFIGURATION SYSTEM -->
+    <script src="config.js"></script>
+    
+    <style>
+        :root {
+            --primary-gold: #D4B062;
+            --light-gold: #F4E4A1;
+            --cream: #FBF8F0;
+            --warm-white: #FEFCF7;
+            --charcoal: #2C2C2C;
+            --dark-gray: #4A4A4A;
+            --light-gray: #E8E8E8;
+            --success: #2E7D4A;
+            --warning: #C5801A;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, var(--warm-white) 0%, var(--cream) 100%);
+            color: var(--charcoal);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Navigation */
+        .nav-header {
+            background: white;
+            border-bottom: 1px solid var(--light-gray);
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            padding: 0 2rem;
+        }
+
+        .nav-item {
+            color: var(--dark-gray);
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .nav-item:hover {
+            background: var(--light-gold);
+            color: var(--charcoal);
+        }
+
+        .nav-item.active {
+            background: var(--primary-gold);
+            color: white;
+        }
+
+        /* Configuration Switcher */
+        .config-switcher {
+            background: var(--cream);
+            padding: 1rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .config-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .config-title {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+            font-weight: 500;
+        }
+
+        .config-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .config-btn {
+            background: var(--light-gray);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+            color: var(--dark-gray);
+        }
+
+        .config-btn:hover {
+            background: var(--light-gold);
+        }
+
+        .config-btn.active {
+            background: var(--primary-gold);
+            color: white;
+        }
+
+        /* Proposal Header */
+        .proposal-header {
+            background: linear-gradient(135deg, var(--primary-gold), #C5A055);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .company-logo-text {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .company-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        .company-tagline {
+            font-size: 1.1rem;
+            font-style: italic;
+            opacity: 0.8;
+            margin-bottom: 2rem;
+        }
+
+        .contact-info {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        /* Welcome Section */
+        .welcome-section {
+            background: white;
+            padding: 3rem 0;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .welcome-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 0 2rem;
+        }
+
+        .welcome-title {
+            font-size: 2.5rem;
+            color: var(--charcoal);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .client-project-info {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .info-card {
+            background: var(--cream);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-gold);
+        }
+
+        .info-label {
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+            font-weight: 500;
+        }
+
+        .info-value {
+            font-size: 1.1rem;
+            color: var(--charcoal);
+            font-weight: 600;
+        }
+
+        .welcome-message {
+            font-size: 1.2rem;
+            color: var(--dark-gray);
+            line-height: 1.7;
+            margin-top: 2rem;
+        }
+
+        /* Estimate Details */
+        .estimate-section {
+            padding: 3rem 0;
+        }
+
+        .estimate-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: var(--charcoal);
+            text-align: center;
+            margin-bottom: 3rem;
+            font-weight: 600;
+        }
+
+        .estimate-card {
+            background: white;
+            border-radius: 16px;
+            padding: 3rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border-left: 6px solid var(--primary-gold);
+            margin-bottom: 2rem;
+        }
+
+        .estimate-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .estimate-details {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .detail-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--light-gray);
+            align-items: center;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--primary-gold);
+        }
+
+        .detail-description {
+            color: var(--charcoal);
+        }
+
+        .detail-quantity {
+            color: var(--dark-gray);
+            text-align: center;
+        }
+
+        .detail-price {
+            color: var(--charcoal);
+            text-align: right;
+            font-weight: 500;
+        }
+
+        .estimate-summary {
+            background: var(--cream);
+            padding: 2rem;
+            border-radius: 12px;
+            height: fit-content;
+        }
+
+        .summary-title {
+            font-size: 1.3rem;
+            color: var(--charcoal);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding: 0.5rem 0;
+        }
+
+        .summary-row.total {
+            border-top: 2px solid var(--primary-gold);
+            padding-top: 1rem;
+            margin-top: 1rem;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--primary-gold);
+        }
+
+        /* Enhanced Gallery System Styles */
+        .features-section {
+            background: white;
+            padding: 3rem 0;
+        }
+
+        /* Gallery Grid */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            aspect-ratio: 16/9;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: linear-gradient(45deg, var(--cream), var(--light-gold));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--light-gray);
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+        }
+
+        .gallery-placeholder {
+            font-size: 3rem;
+            color: var(--dark-gray);
+            opacity: 0.8;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-placeholder {
+            transform: scale(1.1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(44, 44, 44, 0.9));
+            color: white;
+            padding: 1.5rem;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+
+        .gallery-overlay h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .gallery-overlay p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+
+        /* Enhanced Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: var(--cream);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            border-left: 4px solid var(--primary-gold);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-title {
+            font-size: 1.2rem;
+            color: var(--charcoal);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .feature-description {
+            color: var(--dark-gray);
+            line-height: 1.6;
+        }
+
+        /* Lightbox Modal */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .lightbox.active {
+            display: flex;
+            opacity: 1;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+
+        .lightbox-image {
+            width: 100%;
+            height: 60vh;
+            background: linear-gradient(45deg, var(--cream), var(--light-gold));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            color: var(--dark-gray);
+            position: relative;
+        }
+
+        .lightbox-info {
+            padding: 2rem;
+            background: white;
+        }
+
+        .lightbox-title {
+            font-size: 1.5rem;
+            color: var(--charcoal);
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+
+        .lightbox-description {
+            color: var(--dark-gray);
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+
+        .lightbox-controls {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.9);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--charcoal);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .lightbox-controls:hover {
+            background: var(--primary-gold);
+            color: white;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .lightbox-prev {
+            left: 20px;
+        }
+
+        .lightbox-next {
+            right: 20px;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.9);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--charcoal);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .lightbox-close:hover {
+            background: var(--primary-gold);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        /* Thumbnail Navigation */
+        .lightbox-thumbnails {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            background: var(--cream);
+            overflow-x: auto;
+        }
+
+        .thumbnail {
+            width: 60px;
+            height: 40px;
+            background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+            flex-shrink: 0;
+        }
+
+        .thumbnail:hover,
+        .thumbnail.active {
+            border-color: var(--primary-gold);
+            transform: scale(1.05);
+            background: var(--light-gold);
+        }
+
+        /* Action Section */
+        .action-section {
+            background: var(--cream);
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .action-content {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .action-title {
+            font-size: 2rem;
+            color: var(--charcoal);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .action-description {
+            font-size: 1.1rem;
+            color: var(--dark-gray);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .action-btn.primary {
+            background: var(--primary-gold);
+            color: white;
+        }
+
+        .action-btn.primary:hover {
+            background: #C5A055;
+            transform: translateY(-2px);
+        }
+
+        .action-btn.secondary {
+            background: white;
+            color: var(--primary-gold);
+            border: 2px solid var(--primary-gold);
+        }
+
+        .action-btn.secondary:hover {
+            background: var(--primary-gold);
+            color: white;
+        }
+
+        /* Footer */
+        .proposal-footer {
+            background: var(--charcoal);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                align-items: center;
+                gap: 0.5rem;
+            }
+
+            .config-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .client-project-info {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .estimate-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .detail-row {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+                text-align: center;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 1rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .welcome-title {
+                font-size: 2rem;
+            }
+
+            .proposal-header {
+                padding: 2rem 0;
+            }
+
+            .lightbox-content {
+                max-width: 95vw;
+                max-height: 95vh;
+            }
+
+            .lightbox-image {
+                height: 50vh;
+                font-size: 3rem;
+            }
+
+            .lightbox-controls {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+
+            .lightbox-prev {
+                left: 10px;
+            }
+
+            .lightbox-next {
+                right: 10px;
+            }
+
+            .lightbox-thumbnails {
+                padding: 0.5rem;
+            }
+
+            .thumbnail {
+                width: 50px;
+                height: 35px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav-header">
+        <div class="nav-container">
+            <a href="index.html" class="nav-item">🏠 Business Hub</a>
+            <a href="admin-dashboard.html" class="nav-item">📊 Admin Dashboard</a>
+            <a href="client-proposal.html" class="nav-item active">📋 Client Proposals</a>
+            <a href="demo.html" class="nav-item">🎭 Live Demo</a>
+        </div>
+    </nav>
+
+    <!-- Configuration Switcher -->
+    <div class="config-switcher">
+        <div class="config-content">
+            <div class="config-title">View Different Business Configurations</div>
+            <div class="config-buttons">
+                <button class="config-btn" id="btn-foundry_cabinets" onclick="switchConfig('foundry_cabinets')">
+                    🪵 Foundry Cabinets
+                </button>
+                <button class="config-btn" id="btn-seattle_cabinets" onclick="switchConfig('seattle_cabinets')">
+                    🏔️ Seattle Cabinets
+                </button>
+                <button class="config-btn" id="btn-district_design" onclick="switchConfig('district_design')">
+                    🗗️ District Design
+                </button>
+                <button class="config-btn" id="btn-luxury_kitchens" onclick="switchConfig('luxury_kitchens')">
+                    💎 Luxury Kitchens
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Proposal Header -->
+    <header class="proposal-header">
+        <div class="header-content">
+            <h1 class="company-logo-text" id="company-name">Foundry Cabinets Co</h1>
+            <p class="company-subtitle" id="company-subtitle">by District Design Build, LLC</p>
+            <p class="company-tagline" id="company-tagline">Driven by Precision. Evolved by Design.</p>
+            <p class="contact-info" id="contact-info">Portland, OR • 360-606-1106 • scott@ddbteam.com • www.ddb503.com</p>
+        </div>
+    </header>
+
+    <!-- Welcome Section -->
+    <section class="welcome-section">
+        <div class="welcome-content">
+            <h2 class="welcome-title" id="welcome-title">Your Custom Cabinet Estimate</h2>
+            
+            <div class="client-project-info">
+                <div class="info-card">
+                    <div class="info-label">Client</div>
+                    <div class="info-value" id="client-name">The Thompson Family</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">Project</div>
+                    <div class="info-value" id="project-name">Kitchen Cabinet Installation</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">Date</div>
+                    <div class="info-value" id="estimate-date">September 12, 2025</div>
+                </div>
+            </div>
+
+            <p class="welcome-message" id="welcome-message">
+                Thank you for choosing Foundry Cabinets for your home transformation. We've carefully crafted this estimate based on your specific needs and our commitment to exceptional quality and craftsmanship.
+            </p>
+        </div>
+    </section>
+
+    <!-- Estimate Details -->
+    <section class="estimate-section">
+        <div class="estimate-container">
+            <h3 class="section-title">Project Estimate Details</h3>
+            
+            <div class="estimate-card">
+                <div class="estimate-grid">
+                    <div class="estimate-details">
+                        <div class="detail-row">
+                            <div class="detail-description"><strong>Item Description</strong></div>
+                            <div class="detail-quantity"><strong>Qty</strong></div>
+                            <div class="detail-price"><strong>Price</strong></div>
+                        </div>
+                        
+                        <div class="detail-row">
+                            <div class="detail-description">Premium Solid Wood Kitchen Cabinets (Base Units)</div>
+                            <div class="detail-quantity">12 units</div>
+                            <div class="detail-price">$18,500</div>
+                        </div>
+                        
+                        <div class="detail-row">
+                            <div class="detail-description">Upper Wall Cabinets with Crown Molding</div>
+                            <div class="detail-quantity">8 units</div>
+                            <div class="detail-price">$12,800</div>
+                        </div>
+                        
+                        <div class="detail-row">
+                            <div class="detail-description">Custom Kitchen Island with Storage</div>
+                            <div class="detail-quantity">1 unit</div>
+                            <div class="detail-price">$8,200</div>
+                        </div>
+                        
+                        <div class="detail-row">
+                            <div class="detail-description">Soft-Close Hinges and Drawer Slides</div>
+                            <div class="detail-quantity">Set</div>
+                            <div class="detail-price">$1,850</div>
+                        </div>
+                        
+                        <div class="detail-row">
+                            <div class="detail-description">Professional Installation and Finishing</div>
+                            <div class="detail-quantity">Service</div>
+                            <div class="detail-price">$4,200</div>
+                        </div>
+                        
+                        <div class="detail-row">
+                            <div class="detail-description"><strong>Total Project Cost</strong></div>
+                            <div class="detail-quantity"></div>
+                            <div class="detail-price"><strong>$45,550</strong></div>
+                        </div>
+                    </div>
+
+                    <div class="estimate-summary">
+                        <h4 class="summary-title">Estimate Summary</h4>
+                        
+                        <div class="summary-row">
+                            <span>Subtotal:</span>
+                            <span>$41,350</span>
+                        </div>
+                        
+                        <div class="summary-row">
+                            <span>Installation:</span>
+                            <span>$4,200</span>
+                        </div>
+                        
+                        <div class="summary-row">
+                            <span>Tax (8.25%):</span>
+                            <span>$3,761</span>
+                        </div>
+                        
+                        <div class="summary-row total">
+                            <span>Total:</span>
+                            <span>$49,311</span>
+                        </div>
+
+                        <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--light-gray);">
+                            <p style="font-size: 0.9rem; color: var(--dark-gray); line-height: 1.5;">
+                                <strong>Project Timeline:</strong> 4-6 weeks from approval<br>
+                                <strong>Warranty:</strong> 5-year comprehensive coverage<br>
+                                <strong>Valid Until:</strong> October 12, 2025
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Enhanced Project Gallery & Features Section -->
+    <section class="features-section">
+        <div class="estimate-container">
+            <h3 class="section-title">📸 Project Gallery</h3>
+            
+            <!-- Gallery Grid -->
+            <div class="gallery-grid">
+                <div class="gallery-item" onclick="openLightbox(0)">
+                    <div class="gallery-placeholder">🏠</div>
+                    <div class="gallery-overlay">
+                        <h3>Modern Kitchen Renovation</h3>
+                        <p>Premium hardwood cabinets with gold hardware</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item" onclick="openLightbox(1)">
+                    <div class="gallery-placeholder">🍽️</div>
+                    <div class="gallery-overlay">
+                        <h3>Custom Island Design</h3>
+                        <p>Luxury kitchen island with storage solutions</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item" onclick="openLightbox(2)">
+                    <div class="gallery-placeholder">🔥</div>
+                    <div class="gallery-overlay">
+                        <h3>Traditional Styling</h3>
+                        <p>Classic design with modern functionality</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item" onclick="openLightbox(3)">
+                    <div class="gallery-placeholder">✨</div>
+                    <div class="gallery-overlay">
+                        <h3>Contemporary Finish</h3>
+                        <p>Sleek lines with premium materials</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item" onclick="openLightbox(4)">
+                    <div class="gallery-placeholder">🎨</div>
+                    <div class="gallery-overlay">
+                        <h3>Custom Color Match</h3>
+                        <p>Perfectly matched to home's aesthetic</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item" onclick="openLightbox(5)">
+                    <div class="gallery-placeholder">🔧</div>
+                    <div class="gallery-overlay">
+                        <h3>Professional Installation</h3>
+                        <p>Expert craftsmanship and attention to detail</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Enhanced Features Grid -->
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🗗️</div>
+                    <h4 class="feature-title">Professional Installation</h4>
+                    <p class="feature-description">Expert craftsmen with decades of experience ensure perfect installation and finishing.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h4 class="feature-title">5-Year Warranty</h4>
+                    <p class="feature-description">Comprehensive warranty coverage on all materials and workmanship for your peace of mind.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h4 class="feature-title">Custom Design</h4>
+                    <p class="feature-description">Tailored solutions designed specifically for your space, style, and functional requirements.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">⏰</div>
+                    <h4 class="feature-title">On-Time Delivery</h4>
+                    <p class="feature-description">Reliable project timelines with 92% on-time completion rate and regular progress updates.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Action Section -->
+    <section class="action-section">
+        <div class="action-content">
+            <h3 class="action-title">Ready to Transform Your Space?</h3>
+            <p class="action-description">
+                We're excited to bring your vision to life with our exceptional craftsmanship and attention to detail. 
+                This estimate is valid for 30 days, and we're here to answer any questions you may have.
+            </p>
+            
+            <div class="action-buttons">
+                <button class="action-btn primary" onclick="approveEstimate()">
+                    ✅ Approve Estimate
+                </button>
+                <button class="action-btn secondary" onclick="requestChanges()">
+                    📝 Request Changes
+                </button>
+                <button class="action-btn secondary" onclick="scheduleConsultation()">
+                    📅 Schedule Consultation
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="proposal-footer">
+        <div class="footer-content">
+            <p>&copy; 2025 <span id="company-name-footer">Foundry Cabinets Co</span> | <span id="company-subtitle-footer">District Design Build, LLC</span></p>
+            <p style="margin-top: 0.5rem; opacity: 0.8;">Licensed • Bonded • Insured • Your Satisfaction Guaranteed</p>
+        </div>
+    </footer>
+
+    <!-- Lightbox Modal -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+        <button class="lightbox-controls lightbox-prev" onclick="prevImage()">‹</button>
+        <button class="lightbox-controls lightbox-next" onclick="nextImage()">›</button>
+        
+        <div class="lightbox-content">
+            <div class="lightbox-image" id="lightbox-image">🏠</div>
+            <div class="lightbox-info">
+                <h3 class="lightbox-title" id="lightbox-title">Project Title</h3>
+                <p class="lightbox-description" id="lightbox-description">Project description...</p>
+            </div>
+            <div class="lightbox-thumbnails" id="lightbox-thumbnails">
+                <div class="thumbnail active" onclick="goToImage(0)">🏠</div>
+                <div class="thumbnail" onclick="goToImage(1)">🍽️</div>
+                <div class="thumbnail" onclick="goToImage(2)">🔥</div>
+                <div class="thumbnail" onclick="goToImage(3)">✨</div>
+                <div class="thumbnail" onclick="goToImage(4)">🎨</div>
+                <div class="thumbnail" onclick="goToImage(5)">🔧</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Enhanced Gallery System JavaScript
+        const galleryData = [
+            {
+                icon: '🏠',
+                title: 'Modern Kitchen Renovation',
+                description: 'Premium hardwood cabinets with gold hardware featuring soft-close hinges and custom crown molding. This full kitchen renovation showcases our commitment to quality and attention to detail with professional installation and finishing.'
+            },
+            {
+                icon: '🍽️',
+                title: 'Custom Island Design',
+                description: 'Luxury kitchen island with integrated storage solutions, breakfast bar seating, and premium countertop materials. Perfect for entertaining and daily family life, this island combines function with beautiful design.'
+            },
+            {
+                icon: '🔥',
+                title: 'Traditional Styling',
+                description: 'Classic design elements combined with modern functionality. Features traditional raised panel doors, decorative hardware, and timeless color palette that complements any home\'s architectural style.'
+            },
+            {
+                icon: '✨',
+                title: 'Contemporary Finish',
+                description: 'Sleek lines with premium materials create a sophisticated modern look. Includes handleless design, integrated lighting, and minimalist aesthetics for the ultimate contemporary kitchen experience.'
+            },
+            {
+                icon: '🎨',
+                title: 'Custom Color Match',
+                description: 'Perfectly matched to home\'s existing aesthetic with custom paint colors, coordinated hardware finishes, and complementary design elements throughout. Every detail carefully planned for cohesive design.'
+            },
+            {
+                icon: '🔧',
+                title: 'Professional Installation',
+                description: 'Expert craftsmanship and attention to detail ensure perfect installation. Our certified installers guarantee quality workmanship with comprehensive warranty coverage and ongoing support.'
+            }
+        ];
+
+        let currentImageIndex = 0;
+
+        function openLightbox(index) {
+            currentImageIndex = index;
+            updateLightboxContent();
+            document.getElementById('lightbox').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            // Add smooth animation
+            setTimeout(() => {
+                document.getElementById('lightbox').style.opacity = '1';
+            }, 10);
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function prevImage() {
+            currentImageIndex = (currentImageIndex - 1 + galleryData.length) % galleryData.length;
+            updateLightboxContent();
+        }
+
+        function nextImage() {
+            currentImageIndex = (currentImageIndex + 1) % galleryData.length;
+            updateLightboxContent();
+        }
+
+        function goToImage(index) {
+            currentImageIndex = index;
+            updateLightboxContent();
+        }
+
+        function updateLightboxContent() {
+            const data = galleryData[currentImageIndex];
+            document.getElementById('lightbox-image').textContent = data.icon;
+            document.getElementById('lightbox-title').textContent = data.title;
+            document.getElementById('lightbox-description').textContent = data.description;
+            
+            // Update active thumbnail
+            const thumbnails = document.querySelectorAll('.thumbnail');
+            thumbnails.forEach((thumb, index) => {
+                thumb.classList.toggle('active', index === currentImageIndex);
+            });
+        }
+
+        // Enhanced keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (document.getElementById('lightbox').classList.contains('active')) {
+                switch(e.key) {
+                    case 'ArrowLeft':
+                        e.preventDefault();
+                        prevImage();
+                        break;
+                    case 'ArrowRight':
+                    case ' ':
+                        e.preventDefault();
+                        nextImage();
+                        break;
+                    case 'Escape':
+                        e.preventDefault();
+                        closeLightbox();
+                        break;
+                    case '1':
+                    case '2':
+                    case '3':
+                    case '4':
+                    case '5':
+                    case '6':
+                        e.preventDefault();
+                        const num = parseInt(e.key) - 1;
+                        if (num >= 0 && num < galleryData.length) {
+                            goToImage(num);
+                        }
+                        break;
+                }
+            }
+        });
+
+        // Enhanced touch/swipe support for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.getElementById('lightbox').addEventListener('touchstart', function(e) {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        document.getElementById('lightbox').addEventListener('touchend', function(e) {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, { passive: true });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            if (touchEndX < touchStartX - swipeThreshold) {
+                nextImage(); // Swipe left - next image
+            }
+            if (touchEndX > touchStartX + swipeThreshold) {
+                prevImage(); // Swipe right - previous image
+            }
+        }
+
+        // Close lightbox when clicking outside content
+        document.getElementById('lightbox').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeLightbox();
+            }
+        });
+
+        // Enhanced configuration application for client proposals
+        function applyConfiguration() {
+            try {
+                if (!window.CONFIG) {
+                    console.warn('⚠️ No configuration available for application');
+                    return false;
+                }
+
+                const elements = {
+                    'page-title': window.CONFIG.companyName + ' - Your Custom Estimate',
+                    'company-name': window.CONFIG.companyName,
+                    'company-subtitle': window.CONFIG.companySubtitle,
+                    'company-tagline': window.CONFIG.companyTagline,
+                    'welcome-title': window.CONFIG.welcomeTitle,
+                    'welcome-message': window.CONFIG.welcomeMessage,
+                    'client-name': window.CONFIG.clientName,
+                    'project-name': window.CONFIG.projectName,
+                    'company-name-footer': window.CONFIG.companyName,
+                    'company-subtitle-footer': window.CONFIG.companySubtitle
+                };
+
+                // Apply elements with error handling
+                for (const [id, value] of Object.entries(elements)) {
+                    try {
+                        const el = document.getElementById(id);
+                        if (el && value) {
+                            el.textContent = value;
+                        }
+                    } catch (elementError) {
+                        console.warn(`⚠️ Could not update element ${id}:`, elementError);
+                    }
+                }
+
+                // Update contact info
+                try {
+                    const contactEl = document.getElementById('contact-info');
+                    if (contactEl && window.CONFIG.location) {
+                        const contactInfo = `${window.CONFIG.location} • ${window.CONFIG.phone} • ${window.CONFIG.email} • ${window.CONFIG.website}`;
+                        contactEl.textContent = contactInfo;
+                    }
+                } catch (contactError) {
+                    console.warn('⚠️ Could not update contact info:', contactError);
+                }
+
+                // Update document title
+                try {
+                    document.title = elements['page-title'];
+                } catch (titleError) {
+                    console.warn('⚠️ Could not update document title:', titleError);
+                }
+
+                return true;
+
+            } catch (error) {
+                console.error('🚨 Error applying configuration:', error);
+                return false;
+            }
+        }
+
+        // Client proposal specific functions
+        function approveEstimate() {
+            const clientName = document.getElementById('client-name').textContent;
+            console.log('🚀 Estimate approved by:', clientName);
+            alert(`Thank you ${clientName}! Your approval has been received. We'll contact you within 24 hours to schedule the project kickoff meeting and finalize all details.`);
+        }
+
+        function requestChanges() {
+            const clientName = document.getElementById('client-name').textContent;
+            console.log('🚀 Changes requested by:', clientName);
+            alert(`Thank you ${clientName}! We'll contact you to discuss the changes you'd like to make to this estimate. Our team is committed to ensuring your complete satisfaction.`);
+        }
+
+        function scheduleConsultation() {
+            const clientName = document.getElementById('client-name').textContent;
+            console.log('🚀 Consultation requested by:', clientName);
+            alert(`Thank you ${clientName}! We'll reach out to schedule a convenient time for an in-person consultation to review the project details and answer any questions you may have.`);
+        }
+
+        // Update estimate date to current date
+        function updateEstimateDate() {
+            try {
+                const dateElement = document.getElementById('estimate-date');
+                if (dateElement) {
+                    const now = new Date();
+                    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                    dateElement.textContent = now.toLocaleDateString('en-US', options);
+                }
+            } catch (error) {
+                console.warn('⚠️ Could not update estimate date:', error);
+            }
+        }
+
+        // Enhanced initialization
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                updateEstimateDate();
+                console.log('✅ Enhanced Client Proposal with Gallery System initialized successfully');
+            }, 200);
+        });
+    </script>
+</body>
+</html>

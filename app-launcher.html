@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">Business Management System</title>
+    
+    <!-- 🛡️ BULLETPROOF CONFIGURATION SYSTEM -->
+    <script src="enhanced-config.js"></script>
+    
+    <style>
+        :root {
+            --primary-gold: #D4B062;
+            --light-gold: #F4E4A1;
+            --cream: #FBF8F0;
+            --warm-white: #FEFCF7;
+            --charcoal: #2C2C2C;
+            --dark-gray: #4A4A4A;
+            --light-gray: #E8E8E8;
+            --success: #2E7D4A;
+            --warning: #C5801A;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, var(--warm-white) 0%, var(--cream) 100%);
+            color: var(--charcoal);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Configuration Switcher */
+        .config-switcher {
+            background: var(--cream);
+            padding: 1rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .config-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .config-title {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+            font-weight: 500;
+        }
+
+        .config-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .config-btn {
+            background: var(--light-gray);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+            color: var(--dark-gray);
+        }
+
+        .config-btn:hover {
+            background: var(--light-gold);
+        }
+
+        .config-btn.active {
+            background: var(--primary-gold);
+            color: white;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary-gold), #C5A055);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .company-logo-text {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .company-subtitle {
+            font-size: 1.4rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        .company-tagline {
+            font-size: 1.2rem;
+            font-style: italic;
+            opacity: 0.8;
+            margin-bottom: 2rem;
+        }
+
+        .contact-info {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .system-overview {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .overview-title {
+            font-size: 2.5rem;
+            color: var(--charcoal);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .overview-description {
+            font-size: 1.2rem;
+            color: var(--dark-gray);
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Module Grid */
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .module-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border-left: 6px solid var(--primary-gold);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .module-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 48px rgba(0,0,0,0.15);
+        }
+
+        .module-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .module-title {
+            font-size: 1.5rem;
+            color: var(--charcoal);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .module-description {
+            color: var(--dark-gray);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .module-features {
+            text-align: left;
+            margin-bottom: 2rem;
+        }
+
+        .module-features ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .module-features li {
+            padding: 0.5rem 0;
+            color: var(--dark-gray);
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .module-features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--success);
+            font-weight: bold;
+        }
+
+        .module-btn {
+            background: var(--primary-gold);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .module-btn:hover {
+            background: #C5A055;
+            transform: translateY(-2px);
+        }
+
+        /* Status Section */
+        .status-section {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-top: 3rem;
+            text-align: center;
+            border-left: 6px solid var(--success);
+        }
+
+        .status-title {
+            font-size: 1.5rem;
+            color: var(--charcoal);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .status-item {
+            padding: 1rem;
+            background: var(--cream);
+            border-radius: 8px;
+        }
+
+        .status-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-gold);
+        }
+
+        .status-label {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .config-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .header {
+                padding: 2rem 0;
+            }
+
+            .company-logo-text {
+                font-size: 2rem;
+            }
+
+            .overview-title {
+                font-size: 2rem;
+            }
+
+            .modules-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Configuration Switcher -->
+    <div class="config-switcher">
+        <div class="config-content">
+            <div class="config-title">Select Your Business Configuration</div>
+            <div class="config-buttons">
+                <button class="config-btn" id="btn-foundry_cabinets" onclick="switchConfig('foundry_cabinets')">
+                    🪵 Foundry Cabinets
+                </button>
+                <button class="config-btn" id="btn-seattle_cabinets" onclick="switchConfig('seattle_cabinets')">
+                    🏔️ Seattle Cabinets
+                </button>
+                <button class="config-btn" id="btn-district_design" onclick="switchConfig('district_design')">
+                    🗯️ District Design
+                </button>
+                <button class="config-btn" id="btn-luxury_kitchens" onclick="switchConfig('luxury_kitchens')">
+                    💎 Luxury Kitchens
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <h1 class="company-logo-text" id="company-name">Foundry Cabinets Co</h1>
+            <p class="company-subtitle" id="company-subtitle">by District Design Build, LLC</p>
+            <p class="company-tagline" id="company-tagline">Driven by Precision. Evolved by Design.</p>
+            <p class="contact-info" id="contact-info">Portland, OR • 360-606-1106 • scott@ddbteam.com • www.ddb503.com</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- System Overview -->
+        <section class="system-overview">
+            <h2 class="overview-title">Complete Business Management System</h2>
+            <p class="overview-description">
+                A comprehensive, integrated platform designed specifically for cabinet and design businesses. 
+                Streamline your operations, impress clients, and grow your business with professional tools 
+                that work seamlessly together.
+            </p>
+        </section>
+
+        <!-- Modules Grid -->
+        <div class="modules-grid">
+            <!-- Business Hub Module -->
+            <div class="module-card">
+                <div class="module-icon">🏠</div>
+                <h3 class="module-title">Business Hub</h3>
+                <p class="module-description">
+                    Central dashboard with analytics, project overview, and business intelligence.
+                </p>
+                <div class="module-features">
+                    <ul>
+                        <li>Real-time analytics and KPIs</li>
+                        <li>Project gallery showcase</li>
+                        <li>Revenue and performance tracking</li>
+                        <li>Client interaction summaries</li>
+                    </ul>
+                </div>
+                <a href="index.html" class="module-btn">Open Business Hub</a>
+            </div>
+
+            <!-- Admin Dashboard Module -->
+            <div class="module-card">
+                <div class="module-icon">📊</div>
+                <h3 class="module-title">Admin Dashboard</h3>
+                <p class="module-description">
+                    Project management, estimate creation, and administrative tools for daily operations.
+                </p>
+                <div class="module-features">
+                    <ul>
+                        <li>Visual project management</li>
+                        <li>Estimate creation tools</li>
+                        <li>Client communication tracking</li>
+                        <li>Resource management</li>
+                    </ul>
+                </div>
+                <a href="admin-dashboard.html" class="module-btn">Open Admin Dashboard</a>
+            </div>
+
+            <!-- Client Proposals Module -->
+            <div class="module-card">
+                <div class="module-icon">📋</div>
+                <h3 class="module-title">Client Proposals</h3>
+                <p class="module-description">
+                    Professional proposal generation with branding, pricing, and client-ready presentations.
+                </p>
+                <div class="module-features">
+                    <ul>
+                        <li>Professional proposal layouts</li>
+                        <li>Real-time pricing calculations</li>
+                        <li>Brand-consistent design</li>
+                        <li>Client approval workflows</li>
+                    </ul>
+                </div>
+                <a href="client-proposal.html" class="module-btn">Open Client Proposals</a>
+            </div>
+
+            <!-- Live Demo Module -->
+            <div class="module-card">
+                <div class="module-icon">🎭</div>
+                <h3 class="module-title">Live Demo</h3>
+                <p class="module-description">
+                    Interactive demonstrations of all business configurations and system capabilities.
+                </p>
+                <div class="module-features">
+                    <ul>
+                        <li>Real-time configuration switching</li>
+                        <li>Business capability showcase</li>
+                        <li>Client presentation mode</li>
+                        <li>System feature demonstrations</li>
+                    </ul>
+                </div>
+                <a href="demo.html" class="module-btn">Open Live Demo</a>
+            </div>
+        </div>
+
+        <!-- System Status -->
+        <section class="status-section">
+            <h3 class="status-title">System Status & Capabilities</h3>
+            <div class="status-grid">
+                <div class="status-item">
+                    <div class="status-number">4</div>
+                    <div class="status-label">Business Configurations</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-number">12</div>
+                    <div class="status-label">Integrated Modules</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-number">100%</div>
+                    <div class="status-label">Mobile Responsive</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-number">24/7</div>
+                    <div class="status-label">System Availability</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Apply configuration
+        function applyConfiguration() {
+            try {
+                if (!window.CONFIG) {
+                    console.warn('⚠️ No configuration available');
+                    return;
+                }
+
+                const elements = {
+                    'page-title': window.CONFIG.companyName + ' - Business Management System',
+                    'company-name': window.CONFIG.companyName,
+                    'company-subtitle': window.CONFIG.companySubtitle,
+                    'company-tagline': window.CONFIG.companyTagline
+                };
+
+                // Apply elements
+                for (const [id, value] of Object.entries(elements)) {
+                    const el = document.getElementById(id);
+                    if (el && value) {
+                        if (id === 'page-title') {
+                            document.title = value;
+                        } else {
+                            el.textContent = value;
+                        }
+                    }
+                }
+
+                // Update contact info
+                const contactEl = document.getElementById('contact-info');
+                if (contactEl && window.CONFIG.location) {
+                    const contactInfo = `${window.CONFIG.location} • ${window.CONFIG.phone} • ${window.CONFIG.email} • ${window.CONFIG.website}`;
+                    contactEl.textContent = contactInfo;
+                }
+
+                console.log('✅ App Launcher configuration applied successfully');
+
+            } catch (error) {
+                console.error('🚨 Error applying configuration:', error);
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                applyConfiguration();
+                console.log('✅ App Launcher initialized successfully');
+            }, 200);
+        });
+    </script>
+</body>
+</html>

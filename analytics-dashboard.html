@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Analytics Dashboard - Phase 3</title>
+    
+    <!-- Phase 3: Analytics Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/date-fns@2.29.3/index.min.js"></script>
+    
+    <!-- Configuration System -->
+    <script src="config.js"></script>
+    
+    <style>
+        :root {
+            --primary-gold: #D4B062;
+            --light-gold: #F4E4A1;
+            --cream: #FBF8F0;
+            --warm-white: #FEFCF7;
+            --charcoal: #2C2C2C;
+            --dark-gray: #4A4A4A;
+            --light-gray: #E8E8E8;
+            --success: #2E7D4A;
+            --warning: #C5801A;
+            --danger: #C5281A;
+            --info: #2E7DC5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, var(--warm-white) 0%, var(--cream) 100%);
+            color: var(--charcoal);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Navigation */
+        .nav-header {
+            background: white;
+            border-bottom: 1px solid var(--light-gray);
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            padding: 0 2rem;
+        }
+
+        .nav-item {
+            color: var(--dark-gray);
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .nav-item:hover {
+            background: var(--light-gold);
+            color: var(--charcoal);
+        }
+
+        .nav-item.active {
+            background: var(--primary-gold);
+            color: white;
+        }
+
+        /* Dashboard Container */
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .dashboard-header {
+            background: linear-gradient(135deg, var(--primary-gold), #C5A055);
+            color: white;
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .dashboard-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* Real-time Status */
+        .status-bar {
+            background: white;
+            border-radius: 12px;
+            padding: 1rem 2rem;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--success);
+            animation: pulse 2s infinite;
+        }
+
+        .last-updated {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+        }
+
+        /* KPI Cards */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .kpi-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            border-left: 4px solid var(--primary-gold);
+            transition: transform 0.3s ease;
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .kpi-card.success {
+            border-left-color: var(--success);
+        }
+
+        .kpi-card.warning {
+            border-left-color: var(--warning);
+        }
+
+        .kpi-card.info {
+            border-left-color: var(--info);
+        }
+
+        .kpi-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .kpi-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--dark-gray);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .kpi-icon {
+            font-size: 1.5rem;
+            opacity: 0.7;
+        }
+
+        .kpi-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--charcoal);
+            margin-bottom: 0.5rem;
+        }
+
+        .kpi-change {
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .kpi-change.positive {
+            color: var(--success);
+        }
+
+        .kpi-change.negative {
+            color: var(--danger);
+        }
+
+        .kpi-change.neutral {
+            color: var(--dark-gray);
+        }
+
+        /* Chart Containers */
+        .chart-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .chart-container {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        }
+
+        .chart-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--charcoal);
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chart-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chart-control {
+            padding: 0.25rem 0.75rem;
+            border: 1px solid var(--light-gray);
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .chart-control.active {
+            background: var(--primary-gold);
+            color: white;
+            border-color: var(--primary-gold);
+        }
+
+        /* Data Tables */
+        .data-table-container {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .table-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--charcoal);
+        }
+
+        .table-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--primary-gold);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #C5A055;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--primary-gold);
+            border: 1px solid var(--primary-gold);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-gold);
+            color: white;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .data-table th {
+            background: var(--cream);
+            font-weight: 600;
+            color: var(--charcoal);
+        }
+
+        .data-table tr:hover {
+            background: var(--warm-white);
+        }
+
+        /* Status Badges */
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-badge.new {
+            background: var(--info);
+            color: white;
+        }
+
+        .status-badge.contacted {
+            background: var(--warning);
+            color: white;
+        }
+
+        .status-badge.qualified {
+            background: var(--primary-gold);
+            color: white;
+        }
+
+        .status-badge.paid {
+            background: var(--success);
+            color: white;
+        }
+
+        /* Filters */
+        .filter-bar {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        }
+
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            align-items: end;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .filter-label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--dark-gray);
+        }
+
+        .filter-input {
+            padding: 0.5rem;
+            border: 1px solid var(--light-gray);
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .dashboard-container {
+                padding: 1rem;
+            }
+
+            .chart-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .kpi-grid {
+                grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            }
+
+            .status-bar {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .filter-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .data-table {
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Loading States */
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(212, 176, 98, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary-gold);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav-header">
+        <div class="nav-container">
+            <a href="index.html" class="nav-item">🏠 Business Hub</a>
+            <a href="admin-dashboard.html" class="nav-item">📊 Admin Dashboard</a>
+            <a href="enhanced-client-proposal-phase3.html" class="nav-item">📋 Smart Configurator</a>
+            <a href="analytics-dashboard.html" class="nav-item active">📈 Analytics</a>
+            <a href="crm-dashboard.html" class="nav-item">👥 CRM</a>
+        </div>
+    </nav>
+
+    <!-- Dashboard Container -->
+    <div class="dashboard-container">
+        <!-- Header -->
+        <div class="dashboard-header">
+            <h1 class="dashboard-title" id="dashboard-title">Advanced Business Analytics</h1>
+            <p class="dashboard-subtitle" id="dashboard-subtitle">Real-time insights and performance metrics</p>
+        </div>
+
+        <!-- Real-time Status -->
+        <div class="status-bar">
+            <div class="status-item">
+                <div class="status-dot"></div>
+                <span>System Online</span>
+            </div>
+            <div class="status-item">
+                <span>🔄 Auto-refresh: Every 30s</span>
+            </div>
+            <div class="status-item">
+                <span class="last-updated">Last updated: <span id="lastUpdated">--</span></span>
+            </div>
+        </div>
+
+        <!-- KPI Cards -->
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-header">
+                    <span class="kpi-title">Total Leads</span>
+                    <span class="kpi-icon">👥</span>
+                </div>
+                <div class="kpi-value" id="totalLeadsKPI">0</div>
+                <div class="kpi-change positive" id="leadsChange">
+                    <span>↗</span> +0% from last period
+                </div>
+            </div>
+
+            <div class="kpi-card success">
+                <div class="kpi-header">
+                    <span class="kpi-title">Conversion Rate</span>
+                    <span class="kpi-icon">🎯</span>
+                </div>
+                <div class="kpi-value" id="conversionRateKPI">0%</div>
+                <div class="kpi-change neutral" id="conversionChange">
+                    <span>→</span> No change
+                </div>
+            </div>
+
+            <div class="kpi-card info">
+                <div class="kpi-header">
+                    <span class="kpi-title">Average Project</span>
+                    <span class="kpi-icon">💰</span>
+                </div>
+                <div class="kpi-value" id="avgProjectKPI">$0</div>
+                <div class="kpi-change positive" id="avgProjectChange">
+                    <span>↗</span> +0% from last period
+                </div>
+            </div>
+
+            <div class="kpi-card warning">
+                <div class="kpi-header">
+                    <span class="kpi-title">Revenue (30d)</span>
+                    <span class="kpi-icon">📈</span>
+                </div>
+                <div class="kpi-value" id="revenueKPI">$0</div>
+                <div class="kpi-change positive" id="revenueChange">
+                    <span>↗</span> +0% from last month
+                </div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-header">
+                    <span class="kpi-title">Active Proposals</span>
+                    <span class="kpi-icon">📋</span>
+                </div>
+                <div class="kpi-value" id="activeProposalsKPI">0</div>
+                <div class="kpi-change neutral" id="proposalsChange">
+                    <span>→</span> 0 pending response
+                </div>
+            </div>
+
+            <div class="kpi-card success">
+                <div class="kpi-header">
+                    <span class="kpi-title">Email Success</span>
+                    <span class="kpi-icon">📧</span>
+                </div>
+                <div class="kpi-value" id="emailSuccessKPI">0%</div>
+                <div class="kpi-change positive" id="emailChange">
+                    <span>↗</span> +0% delivery rate
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+            <div class="filter-grid">
+                <div class="filter-group">
+                    <label class="filter-label">Date Range</label>
+                    <select class="filter-input" id="dateRange">
+                        <option value="7">Last 7 days</option>
+                        <option value="30" selected>Last 30 days</option>
+                        <option value="90">Last 90 days</option>
+                        <option value="365">Last year</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Lead Source</label>
+                    <select class="filter-input" id="leadSource">
+                        <option value="all">All Sources</option>
+                        <option value="configurator">Configurator</option>
+                        <option value="referral">Referral</option>
+                        <option value="website">Website</option>
+                        <option value="social">Social Media</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Project Type</label>
+                    <select class="filter-input" id="projectType">
+                        <option value="all">All Projects</option>
+                        <option value="kitchen">Kitchen</option>
+                        <option value="bathroom">Bathroom</option>
+                        <option value="custom">Custom</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Status</label>
+                    <select class="filter-input" id="statusFilter">
+                        <option value="all">All Status</option>
+                        <option value="new">New</option>
+                        <option value="contacted">Contacted</option>
+                        <option value="qualified">Qualified</option>
+                        <option value="paid">Paid Deposit</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <button class="btn btn-primary" onclick="applyFilters()">Apply Filters</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="chart-grid">
+            <div class="chart-container">
+                <div class="chart-title">
+                    Lead Generation & Conversion
+                    <div class="chart-controls">
+                        <button class="chart-control active" onclick="setChartPeriod('leads', '7d')">7D</button>
+                        <button class="chart-control" onclick="setChartPeriod('leads', '30d')">30D</button>
+                        <button class="chart-control" onclick="setChartPeriod('leads', '90d')">90D</button>
+                    </div>
+                </div>
+                <canvas id="leadsChart" height="300"></canvas>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">
+                    Project Value Distribution
+                </div>
+                <canvas id="valueChart" height="300"></canvas>
+            </div>
+        </div>
+
+        <div class="chart-grid">
+            <div class="chart-container">
+                <div class="chart-title">
+                    Revenue Trends
+                    <div class="chart-controls">
+                        <button class="chart-control active" onclick="setChartPeriod('revenue', 'monthly')">Monthly</button>
+                        <button class="chart-control" onclick="setChartPeriod('revenue', 'weekly')">Weekly</button>
+                    </div>
+                </div>
+                <canvas id="revenueChart" height="300"></canvas>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">
+                    Lead Sources
+                </div>
+                <canvas id="sourcesChart" height="300"></canvas>
+            </div>
+        </div>
+
+        <!-- Recent Leads Table -->
+        <div class="data-table-container">
+            <div class="table-header">
+                <h3 class="table-title">Recent Leads</h3>
+                <div class="table-actions">
+                    <button class="btn btn-secondary" onclick="exportLeads()">📥 Export</button>
+                    <button class="btn btn-primary" onclick="refreshData()">🔄 Refresh</button>
+                </div>
+            </div>
+            
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Client</th>
+                        <th>Project</th>
+                        <th>Value</th>
+                        <th>Status</th>
+                        <th>Source</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="leadsTableBody">
+                    <!-- Dynamic content -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Performance Insights -->
+        <div class="data-table-container">
+            <div class="table-header">
+                <h3 class="table-title">🎯 Performance Insights</h3>
+            </div>
+            
+            <div id="performanceInsights">
+                <!-- Dynamic insights will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Phase 3: Advanced Analytics System
+        class AdvancedAnalytics {
+            constructor() {
+                this.data = this.loadData();
+                this.charts = {};
+                this.filters = {
+                    dateRange: 30,
+                    leadSource: 'all',
+                    projectType: 'all',
+                    status: 'all'
+                };
+                this.init();
+            }
+
+            loadData() {
+                // Load data from localStorage (Phase 3 CRM integration)
+                return {
+                    leads: JSON.parse(localStorage.getItem('crm_leads') || '[]'),
+                    analytics: JSON.parse(localStorage.getItem('crm_analytics') || '{}'),
+                    historical: JSON.parse(localStorage.getItem('analytics_historical') || '[]')
+                };
+            }
+
+            init() {
+                this.updateKPIs();
+                this.initCharts();
+                this.updateLeadsTable();
+                this.generateInsights();
+                this.updateLastUpdated();
+                
+                // Auto-refresh every 30 seconds
+                setInterval(() => {
+                    this.refreshData();
+                }, 30000);
+            }
+
+            refreshData() {
+                this.data = this.loadData();
+                this.updateKPIs();
+                this.updateCharts();
+                this.updateLeadsTable();
+                this.generateInsights();
+                this.updateLastUpdated();
+            }
+
+            updateKPIs() {
+                const filteredLeads = this.getFilteredLeads();
+                const now = new Date();
+                const thirtyDaysAgo = new Date(now - 30 * 24 * 60 * 60 * 1000);
+                
+                // Total Leads
+                document.getElementById('totalLeadsKPI').textContent = filteredLeads.length;
+                
+                // Conversion Rate
+                const paidLeads = filteredLeads.filter(lead => lead.status === 'paid_deposit').length;
+                const conversionRate = filteredLeads.length > 0 ? ((paidLeads / filteredLeads.length) * 100).toFixed(1) : 0;
+                document.getElementById('conversionRateKPI').textContent = conversionRate + '%';
+                
+                // Average Project Value
+                const avgProject = filteredLeads.length > 0
+                    ? filteredLeads.reduce((sum, lead) => sum + (lead.estimate?.total || 0), 0) / filteredLeads.length
+                    : 0;
+                document.getElementById('avgProjectKPI').textContent = this.formatCurrency(avgProject);
+                
+                // Revenue (30 days)
+                const recentLeads = this.data.leads.filter(lead => 
+                    new Date(lead.timestamp) >= thirtyDaysAgo && 
+                    lead.status === 'paid_deposit'
+                );
+                const revenue = recentLeads.reduce((sum, lead) => sum + (lead.depositAmount || 0), 0);
+                document.getElementById('revenueKPI').textContent = this.formatCurrency(revenue);
+                
+                // Active Proposals
+                const activeProposals = filteredLeads.filter(lead => 
+                    ['new', 'contacted', 'qualified'].includes(lead.status)
+                ).length;
+                document.getElementById('activeProposalsKPI').textContent = activeProposals;
+                
+                // Email Success Rate
+                const emailsSent = this.data.analytics.email_sent?.count || 0;
+                const emailSuccess = emailsSent > 0 ? 95 : 0; // Simulated success rate
+                document.getElementById('emailSuccessKPI').textContent = emailSuccess + '%';
+            }
+
+            getFilteredLeads() {
+                let leads = this.data.leads;
+                const now = new Date();
+                const filterDate = new Date(now - this.filters.dateRange * 24 * 60 * 60 * 1000);
+                
+                // Date filter
+                leads = leads.filter(lead => new Date(lead.timestamp) >= filterDate);
+                
+                // Source filter
+                if (this.filters.leadSource !== 'all') {
+                    leads = leads.filter(lead => lead.source === this.filters.leadSource);
+                }
+                
+                // Project type filter
+                if (this.filters.projectType !== 'all') {
+                    leads = leads.filter(lead => lead.estimate?.projectType === this.filters.projectType);
+                }
+                
+                // Status filter
+                if (this.filters.status !== 'all') {
+                    leads = leads.filter(lead => lead.status === this.filters.status);
+                }
+                
+                return leads;
+            }
+
+            initCharts() {
+                this.initLeadsChart();
+                this.initValueChart();
+                this.initRevenueChart();
+                this.initSourcesChart();
+            }
+
+            initLeadsChart() {
+                const ctx = document.getElementById('leadsChart').getContext('2d');
+                const last7Days = this.getLast7DaysData();
+                
+                this.charts.leads = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: last7Days.map(d => d.date),
+                        datasets: [{
+                            label: 'New Leads',
+                            data: last7Days.map(d => d.leads),
+                            borderColor: '#D4B062',
+                            backgroundColor: 'rgba(212, 176, 98, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        }, {
+                            label: 'Conversions',
+                            data: last7Days.map(d => d.conversions),
+                            borderColor: '#2E7D4A',
+                            backgroundColor: 'rgba(46, 125, 74, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    stepSize: 1
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            initValueChart() {
+                const ctx = document.getElementById('valueChart').getContext('2d');
+                const valueRanges = this.getValueDistribution();
+                
+                this.charts.value = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: valueRanges.labels,
+                        datasets: [{
+                            data: valueRanges.data,
+                            backgroundColor: [
+                                '#D4B062',
+                                '#C5A055',
+                                '#2E7D4A',
+                                '#C5801A',
+                                '#2E7DC5'
+                            ]
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom'
+                            }
+                        }
+                    }
+                });
+            }
+
+            initRevenueChart() {
+                const ctx = document.getElementById('revenueChart').getContext('2d');
+                const monthlyRevenue = this.getMonthlyRevenue();
+                
+                this.charts.revenue = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: monthlyRevenue.labels,
+                        datasets: [{
+                            label: 'Revenue',
+                            data: monthlyRevenue.data,
+                            backgroundColor: '#D4B062',
+                            borderColor: '#C5A055',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function(value) {
+                                        return '$' + value.toLocaleString();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            initSourcesChart() {
+                const ctx = document.getElementById('sourcesChart').getContext('2d');
+                const sources = this.getLeadSources();
+                
+                this.charts.sources = new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: sources.labels,
+                        datasets: [{
+                            data: sources.data,
+                            backgroundColor: [
+                                '#D4B062',
+                                '#2E7D4A',
+                                '#C5801A',
+                                '#2E7DC5',
+                                '#C5281A'
+                            ]
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom'
+                            }
+                        }
+                    }
+                });
+            }
+
+            updateCharts() {
+                // Update chart data
+                const last7Days = this.getLast7DaysData();
+                this.charts.leads.data.labels = last7Days.map(d => d.date);
+                this.charts.leads.data.datasets[0].data = last7Days.map(d => d.leads);
+                this.charts.leads.data.datasets[1].data = last7Days.map(d => d.conversions);
+                this.charts.leads.update();
+                
+                const valueRanges = this.getValueDistribution();
+                this.charts.value.data.labels = valueRanges.labels;
+                this.charts.value.data.datasets[0].data = valueRanges.data;
+                this.charts.value.update();
+                
+                const monthlyRevenue = this.getMonthlyRevenue();
+                this.charts.revenue.data.labels = monthlyRevenue.labels;
+                this.charts.revenue.data.datasets[0].data = monthlyRevenue.data;
+                this.charts.revenue.update();
+                
+                const sources = this.getLeadSources();
+                this.charts.sources.data.labels = sources.labels;
+                this.charts.sources.data.datasets[0].data = sources.data;
+                this.charts.sources.update();
+            }
+
+            getLast7DaysData() {
+                const data = [];
+                const now = new Date();
+                
+                for (let i = 6; i >= 0; i--) {
+                    const date = new Date(now - i * 24 * 60 * 60 * 1000);
+                    const dateStr = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                    
+                    const dayLeads = this.data.leads.filter(lead => {
+                        const leadDate = new Date(lead.timestamp);
+                        return leadDate.toDateString() === date.toDateString();
+                    });
+                    
+                    const conversions = dayLeads.filter(lead => lead.status === 'paid_deposit').length;
+                    
+                    data.push({
+                        date: dateStr,
+                        leads: dayLeads.length,
+                        conversions: conversions
+                    });
+                }
+                
+                return data;
+            }
+
+            getValueDistribution() {
+                const ranges = {
+                    'Under $15K': 0,
+                    '$15K - $30K': 0,
+                    '$30K - $50K': 0,
+                    '$50K - $75K': 0,
+                    'Over $75K': 0
+                };
+                
+                this.getFilteredLeads().forEach(lead => {
+                    const value = lead.estimate?.total || 0;
+                    if (value < 15000) ranges['Under $15K']++;
+                    else if (value < 30000) ranges['$15K - $30K']++;
+                    else if (value < 50000) ranges['$30K - $50K']++;
+                    else if (value < 75000) ranges['$50K - $75K']++;
+                    else ranges['Over $75K']++;
+                });
+                
+                return {
+                    labels: Object.keys(ranges),
+                    data: Object.values(ranges)
+                };
+            }
+
+            getMonthlyRevenue() {
+                const months = [];
+                const revenue = [];
+                const now = new Date();
+                
+                for (let i = 5; i >= 0; i--) {
+                    const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
+                    const monthStr = date.toLocaleDateString('en-US', { month: 'short' });
+                    
+                    const monthRevenue = this.data.leads
+                        .filter(lead => {
+                            const leadDate = new Date(lead.timestamp);
+                            return leadDate.getMonth() === date.getMonth() && 
+                                   leadDate.getFullYear() === date.getFullYear() &&
+                                   lead.status === 'paid_deposit';
+                        })
+                        .reduce((sum, lead) => sum + (lead.depositAmount || 0), 0);
+                    
+                    months.push(monthStr);
+                    revenue.push(monthRevenue);
+                }
+                
+                return { labels: months, data: revenue };
+            }
+
+            getLeadSources() {
+                const sources = {};
+                
+                this.getFilteredLeads().forEach(lead => {
+                    const source = lead.source || 'unknown';
+                    sources[source] = (sources[source] || 0) + 1;
+                });
+                
+                return {
+                    labels: Object.keys(sources),
+                    data: Object.values(sources)
+                };
+            }
+
+            updateLeadsTable() {
+                const tbody = document.getElementById('leadsTableBody');
+                const leads = this.getFilteredLeads().slice(0, 10); // Show latest 10
+                
+                tbody.innerHTML = leads.map(lead => `
+                    <tr>
+                        <td>${new Date(lead.timestamp).toLocaleDateString()}</td>
+                        <td>${lead.client?.name || 'Unknown'}</td>
+                        <td>${lead.estimate?.projectType || 'N/A'}</td>
+                        <td>${this.formatCurrency(lead.estimate?.total || 0)}</td>
+                        <td><span class="status-badge ${lead.status}">${lead.status.replace('_', ' ')}</span></td>
+                        <td>${lead.source || 'Direct'}</td>
+                        <td>
+                            <button class="btn btn-secondary" onclick="viewLead('${lead.id}')">View</button>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+
+            generateInsights() {
+                const insights = [];
+                const filteredLeads = this.getFilteredLeads();
+                const conversionRate = filteredLeads.length > 0 
+                    ? (filteredLeads.filter(l => l.status === 'paid_deposit').length / filteredLeads.length) * 100 
+                    : 0;
+                
+                // Conversion rate insight
+                if (conversionRate > 25) {
+                    insights.push({
+                        type: 'success',
+                        title: '🎯 Excellent Conversion Rate',
+                        description: `Your conversion rate of ${conversionRate.toFixed(1)}% is above industry average. Keep up the great work!`
+                    });
+                } else if (conversionRate < 10) {
+                    insights.push({
+                        type: 'warning',
+                        title: '📈 Conversion Opportunity',
+                        description: `Your conversion rate of ${conversionRate.toFixed(1)}% could be improved. Consider follow-up automation or proposal optimization.`
+                    });
+                }
+                
+                // Average project value insight
+                const avgValue = filteredLeads.reduce((sum, lead) => sum + (lead.estimate?.total || 0), 0) / Math.max(filteredLeads.length, 1);
+                if (avgValue > 40000) {
+                    insights.push({
+                        type: 'success',
+                        title: '💰 High-Value Projects',
+                        description: `Your average project value of ${this.formatCurrency(avgValue)} indicates strong premium positioning.`
+                    });
+                }
+                
+                // Lead source insight
+                const sources = this.getLeadSources();
+                const topSource = sources.labels[sources.data.indexOf(Math.max(...sources.data))];
+                if (topSource) {
+                    insights.push({
+                        type: 'info',
+                        title: '📊 Top Lead Source',
+                        description: `${topSource} is your most effective lead source. Consider increasing investment in this channel.`
+                    });
+                }
+                
+                // Display insights
+                const container = document.getElementById('performanceInsights');
+                container.innerHTML = insights.map(insight => `
+                    <div class="kpi-card ${insight.type}" style="margin-bottom: 1rem;">
+                        <h4 style="margin-bottom: 0.5rem;">${insight.title}</h4>
+                        <p style="color: var(--dark-gray); margin: 0;">${insight.description}</p>
+                    </div>
+                `).join('');
+            }
+
+            updateLastUpdated() {
+                const now = new Date();
+                document.getElementById('lastUpdated').textContent = now.toLocaleTimeString();
+            }
+
+            formatCurrency(amount) {
+                return new Intl.NumberFormat('en-US', {
+                    style: 'currency',
+                    currency: 'USD',
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0
+                }).format(amount);
+            }
+
+            exportData() {
+                const data = {
+                    leads: this.getFilteredLeads(),
+                    analytics: this.data.analytics,
+                    exportDate: new Date().toISOString()
+                };
+                
+                const dataStr = JSON.stringify(data, null, 2);
+                const dataBlob = new Blob([dataStr], {type:'application/json'});
+                
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(dataBlob);
+                link.download = `analytics-export-${new Date().toISOString().split('T')[0]}.json`;
+                link.click();
+            }
+        }
+
+        // Initialize Analytics Dashboard
+        const analytics = new AdvancedAnalytics();
+
+        // Global Functions
+        function applyFilters() {
+            analytics.filters.dateRange = parseInt(document.getElementById('dateRange').value);
+            analytics.filters.leadSource = document.getElementById('leadSource').value;
+            analytics.filters.projectType = document.getElementById('projectType').value;
+            analytics.filters.status = document.getElementById('statusFilter').value;
+            
+            analytics.updateKPIs();
+            analytics.updateCharts();
+            analytics.updateLeadsTable();
+            analytics.generateInsights();
+        }
+
+        function setChartPeriod(chart, period) {
+            // Update chart controls
+            const controls = document.querySelectorAll('.chart-control');
+            controls.forEach(control => control.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Update chart based on period
+            analytics.updateCharts();
+        }
+
+        function exportLeads() {
+            analytics.exportData();
+        }
+
+        function refreshData() {
+            analytics.refreshData();
+        }
+
+        function viewLead(leadId) {
+            // Navigate to CRM dashboard with specific lead
+            window.location.href = `crm-dashboard.html?lead=${leadId}`;
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Apply configuration if available
+            if (window.CONFIG) {
+                document.getElementById('dashboard-title').textContent = `${window.CONFIG.companyName} Analytics`;
+                document.getElementById('dashboard-subtitle').textContent = 'Real-time business insights and performance metrics';
+            }
+        });
+    </script>
+</body>
+</html>

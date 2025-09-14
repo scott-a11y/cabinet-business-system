@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">Admin Dashboard - Business Management</title>
+    
+    <!-- 🛡️ BULLETPROOF CONFIGURATION SYSTEM -->
+    <script src="config.js"></script>
+    
+    <style>
+        :root {
+            --primary-gold: #D4B062;
+            --light-gold: #F4E4A1;
+            --cream: #FBF8F0;
+            --warm-white: #FEFCF7;
+            --charcoal: #2C2C2C;
+            --dark-gray: #4A4A4A;
+            --light-gray: #E8E8E8;
+            --success: #2E7D4A;
+            --warning: #C5801A;
+            --danger: #C5281A;
+            --info: #2E7DC5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, var(--warm-white) 0%, var(--cream) 100%);
+            color: var(--charcoal);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Navigation */
+        .nav-header {
+            background: white;
+            border-bottom: 1px solid var(--light-gray);
+            padding: 1rem 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            padding: 0 2rem;
+        }
+
+        .nav-item {
+            color: var(--dark-gray);
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .nav-item:hover {
+            background: var(--light-gold);
+            color: var(--charcoal);
+        }
+
+        .nav-item.active {
+            background: var(--primary-gold);
+            color: white;
+        }
+
+        /* Admin Header */
+        .admin-header {
+            background: linear-gradient(135deg, var(--primary-gold), #C5A055);
+            color: white;
+            padding: 2rem 0;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .header-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .header-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .header-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+
+        .header-btn.primary {
+            background: white;
+            color: var(--primary-gold);
+            border-color: white;
+        }
+
+        .header-btn.primary:hover {
+            background: var(--cream);
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Stats Overview */
+        .stats-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            border-left: 4px solid var(--primary-gold);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-gold);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: var(--dark-gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-change {
+            font-size: 0.9rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        .stat-change.positive {
+            color: var(--success);
+            background: rgba(46, 125, 74, 0.1);
+        }
+
+        .stat-change.negative {
+            color: var(--danger);
+            background: rgba(197, 40, 26, 0.1);
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .dashboard-section {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            border-left: 4px solid var(--primary-gold);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--charcoal);
+        }
+
+        .section-action {
+            background: var(--primary-gold);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .section-action:hover {
+            background: #C5A055;
+        }
+
+        /* Project Cards */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .project-card {
+            background: var(--cream);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .project-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.15);
+            border-color: var(--primary-gold);
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+
+        .project-title {
+            font-weight: 600;
+            color: var(--charcoal);
+            font-size: 1.1rem;
+        }
+
+        .project-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .project-status.active {
+            background: var(--success);
+            color: white;
+        }
+
+        .project-status.pending {
+            background: var(--warning);
+            color: white;
+        }
+
+        .project-status.completed {
+            background: var(--info);
+            color: white;
+        }
+
+        .project-client {
+            color: var(--dark-gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .project-value {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary-gold);
+            margin-bottom: 1rem;
+        }
+
+        .project-progress {
+            margin-bottom: 1rem;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: var(--light-gray);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary-gold);
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        .project-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn.primary {
+            background: var(--primary-gold);
+            color: white;
+        }
+
+        .btn.primary:hover {
+            background: #C5A055;
+        }
+
+        .btn.secondary {
+            background: white;
+            color: var(--primary-gold);
+            border: 1px solid var(--primary-gold);
+        }
+
+        .btn.secondary:hover {
+            background: var(--primary-gold);
+            color: white;
+        }
+
+        /* Recent Activity */
+        .activity-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: start;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .activity-icon.project {
+            background: rgba(212, 176, 98, 0.2);
+            color: var(--primary-gold);
+        }
+
+        .activity-icon.client {
+            background: rgba(46, 125, 74, 0.2);
+            color: var(--success);
+        }
+
+        .activity-icon.payment {
+            background: rgba(46, 125, 197, 0.2);
+            color: var(--info);
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-weight: 500;
+            color: var(--charcoal);
+            margin-bottom: 0.25rem;
+        }
+
+        .activity-description {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .activity-time {
+            color: var(--dark-gray);
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        /* Recent Messages */
+        .message-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .message-card {
+            background: var(--cream);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-left: 3px solid var(--primary-gold);
+        }
+
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .message-client {
+            font-weight: 500;
+            color: var(--charcoal);
+        }
+
+        .message-time {
+            font-size: 0.8rem;
+            color: var(--dark-gray);
+            opacity: 0.8;
+        }
+
+        .message-content {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 1024px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                align-items: center;
+                gap: 0.5rem;
+            }
+
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .header-actions {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .stats-overview {
+                grid-template-columns: 1fr;
+            }
+
+            .project-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header-title {
+                font-size: 2rem;
+            }
+
+            .project-actions {
+                flex-direction: column;
+            }
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .quick-action-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .quick-action-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.15);
+            border-color: var(--primary-gold);
+        }
+
+        .quick-action-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-gold);
+        }
+
+        .quick-action-title {
+            font-weight: 600;
+            color: var(--charcoal);
+            margin-bottom: 0.5rem;
+        }
+
+        .quick-action-description {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav-header">
+        <div class="nav-container">
+            <a href="index.html" class="nav-item">🏠 Business Hub</a>
+            <a href="admin-dashboard.html" class="nav-item active">📊 Admin Dashboard</a>
+            <a href="client-portal.html" class="nav-item">👤 Client Portal</a>
+            <a href="multi-photo-gallery.html" class="nav-item">📸 Photo Gallery</a>
+            <a href="demo.html" class="nav-item">🎭 Demo</a>
+        </div>
+    </nav>
+
+    <!-- Admin Header -->
+    <header class="admin-header">
+        <div class="header-content">
+            <div>
+                <h1 class="header-title" id="company-name">Admin Dashboard</h1>
+                <p class="header-subtitle" id="dashboard-subtitle">Business Management & Intelligence</p>
+            </div>
+            <div class="header-actions">
+                <a href="client-estimate-configurator.html" class="header-btn primary">+ New Estimate</a>
+                <a href="pdf-proposal-generator.html" class="header-btn">Create Proposal</a>
+                <a href="client-portal.html" class="header-btn">Client Portal</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Stats Overview -->
+        <section class="stats-overview">
+            <div class="stat-card">
+                <span class="stat-number" id="stat-active-projects">12</span>
+                <div class="stat-label">Active Projects</div>
+                <div class="stat-change positive">+3 this month</div>
+            </div>
+            
+            <div class="stat-card">
+                <span class="stat-number" id="stat-pending-estimates">8</span>
+                <div class="stat-label">Pending Estimates</div>
+                <div class="stat-change positive">+2 this week</div>
+            </div>
+            
+            <div class="stat-card">
+                <span class="stat-number" id="stat-monthly-revenue">$247K</span>
+                <div class="stat-label">Monthly Revenue</div>
+                <div class="stat-change positive">+18% vs last month</div>
+            </div>
+            
+            <div class="stat-card">
+                <span class="stat-number" id="stat-conversion-rate">67%</span>
+                <div class="stat-label">Conversion Rate</div>
+                <div class="stat-change positive">+5% improvement</div>
+            </div>
+        </section>
+
+        <!-- Quick Actions -->
+        <section class="quick-actions">
+            <div class="quick-action-card" onclick="window.location.href='client-estimate-configurator.html'">
+                <div class="quick-action-icon">🔧</div>
+                <div class="quick-action-title">New Estimate</div>
+                <div class="quick-action-description">Create custom cabinet estimates</div>
+            </div>
+            
+            <div class="quick-action-card" onclick="window.location.href='pdf-proposal-generator.html'">
+                <div class="quick-action-icon">📄</div>
+                <div class="quick-action-title">Generate PDF</div>
+                <div class="quick-action-description">Professional proposal documents</div>
+            </div>
+            
+            <div class="quick-action-card" onclick="window.location.href='multi-photo-gallery.html'">
+                <div class="quick-action-icon">📸</div>
+                <div class="quick-action-title">Photo Gallery</div>
+                <div class="quick-action-description">Manage project photos</div>
+            </div>
+            
+            <div class="quick-action-card" onclick="exportData()">
+                <div class="quick-action-icon">💾</div>
+                <div class="quick-action-title">Export Data</div>
+                <div class="quick-action-description">Download business reports</div>
+            </div>
+        </section>
+
+        <!-- Dashboard Grid -->
+        <div class="dashboard-grid">
+            <!-- Active Projects -->
+            <section class="dashboard-section">
+                <div class="section-header">
+                    <h3 class="section-title">🏗️ Active Projects</h3>
+                    <a href="client-estimate-configurator.html" class="section-action">+ New Project</a>
+                </div>
+                
+                <div class="project-grid">
+                    <div class="project-card" onclick="viewProject('thompson')">
+                        <div class="project-header">
+                            <div class="project-title">Thompson Kitchen Remodel</div>
+                            <div class="project-status active">Active</div>
+                        </div>
+                        <div class="project-client">Thompson Family • Portland, OR</div>
+                        <div class="project-value">$49,500</div>
+                        <div class="project-progress">
+                            <div class="progress-label">
+                                <span>Manufacturing</span>
+                                <span>65%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 65%"></div>
+                            </div>
+                        </div>
+                        <div class="project-actions">
+                            <button class="btn primary" onclick="event.stopPropagation(); updateProject('thompson')">Update</button>
+                            <button class="btn secondary" onclick="event.stopPropagation(); contactClient('thompson')">Contact</button>
+                        </div>
+                    </div>
+
+                    <div class="project-card" onclick="viewProject('johnson')">
+                        <div class="project-header">
+                            <div class="project-title">Johnson Bathroom Vanity</div>
+                            <div class="project-status pending">Pending</div>
+                        </div>
+                        <div class="project-client">Johnson Family • Beaverton, OR</div>
+                        <div class="project-value">$12,800</div>
+                        <div class="project-progress">
+                            <div class="progress-label">
+                                <span>Design Review</span>
+                                <span>35%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 35%"></div>
+                            </div>
+                        </div>
+                        <div class="project-actions">
+                            <button class="btn primary" onclick="event.stopPropagation(); updateProject('johnson')">Update</button>
+                            <button class="btn secondary" onclick="event.stopPropagation(); contactClient('johnson')">Contact</button>
+                        </div>
+                    </div>
+
+                    <div class="project-card" onclick="viewProject('davis')">
+                        <div class="project-header">
+                            <div class="project-title">Davis Entertainment Center</div>
+                            <div class="project-status completed">Completed</div>
+                        </div>
+                        <div class="project-client">Davis Family • Lake Oswego, OR</div>
+                        <div class="project-value">$28,200</div>
+                        <div class="project-progress">
+                            <div class="progress-label">
+                                <span>Installation Complete</span>
+                                <span>100%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 100%"></div>
+                            </div>
+                        </div>
+                        <div class="project-actions">
+                            <button class="btn primary" onclick="event.stopPropagation(); viewProject('davis')">View</button>
+                            <button class="btn secondary" onclick="event.stopPropagation(); requestReview('davis')">Review</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recent Activity -->
+            <section class="dashboard-section">
+                <div class="section-header">
+                    <h3 class="section-title">📋 Recent Activity</h3>
+                    <button class="section-action" onclick="viewAllActivity()">View All</button>
+                </div>
+                
+                <div class="activity-list">
+                    <div class="activity-item">
+                        <div class="activity-icon project">🏗️</div>
+                        <div class="activity-content">
+                            <div class="activity-title">Project Started</div>
+                            <div class="activity-description">Thompson Kitchen Remodel entered manufacturing phase</div>
+                            <div class="activity-time">2 hours ago</div>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <div class="activity-icon payment">💰</div>
+                        <div class="activity-content">
+                            <div class="activity-title">Payment Received</div>
+                            <div class="activity-description">Davis Family - Final payment of $14,100</div>
+                            <div class="activity-time">4 hours ago</div>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <div class="activity-icon client">👤</div>
+                        <div class="activity-content">
+                            <div class="activity-title">New Lead</div>
+                            <div class="activity-description">Wilson Family requested estimate for bathroom remodel</div>
+                            <div class="activity-time">6 hours ago</div>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <div class="activity-icon project">📸</div>
+                        <div class="activity-content">
+                            <div class="activity-title">Photos Uploaded</div>
+                            <div class="activity-description">Johnson project - 8 new progress photos</div>
+                            <div class="activity-time">1 day ago</div>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <div class="activity-icon client">⭐</div>
+                        <div class="activity-content">
+                            <div class="activity-title">Review Received</div>
+                            <div class="activity-description">5-star review from Martinez Family</div>
+                            <div class="activity-time">2 days ago</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Recent Messages -->
+        <section class="dashboard-section" style="grid-column: 1 / -1;">
+            <div class="section-header">
+                <h3 class="section-title">💬 Recent Messages</h3>
+                <button class="section-action" onclick="viewAllMessages()">View All</button>
+            </div>
+            
+            <div class="message-list">
+                <div class="message-card">
+                    <div class="message-header">
+                        <span class="message-client">Thompson Family</span>
+                        <span class="message-time">30 minutes ago</span>
+                    </div>
+                    <div class="message-content">
+                        "Thanks for the update! When do you think the cabinets will be ready for installation?"
+                    </div>
+                </div>
+                
+                <div class="message-card">
+                    <div class="message-header">
+                        <span class="message-client">Johnson Family</span>
+                        <span class="message-time">2 hours ago</span>
+                    </div>
+                    <div class="message-content">
+                        "We love the design! Ready to move forward with the order."
+                    </div>
+                </div>
+                
+                <div class="message-card">
+                    <div class="message-header">
+                        <span class="message-client">Wilson Family</span>
+                        <span class="message-time">1 day ago</span>
+                    </div>
+                    <div class="message-content">
+                        "Could we schedule a time to discuss the bathroom vanity project? We'd like to get started soon."
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Admin Dashboard Functionality
+        class AdminDashboard {
+            constructor() {
+                this.projects = [];
+                this.activities = [];
+                this.initializeDashboard();
+            }
+
+            initializeDashboard() {
+                this.updateStats();
+                this.loadRecentData();
+                console.log('✅ Admin Dashboard initialized');
+            }
+
+            updateStats() {
+                // In a real app, this would fetch data from your backend
+                const stats = {
+                    activeProjects: 12,
+                    pendingEstimates: 8,
+                    monthlyRevenue: '$247K',
+                    conversionRate: '67%'
+                };
+
+                // Update UI elements
+                Object.keys(stats).forEach(key => {
+                    const element = document.getElementById(`stat-${key.replace(/([A-Z])/g, '-$1').toLowerCase()}`);
+                    if (element) {
+                        element.textContent = stats[key];
+                    }
+                });
+            }
+
+            loadRecentData() {
+                // Load recent activities and messages
+                // This would typically come from your backend API
+                console.log('Recent data loaded');
+            }
+
+            viewProject(projectId) {
+                // Navigate to project details
+                console.log(`Viewing project: ${projectId}`);
+                window.location.href = `client-portal.html?project=${projectId}`;
+            }
+
+            updateProject(projectId) {
+                console.log(`Updating project: ${projectId}`);
+                // Show update modal or navigate to edit page
+                alert(`Opening project update for ${projectId}`);
+            }
+
+            contactClient(projectId) {
+                console.log(`Contacting client for project: ${projectId}`);
+                // Open communication interface
+                alert(`Opening communication with client for ${projectId}`);
+            }
+
+            requestReview(projectId) {
+                console.log(`Requesting review for project: ${projectId}`);
+                // Send review request
+                alert(`Review request sent for project ${projectId}`);
+            }
+
+            showNotification(message, type = 'success') {
+                // Create and show notification
+                const notification = document.createElement('div');
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 2rem;
+                    right: 2rem;
+                    background: var(--${type === 'success' ? 'success' : 'warning'});
+                    color: white;
+                    padding: 1rem 1.5rem;
+                    border-radius: 8px;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+                    z-index: 10000;
+                    transition: transform 0.3s ease;
+                    transform: translateX(100%);
+                `;
+                notification.textContent = message;
+                
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.style.transform = 'translateX(0)';
+                }, 100);
+                
+                setTimeout(() => {
+                    notification.style.transform = 'translateX(100%)';
+                    setTimeout(() => {
+                        document.body.removeChild(notification);
+                    }, 300);
+                }, 3000);
+            }
+        }
+
+        // Global dashboard instance
+        let dashboard;
+
+        // Global functions for HTML onclick events
+        function viewProject(projectId) {
+            dashboard.viewProject(projectId);
+        }
+
+        function updateProject(projectId) {
+            dashboard.updateProject(projectId);
+        }
+
+        function contactClient(projectId) {
+            dashboard.contactClient(projectId);
+        }
+
+        function requestReview(projectId) {
+            dashboard.requestReview(projectId);
+        }
+
+        function viewAllActivity() {
+            dashboard.showNotification('Opening activity log...');
+        }
+
+        function viewAllMessages() {
+            dashboard.showNotification('Opening message center...');
+        }
+
+        function exportData() {
+            dashboard.showNotification('Preparing data export...');
+        }
+
+        function backupSystem() {
+            dashboard.showNotification('System backup initiated...');
+        }
+
+        // Initialize dashboard on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            dashboard = new AdminDashboard();
+            
+            // Apply configuration if available
+            if (window.CONFIG) {
+                document.getElementById('company-name').textContent = `${window.CONFIG.companyName} Admin`;
+                document.getElementById('dashboard-subtitle').textContent = `Business Management & Intelligence for ${window.CONFIG.companyName}`;
+                document.title = `Admin Dashboard - ${window.CONFIG.companyName}`;
+            }
+        });
+
+        // Auto-refresh stats every 5 minutes
+        setInterval(() => {
+            if (dashboard) {
+                dashboard.updateStats();
+            }
+        }, 300000);
+    </script>
+</body>
+</html>

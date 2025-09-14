@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Gallery System - Preview</title>
+    <style>
+        :root {
+            --primary-gold: #D4B062;
+            --light-gold: #F4E4A1;
+            --cream: #FBF8F0;
+            --warm-white: #FEFCF7;
+            --charcoal: #2C2C2C;
+            --dark-gray: #4A4A4A;
+            --light-gray: #E8E8E8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, var(--warm-white) 0%, var(--cream) 100%);
+            color: var(--charcoal);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-gold), #C5A055);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .phase-title {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .phase-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* Enhanced Gallery System */
+        .gallery-section {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border-left: 6px solid var(--primary-gold);
+        }
+
+        .gallery-title {
+            font-size: 1.8rem;
+            color: var(--charcoal);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        /* Gallery Grid */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            aspect-ratio: 16/9;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--light-gray);
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+        }
+
+        .gallery-placeholder {
+            font-size: 3rem;
+            color: var(--dark-gray);
+            opacity: 0.7;
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+            padding: 1rem;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+
+        .gallery-overlay h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .gallery-overlay p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Lightbox Modal */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .lightbox.active {
+            display: flex;
+            opacity: 1;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .lightbox-image {
+            width: 100%;
+            height: 70vh;
+            background: linear-gradient(45deg, #f8f8f8, #e8e8e8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: var(--dark-gray);
+        }
+
+        .lightbox-info {
+            padding: 1.5rem;
+            background: white;
+        }
+
+        .lightbox-title {
+            font-size: 1.5rem;
+            color: var(--charcoal);
+            margin-bottom: 0.5rem;
+        }
+
+        .lightbox-description {
+            color: var(--dark-gray);
+            line-height: 1.6;
+        }
+
+        .lightbox-controls {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.9);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--charcoal);
+            transition: all 0.3s ease;
+        }
+
+        .lightbox-controls:hover {
+            background: var(--primary-gold);
+            color: white;
+        }
+
+        .lightbox-prev {
+            left: 20px;
+        }
+
+        .lightbox-next {
+            right: 20px;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.9);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--charcoal);
+            transition: all 0.3s ease;
+        }
+
+        .lightbox-close:hover {
+            background: var(--primary-gold);
+            color: white;
+        }
+
+        /* Thumbnail Navigation */
+        .lightbox-thumbnails {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            background: var(--cream);
+            overflow-x: auto;
+        }
+
+        .thumbnail {
+            width: 60px;
+            height: 40px;
+            background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: var(--dark-gray);
+        }
+
+        .thumbnail:hover,
+        .thumbnail.active {
+            border-color: var(--primary-gold);
+            transform: scale(1.05);
+        }
+
+        /* Features List */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            background: var(--cream);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            border-left: 4px solid var(--primary-gold);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-title {
+            font-size: 1.1rem;
+            color: var(--charcoal);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .feature-description {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Mobile Optimizations */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .phase-title {
+                font-size: 2rem;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+
+            .lightbox-content {
+                max-width: 95vw;
+                max-height: 95vh;
+            }
+
+            .lightbox-image {
+                height: 50vh;
+                font-size: 2rem;
+            }
+
+            .lightbox-controls {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+
+            .lightbox-prev {
+                left: 10px;
+            }
+
+            .lightbox-next {
+                right: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <h1 class="phase-title">🎯 Phase 2A: Enhanced Gallery System</h1>
+        <p class="phase-subtitle">Professional Photo Galleries with Lightbox Navigation</p>
+    </header>
+
+    <div class="container">
+        <!-- Gallery Preview -->
+        <div class="gallery-section">
+            <h2 class="gallery-title">📸 Project Gallery with Advanced Navigation</h2>
+            
+            <div class="gallery-grid">
+                <div class="gallery-item" onclick="openLightbox(0)">
+                    <div class="gallery-placeholder">🏠</div>
+                    <div class="gallery-overlay">
+                        <h3>Modern Kitchen Renovation</h3>
+                        <p>Premium hardwood cabinets with gold hardware</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item" onclick="openLightbox(1)">
+                    <div class="gallery-placeholder">🍽️</div>
+                    <div class="gallery-overlay">
+                        <h3>Custom Island Design</h3>
+                        <p>Luxury kitchen island with storage solutions</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item" onclick="openLightbox(2)">
+                    <div class="gallery-placeholder">🔥</div>
+                    <div class="gallery-overlay">
+                        <h3>Traditional Styling</h3>
+                        <p>Classic design with modern functionality</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item" onclick="openLightbox(3)">
+                    <div class="gallery-placeholder">✨</div>
+                    <div class="gallery-overlay">
+                        <h3>Contemporary Finish</h3>
+                        <p>Sleek lines with premium materials</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item" onclick="openLightbox(4)">
+                    <div class="gallery-placeholder">🎨</div>
+                    <div class="gallery-overlay">
+                        <h3>Custom Color Match</h3>
+                        <p>Perfectly matched to home's aesthetic</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item" onclick="openLightbox(5)">
+                    <div class="gallery-placeholder">🔧</div>
+                    <div class="gallery-overlay">
+                        <h3>Professional Installation</h3>
+                        <p>Expert craftsmanship and attention to detail</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Enhanced Features -->
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3 class="feature-title">Mobile Touch Controls</h3>
+                    <p class="feature-description">Swipe gestures and touch-optimized navigation for mobile devices</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">⌨️</div>
+                    <h3 class="feature-title">Keyboard Navigation</h3>
+                    <p class="feature-description">Arrow keys, spacebar, and ESC controls for desktop users</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3 class="feature-title">Zoom Functionality</h3>
+                    <p class="feature-description">Click to zoom and examine project details closely</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3 class="feature-title">Thumbnail Preview</h3>
+                    <p class="feature-description">Quick navigation through all gallery images</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lightbox Modal -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+        <button class="lightbox-controls lightbox-prev" onclick="prevImage()">‹</button>
+        <button class="lightbox-controls lightbox-next" onclick="nextImage()">›</button>
+        
+        <div class="lightbox-content">
+            <div class="lightbox-image" id="lightbox-image">🏠</div>
+            <div class="lightbox-info">
+                <h3 class="lightbox-title" id="lightbox-title">Project Title</h3>
+                <p class="lightbox-description" id="lightbox-description">Project description...</p>
+            </div>
+            <div class="lightbox-thumbnails" id="lightbox-thumbnails">
+                <div class="thumbnail active" onclick="goToImage(0)">🏠</div>
+                <div class="thumbnail" onclick="goToImage(1)">🍽️</div>
+                <div class="thumbnail" onclick="goToImage(2)">🔥</div>
+                <div class="thumbnail" onclick="goToImage(3)">✨</div>
+                <div class="thumbnail" onclick="goToImage(4)">🎨</div>
+                <div class="thumbnail" onclick="goToImage(5)">🔧</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Gallery data
+        const galleryData = [
+            {
+                icon: '🏠',
+                title: 'Modern Kitchen Renovation',
+                description: 'Premium hardwood cabinets with gold hardware featuring soft-close hinges and custom crown molding. This full kitchen renovation showcases our commitment to quality and attention to detail.'
+            },
+            {
+                icon: '🍽️',
+                title: 'Custom Island Design',
+                description: 'Luxury kitchen island with integrated storage solutions, breakfast bar seating, and premium countertop materials. Perfect for entertaining and daily family life.'
+            },
+            {
+                icon: '🔥',
+                title: 'Traditional Styling',
+                description: 'Classic design elements combined with modern functionality. Features include traditional raised panel doors, decorative hardware, and timeless color palette.'
+            },
+            {
+                icon: '✨',
+                title: 'Contemporary Finish',
+                description: 'Sleek lines with premium materials create a sophisticated modern look. Includes handleless design, integrated lighting, and minimalist aesthetics.'
+            },
+            {
+                icon: '🎨',
+                title: 'Custom Color Match',
+                description: 'Perfectly matched to home\'s existing aesthetic with custom paint colors, coordinated hardware finishes, and complementary design elements throughout.'
+            },
+            {
+                icon: '🔧',
+                title: 'Professional Installation',
+                description: 'Expert craftsmanship and attention to detail ensure perfect installation. Our certified installers guarantee quality workmanship with comprehensive warranty coverage.'
+            }
+        ];
+
+        let currentImageIndex = 0;
+
+        function openLightbox(index) {
+            currentImageIndex = index;
+            updateLightboxContent();
+            document.getElementById('lightbox').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function prevImage() {
+            currentImageIndex = (currentImageIndex - 1 + galleryData.length) % galleryData.length;
+            updateLightboxContent();
+        }
+
+        function nextImage() {
+            currentImageIndex = (currentImageIndex + 1) % galleryData.length;
+            updateLightboxContent();
+        }
+
+        function goToImage(index) {
+            currentImageIndex = index;
+            updateLightboxContent();
+        }
+
+        function updateLightboxContent() {
+            const data = galleryData[currentImageIndex];
+            document.getElementById('lightbox-image').textContent = data.icon;
+            document.getElementById('lightbox-title').textContent = data.title;
+            document.getElementById('lightbox-description').textContent = data.description;
+            
+            // Update active thumbnail
+            const thumbnails = document.querySelectorAll('.thumbnail');
+            thumbnails.forEach((thumb, index) => {
+                thumb.classList.toggle('active', index === currentImageIndex);
+            });
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (document.getElementById('lightbox').classList.contains('active')) {
+                switch(e.key) {
+                    case 'ArrowLeft':
+                        prevImage();
+                        break;
+                    case 'ArrowRight':
+                    case ' ':
+                        nextImage();
+                        break;
+                    case 'Escape':
+                        closeLightbox();
+                        break;
+                }
+            }
+        });
+
+        // Touch/swipe support for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.getElementById('lightbox').addEventListener('touchstart', function(e) {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.getElementById('lightbox').addEventListener('touchend', function(e) {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) {
+                nextImage(); // Swipe left - next image
+            }
+            if (touchEndX > touchStartX + 50) {
+                prevImage(); // Swipe right - previous image
+            }
+        }
+
+        // Close lightbox when clicking outside content
+        document.getElementById('lightbox').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeLightbox();
+            }
+        });
+    </script>
+</body>
+</html>
