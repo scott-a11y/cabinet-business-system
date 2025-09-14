@@ -608,17 +608,17 @@
             <div class="comparison-grid" id="comparison-container">
                 <div class="comparison-card" data-tier="economy">
                     <div class="comparison-title">Economy Option</div>
-                    <div class="comparison-price">$24,125</div>
+                    <div class="comparison-price" data-comparison-price="economy">$24,125</div>
                     <p>Quality materials, solid construction</p>
                 </div>
                 <div class="comparison-card" data-tier="standard">
                     <div class="comparison-title">Standard Option</div>
-                    <div class="comparison-price">$30,625</div>
+                    <div class="comparison-price" data-comparison-price="standard">$30,625</div>
                     <p>Enhanced features, better finishes</p>
                 </div>
                 <div class="comparison-card" data-tier="premium">
                     <div class="comparison-title">Premium Option</div>
-                    <div class="comparison-price">$40,750</div>
+                    <div class="comparison-price" data-comparison-price="premium">$40,750</div>
                     <p>High-end materials, custom details</p>
                 </div>
             </div>
@@ -694,7 +694,7 @@
                 id: 'economy',
                 name: 'Economy Package',
                 basePrice: 965,
-                priceRange: '$800-$1,200/LF',
+                priceRange: 'Starting at $24,125',
                 description: 'Quality materials with solid construction. Perfect for budget-conscious homeowners who want reliability.',
                 image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=200&fit=crop',
                 features: [
@@ -714,7 +714,7 @@
                 id: 'standard',
                 name: 'Standard Package',
                 basePrice: 1225,
-                priceRange: '$1,000-$1,500/LF',
+                priceRange: 'Starting at $30,625',
                 description: 'Enhanced features with better finishes. Our most popular option combining value and quality.',
                 image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=200&fit=crop',
                 features: [
@@ -735,7 +735,7 @@
                 id: 'premium',
                 name: 'Premium Package',
                 basePrice: 1630,
-                priceRange: '$1,400-$1,900/LF',
+                priceRange: 'Starting at $40,750',
                 description: 'High-end materials with custom details. For discerning homeowners who want the best.',
                 image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=200&fit=crop',
                 features: [
@@ -757,7 +757,7 @@
                 id: 'luxury',
                 name: 'Luxury Package',
                 basePrice: 2250,
-                priceRange: '$1,900-$2,600/LF',
+                priceRange: 'Starting at $56,250',
                 description: 'Ultra-premium finishes with luxury hardware. The ultimate in kitchen cabinetry.',
                 image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=200&fit=crop',
                 features: [
@@ -802,7 +802,7 @@
                 card.innerHTML = `
                     <div class="package-header">
                         <div class="package-name">${pkg.name}</div>
-                        <div class="package-price">${pkg.priceRange}</div>
+                        <div class="package-price" data-package-id="${pkg.id}">${pkg.priceRange}</div>
                         <div class="package-description">${pkg.description}</div>
                     </div>
                     <img src="${pkg.image}" alt="${pkg.name}" class="package-image" />
@@ -822,6 +822,43 @@
                 card.addEventListener('click', () => togglePackage(pkg.id, card));
                 container.appendChild(card);
             });
+            
+            // Update pricing display based on current linear footage
+            updatePackagePricing();
+        }
+
+        // Update package pricing based on linear footage
+        function updatePackagePricing() {
+            const linearFootage = parseFloat(document.getElementById('linear-footage').value) || 25;
+            
+            // Update package cards
+            packageData.forEach(pkg => {
+                const priceElement = document.querySelector(`[data-package-id="${pkg.id}"]`);
+                if (priceElement) {
+                    const totalPrice = Math.round(pkg.basePrice * linearFootage * 1.0825); // Include tax
+                    priceElement.textContent = `$${totalPrice.toLocaleString()}`;
+                }
+            });
+            
+            // Update comparison cards
+            updateComparisonPricing(linearFootage);
+        }
+
+        // Update comparison pricing based on linear footage
+        function updateComparisonPricing(linearFootage = null) {
+            if (!linearFootage) {
+                linearFootage = parseFloat(document.getElementById('linear-footage').value) || 25;
+            }
+            
+            const prices = { economy: 965, standard: 1225, premium: 1630 };
+            
+            Object.keys(prices).forEach(tier => {
+                const priceElement = document.querySelector(`[data-comparison-price="${tier}"]`);
+                if (priceElement) {
+                    const totalPrice = Math.round(prices[tier] * linearFootage * 1.0825); // Include tax
+                    priceElement.textContent = `$${totalPrice.toLocaleString()}`;
+                }
+            });
         }
 
         // Initialize event listeners
@@ -832,7 +869,13 @@
 
             // Form inputs
             ['client-name', 'linear-footage'].forEach(id => {
-                document.getElementById(id).addEventListener('input', validateForm);
+                const element = document.getElementById(id);
+                element.addEventListener('input', () => {
+                    if (id === 'linear-footage') {
+                        updatePackagePricing();
+                    }
+                    validateForm();
+                });
             });
 
             // Comparison cards
@@ -1016,8 +1059,7 @@
                                 </ul>
                             </div>
                             <div>
-                                <p><strong>Linear Footage:</strong> ${linearFootage} LF</p>
-                                <p><strong>Price per LF:</strong> $${pkg.basePrice}</p>
+                                <p><strong>Project Size:</strong> ${linearFootage} Linear Feet</p>
                                 <p><strong>Timeline:</strong> ${pkg.timeline}</p>
                                 <p><strong>Warranty:</strong> ${pkg.warranty}</p>
                             </div>
@@ -1044,7 +1086,7 @@
                                 <div style="background: white; padding: 1rem; border-radius: 6px; text-align: center;">
                                     <h4 style="color: var(--primary-gold); margin-bottom: 0.5rem;">${tier.charAt(0).toUpperCase() + tier.slice(1)} Option</h4>
                                     <div style="font-size: 1.2rem; font-weight: bold;">$${totalPrice.toLocaleString()}</div>
-                                    <div style="font-size: 0.9rem; color: var(--dark-gray);">$${prices[tier]}/LF</div>
+                                    <div style="font-size: 0.9rem; color: var(--dark-gray);">Professional Installation Included</div>
                                 </div>
                             `;
                         }).join('')}
