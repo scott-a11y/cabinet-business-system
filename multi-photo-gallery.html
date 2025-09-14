@@ -1,0 +1,1552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">Photo Gallery - Foundry Cabinets Co</title>
+    
+    <!-- 🛡️ BULLETPROOF CONFIGURATION SYSTEM -->
+    <script src="config.js"></script>
+    
+    <style>
+        :root {
+            --primary-gold: #D4B062;
+            --light-gold: #F4E4A1;
+            --cream: #FBF8F0;
+            --warm-white: #FEFCF7;
+            --charcoal: #2C2C2C;
+            --dark-gray: #4A4A4A;
+            --light-gray: #E8E8E8;
+            --success: #2E7D4A;
+            --warning: #C5801A;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, var(--warm-white) 0%, var(--cream) 100%);
+            color: var(--charcoal);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Navigation */
+        .nav-header {
+            background: white;
+            border-bottom: 1px solid var(--light-gray);
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            padding: 0 2rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-item {
+            color: var(--dark-gray);
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        .nav-item:hover {
+            background: var(--light-gold);
+            color: var(--charcoal);
+        }
+
+        .nav-item.active {
+            background: var(--primary-gold);
+            color: white;
+        }
+
+        /* Gallery Header */
+        .gallery-header {
+            background: linear-gradient(135deg, var(--primary-gold), #C5A055);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .gallery-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .gallery-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Controls Section */
+        .controls-section {
+            background: white;
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .controls-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: var(--light-gray);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            color: var(--dark-gray);
+            font-weight: 500;
+        }
+
+        .filter-btn:hover {
+            background: var(--light-gold);
+        }
+
+        .filter-btn.active {
+            background: var(--primary-gold);
+            color: white;
+        }
+
+        .gallery-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .search-box {
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--light-gray);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            width: 250px;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: var(--primary-gold);
+        }
+
+        .view-toggle {
+            display: flex;
+            background: var(--light-gray);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .view-btn {
+            background: none;
+            border: none;
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            font-size: 1rem;
+            color: var(--dark-gray);
+            transition: all 0.3s ease;
+        }
+
+        .view-btn.active {
+            background: var(--primary-gold);
+            color: white;
+        }
+
+        .admin-upload {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .admin-upload:hover {
+            background: #246A3F;
+            transform: translateY(-2px);
+        }
+
+        /* Photo Gallery */
+        .gallery-section {
+            padding: 3rem 0;
+        }
+
+        .gallery-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .gallery-grid.grid-view {
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .gallery-grid.list-view {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        .photo-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .photo-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 48px rgba(0,0,0,0.15);
+        }
+
+        .photo-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .photo-card:hover .photo-image {
+            transform: scale(1.05);
+        }
+
+        .photo-info {
+            padding: 1.5rem;
+        }
+
+        .photo-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--charcoal);
+            margin-bottom: 0.5rem;
+        }
+
+        .photo-category {
+            color: var(--primary-gold);
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .photo-description {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .photo-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: var(--dark-gray);
+        }
+
+        .photo-date {
+            opacity: 0.8;
+        }
+
+        .photo-views {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        /* List View Styles */
+        .gallery-grid.list-view .photo-card {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .gallery-grid.list-view .photo-image {
+            height: 150px;
+        }
+
+        .gallery-grid.list-view .photo-info {
+            padding: 1rem;
+        }
+
+        /* Lightbox */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 10000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .lightbox.show {
+            opacity: 1;
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .lightbox-image.zoomed {
+            transform: scale(2);
+            cursor: zoom-out;
+        }
+
+        .lightbox-controls {
+            position: absolute;
+            bottom: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .lightbox-btn {
+            background: rgba(255,255,255,0.9);
+            border: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--charcoal);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox-btn:hover {
+            background: white;
+            transform: scale(1.1);
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.9);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--charcoal);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox-nav:hover {
+            background: white;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .lightbox-prev {
+            left: 2rem;
+        }
+
+        .lightbox-next {
+            right: 2rem;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            background: rgba(255,255,255,0.9);
+            border: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--charcoal);
+        }
+
+        .lightbox-close:hover {
+            background: white;
+        }
+
+        .lightbox-info {
+            position: absolute;
+            bottom: 2rem;
+            left: 2rem;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            max-width: 300px;
+        }
+
+        .lightbox-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .lightbox-description {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Thumbnail Navigation */
+        .thumbnail-nav {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.5rem;
+            background: rgba(0,0,0,0.8);
+            padding: 1rem;
+            border-radius: 12px;
+            max-width: 80vw;
+            overflow-x: auto;
+        }
+
+        .thumbnail-nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .thumbnail {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 6px;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .thumbnail.active {
+            opacity: 1;
+            border: 2px solid var(--primary-gold);
+        }
+
+        .thumbnail:hover {
+            opacity: 1;
+        }
+
+        /* Admin Upload Modal */
+        .upload-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 9999;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .upload-content {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .upload-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .upload-title {
+            font-size: 1.5rem;
+            color: var(--charcoal);
+            font-weight: 600;
+        }
+
+        .upload-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--dark-gray);
+        }
+
+        .upload-zone {
+            border: 2px dashed var(--light-gray);
+            border-radius: 12px;
+            padding: 3rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin-bottom: 2rem;
+        }
+
+        .upload-zone:hover,
+        .upload-zone.dragover {
+            border-color: var(--primary-gold);
+            background: rgba(212, 176, 98, 0.05);
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: var(--primary-gold);
+            margin-bottom: 1rem;
+        }
+
+        .upload-form {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: grid;
+            gap: 0.5rem;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--charcoal);
+        }
+
+        .form-input, .form-textarea, .form-select {
+            padding: 0.75rem;
+            border: 2px solid var(--light-gray);
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            outline: none;
+            border-color: var(--primary-gold);
+        }
+
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .upload-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--light-gray);
+        }
+
+        .cancel-btn {
+            background: var(--light-gray);
+            color: var(--dark-gray);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .save-btn {
+            background: var(--primary-gold);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .save-btn:hover {
+            background: #C5A055;
+        }
+
+        /* Slideshow Mode */
+        .slideshow-controls {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            display: none;
+            gap: 1rem;
+        }
+
+        .slideshow-btn {
+            background: rgba(255,255,255,0.9);
+            border: none;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--charcoal);
+        }
+
+        .slideshow-btn:hover {
+            background: white;
+        }
+
+        .slideshow-btn.active {
+            background: var(--primary-gold);
+            color: white;
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--light-gray);
+            border-radius: 50%;
+            border-top-color: var(--primary-gold);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                align-items: center;
+                gap: 0.5rem;
+            }
+
+            .nav-item {
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
+            }
+
+            .gallery-title {
+                font-size: 2rem;
+            }
+
+            .controls-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-buttons {
+                justify-content: center;
+            }
+
+            .gallery-actions {
+                flex-direction: column;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 1rem;
+            }
+
+            .gallery-grid.list-view .photo-card {
+                grid-template-columns: 150px 1fr;
+                gap: 1rem;
+            }
+
+            .lightbox-nav {
+                width: 40px;
+                height: 40px;
+            }
+
+            .lightbox-prev {
+                left: 1rem;
+            }
+
+            .lightbox-next {
+                right: 1rem;
+            }
+
+            .lightbox-close {
+                top: 1rem;
+                right: 1rem;
+                width: 36px;
+                height: 36px;
+            }
+
+            .lightbox-info {
+                left: 1rem;
+                bottom: 1rem;
+                max-width: calc(100vw - 2rem);
+            }
+
+            .thumbnail-nav {
+                bottom: 1rem;
+                max-width: 90vw;
+            }
+
+            .stats-container {
+                gap: 1.5rem;
+            }
+
+            .slideshow-controls {
+                top: 1rem;
+                left: 1rem;
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav-header">
+        <div class="nav-container">
+            <a href="index.html" class="nav-item">🏠 Business Hub</a>
+            <a href="admin-dashboard.html" class="nav-item">📊 Admin Dashboard</a>
+            <a href="client-proposal.html" class="nav-item">📋 Client Proposals</a>
+            <a href="pdf-proposal-generator.html" class="nav-item">📄 PDF Generator</a>
+            <a href="client-portal.html" class="nav-item">👥 Client Portal</a>
+            <a href="multi-photo-gallery.html" class="nav-item active">📸 Photo Gallery</a>
+            <a href="demo.html" class="nav-item">🎭 Live Demo</a>
+        </div>
+    </nav>
+
+    <!-- Gallery Header -->
+    <header class="gallery-header">
+        <div class="header-content">
+            <h1 class="gallery-title" id="gallery-title">Professional Portfolio</h1>
+            <p class="gallery-subtitle" id="gallery-subtitle">
+                Showcasing our finest custom cabinet installations and craftsmanship
+            </p>
+            
+            <div class="stats-container">
+                <div class="stat-item">
+                    <span class="stat-number" id="total-projects">150+</span>
+                    <span class="stat-label">Projects Completed</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="total-photos">450+</span>
+                    <span class="stat-label">Professional Photos</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="satisfaction-rate">98%</span>
+                    <span class="stat-label">Client Satisfaction</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Controls Section -->
+    <section class="controls-section">
+        <div class="controls-container">
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all" onclick="filterGallery('all')">
+                    All Projects
+                </button>
+                <button class="filter-btn" data-filter="kitchen" onclick="filterGallery('kitchen')">
+                    🍳 Kitchens
+                </button>
+                <button class="filter-btn" data-filter="bathroom" onclick="filterGallery('bathroom')">
+                    🛁 Bathrooms
+                </button>
+                <button class="filter-btn" data-filter="builtin" onclick="filterGallery('builtin')">
+                    📚 Built-ins
+                </button>
+                <button class="filter-btn" data-filter="commercial" onclick="filterGallery('commercial')">
+                    🏢 Commercial
+                </button>
+            </div>
+            
+            <div class="gallery-actions">
+                <input type="text" class="search-box" placeholder="Search projects..." 
+                       id="search-input" onkeyup="searchGallery()">
+                
+                <div class="view-toggle">
+                    <button class="view-btn active" id="grid-btn" onclick="toggleView('grid')">
+                        ⊞
+                    </button>
+                    <button class="view-btn" id="list-btn" onclick="toggleView('list')">
+                        ☰
+                    </button>
+                </div>
+                
+                <button class="admin-upload" onclick="openUploadModal()">
+                    + Upload Photos
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Photo Gallery -->
+    <section class="gallery-section">
+        <div class="gallery-container">
+            <div class="gallery-grid" id="gallery-grid">
+                <!-- Photos will be generated here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" onclick="closeLightbox()">×</button>
+        
+        <div class="slideshow-controls">
+            <button class="slideshow-btn" id="slideshow-toggle" onclick="toggleSlideshow()">
+                ▶️ Start Slideshow
+            </button>
+            <button class="slideshow-btn" onclick="toggleZoom()">
+                🔍 Zoom
+            </button>
+            <button class="slideshow-btn" onclick="downloadPhoto()">
+                ⬇️ Download
+            </button>
+            <button class="slideshow-btn" onclick="sharePhoto()">
+                📤 Share
+            </button>
+        </div>
+        
+        <button class="lightbox-nav lightbox-prev" onclick="previousPhoto()">‹</button>
+        <button class="lightbox-nav lightbox-next" onclick="nextPhoto()">›</button>
+        
+        <div class="lightbox-content">
+            <img class="lightbox-image" id="lightbox-image" src="" alt="">
+        </div>
+        
+        <div class="lightbox-info" id="lightbox-info">
+            <div class="lightbox-title" id="lightbox-title"></div>
+            <div class="lightbox-description" id="lightbox-description"></div>
+        </div>
+        
+        <div class="thumbnail-nav" id="thumbnail-nav">
+            <!-- Thumbnails will be generated here -->
+        </div>
+    </div>
+
+    <!-- Admin Upload Modal -->
+    <div class="upload-modal" id="upload-modal">
+        <div class="upload-content">
+            <div class="upload-header">
+                <h3 class="upload-title">Upload New Photos</h3>
+                <button class="upload-close" onclick="closeUploadModal()">×</button>
+            </div>
+            
+            <div class="upload-zone" id="upload-zone">
+                <div class="upload-icon">📸</div>
+                <div>
+                    <p><strong>Drag & drop photos here</strong></p>
+                    <p>or click to browse your files</p>
+                    <p style="font-size: 0.9rem; color: var(--dark-gray); margin-top: 0.5rem;">
+                        Supports: JPG, PNG, WebP • Max 10MB per file
+                    </p>
+                </div>
+                <input type="file" id="photo-files" multiple accept="image/*" style="display: none;">
+            </div>
+            
+            <form class="upload-form" id="upload-form">
+                <div class="form-group">
+                    <label class="form-label" for="project-title">Project Title</label>
+                    <input type="text" id="project-title" class="form-input" 
+                           placeholder="e.g., Modern Downtown Kitchen">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="project-category">Category</label>
+                    <select id="project-category" class="form-select">
+                        <option value="kitchen">Kitchen</option>
+                        <option value="bathroom">Bathroom</option>
+                        <option value="builtin">Built-ins</option>
+                        <option value="commercial">Commercial</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="project-description">Description</label>
+                    <textarea id="project-description" class="form-textarea" 
+                              placeholder="Describe the project, materials used, special features..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="client-name">Client Name (Optional)</label>
+                    <input type="text" id="client-name" class="form-input" 
+                           placeholder="Client name for internal reference">
+                </div>
+            </form>
+            
+            <div class="upload-actions">
+                <button class="cancel-btn" onclick="closeUploadModal()">Cancel</button>
+                <button class="save-btn" onclick="savePhotos()">Upload Photos</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration application
+        function applyConfiguration() {
+            try {
+                if (!window.CONFIG) {
+                    console.warn('⚠️ No configuration available');
+                    return false;
+                }
+
+                // Update page elements
+                const elements = {
+                    'page-title': `Photo Gallery - ${window.CONFIG.companyName}`,
+                    'gallery-title': 'Professional Portfolio',
+                    'gallery-subtitle': `Showcasing our finest custom cabinet installations and craftsmanship`
+                };
+
+                for (const [id, value] of Object.entries(elements)) {
+                    const el = document.getElementById(id);
+                    if (el && value) {
+                        if (id === 'page-title') {
+                            document.title = value;
+                        } else {
+                            el.textContent = value;
+                        }
+                    }
+                }
+
+                return true;
+            } catch (error) {
+                console.error('🚨 Error applying configuration:', error);
+                return false;
+            }
+        }
+
+        // Gallery functionality
+        let galleryData = [];
+        let filteredData = [];
+        let currentPhotoIndex = 0;
+        let currentFilter = 'all';
+        let currentView = 'grid';
+        let isSlideshow = false;
+        let slideshowInterval = null;
+        let isZoomed = false;
+
+        // Sample gallery data
+        const sampleGalleryData = [
+            {
+                id: 1,
+                title: "Modern Downtown Kitchen",
+                category: "kitchen",
+                description: "Sleek white cabinets with quartz countertops and premium soft-close hardware. Features custom island with breakfast bar seating.",
+                client: "Thompson Family",
+                date: "March 2025",
+                views: 245,
+                image: generateSampleImage("Modern Kitchen", "#f8f9fa"),
+                featured: true
+            },
+            {
+                id: 2,
+                title: "Traditional Oak Kitchen",
+                category: "kitchen",
+                description: "Classic oak cabinetry with raised panel doors, granite countertops, and custom crown molding throughout.",
+                client: "Wilson Residence",
+                date: "February 2025",
+                views: 189,
+                image: generateSampleImage("Traditional Kitchen", "#f5f5dc"),
+                featured: false
+            },
+            {
+                id: 3,
+                title: "Luxury Master Bathroom",
+                category: "bathroom",
+                description: "Custom vanity with dual sinks, medicine cabinets with LED lighting, and premium soft-close drawers.",
+                client: "Davis Estate",
+                date: "February 2025",
+                views: 156,
+                image: generateSampleImage("Luxury Bathroom", "#e6f3ff"),
+                featured: true
+            },
+            {
+                id: 4,
+                title: "Built-in Entertainment Center",
+                category: "builtin",
+                description: "Custom entertainment center with integrated lighting, cable management, and adjustable shelving for media components.",
+                client: "Martinez Family",
+                date: "January 2025",
+                views: 134,
+                image: generateSampleImage("Entertainment Center", "#fff5ee"),
+                featured: false
+            },
+            {
+                id: 5,
+                title: "Restaurant Kitchen Refit",
+                category: "commercial",
+                description: "Commercial-grade stainless steel cabinetry with NSF-approved materials and heavy-duty hardware for restaurant use.",
+                client: "Bistro Downtown",
+                date: "January 2025",
+                views: 98,
+                image: generateSampleImage("Commercial Kitchen", "#f0f0f0"),
+                featured: false
+            },
+            {
+                id: 6,
+                title: "Farmhouse Style Kitchen",
+                category: "kitchen",
+                description: "Rustic white shaker cabinets with farmhouse sink, butcher block island, and vintage-inspired hardware.",
+                client: "Johnson Farm",
+                date: "December 2024",
+                views: 298,
+                image: generateSampleImage("Farmhouse Kitchen", "#faf0e6"),
+                featured: true
+            },
+            {
+                id: 7,
+                title: "Home Office Built-ins",
+                category: "builtin",
+                description: "Custom home office with floor-to-ceiling bookshelves, integrated desk, and hidden cable management.",
+                client: "Chen Residence",
+                date: "December 2024",
+                views: 167,
+                image: generateSampleImage("Home Office", "#f8f8ff"),
+                featured: false
+            },
+            {
+                id: 8,
+                title: "Spa-Style Bathroom",
+                category: "bathroom",
+                description: "Zen-inspired bathroom vanity with natural wood finish, stone countertops, and minimalist hardware.",
+                client: "Park Avenue Loft",
+                date: "November 2024",
+                views: 203,
+                image: generateSampleImage("Spa Bathroom", "#f0ffff"),
+                featured: true
+            }
+        ];
+
+        // Generate sample image
+        function generateSampleImage(text, color) {
+            const canvas = document.createElement('canvas');
+            canvas.width = 400;
+            canvas.height = 300;
+            const ctx = canvas.getContext('2d');
+            
+            // Background
+            ctx.fillStyle = color;
+            ctx.fillRect(0, 0, 400, 300);
+            
+            // Text
+            ctx.fillStyle = '#666';
+            ctx.font = 'bold 24px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(text, 200, 150);
+            
+            // Decorative elements
+            ctx.strokeStyle = '#ddd';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(20, 20, 360, 260);
+            
+            return canvas.toDataURL();
+        }
+
+        // Initialize gallery
+        function initializeGallery() {
+            galleryData = [...sampleGalleryData];
+            filteredData = [...galleryData];
+            updateStats();
+            renderGallery();
+            console.log('📸 Gallery initialized with', galleryData.length, 'photos');
+        }
+
+        // Update statistics
+        function updateStats() {
+            const totalProjects = galleryData.length;
+            const totalPhotos = totalProjects * 3; // Simulate multiple photos per project
+            
+            document.getElementById('total-projects').textContent = totalProjects + '+';
+            document.getElementById('total-photos').textContent = totalPhotos + '+';
+        }
+
+        // Render gallery
+        function renderGallery() {
+            const grid = document.getElementById('gallery-grid');
+            grid.innerHTML = '';
+            
+            if (filteredData.length === 0) {
+                grid.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--dark-gray);">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">📸</div>
+                        <h3>No photos found</h3>
+                        <p>Try adjusting your search or filter settings.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            filteredData.forEach((photo, index) => {
+                const card = document.createElement('div');
+                card.className = 'photo-card';
+                card.onclick = () => openLightbox(index);
+                
+                card.innerHTML = `
+                    <img class="photo-image" src="${photo.image}" alt="${photo.title}" loading="lazy">
+                    <div class="photo-info">
+                        <div class="photo-category">${getCategoryDisplay(photo.category)}</div>
+                        <h3 class="photo-title">${photo.title}</h3>
+                        <p class="photo-description">${photo.description}</p>
+                        <div class="photo-meta">
+                            <span class="photo-date">${photo.date}</span>
+                            <span class="photo-views">
+                                👁️ ${photo.views} views
+                            </span>
+                        </div>
+                    </div>
+                `;
+                
+                grid.appendChild(card);
+            });
+        }
+
+        // Get category display name
+        function getCategoryDisplay(category) {
+            const categories = {
+                kitchen: '🍳 Kitchen',
+                bathroom: '🛁 Bathroom',
+                builtin: '📚 Built-ins',
+                commercial: '🏢 Commercial'
+            };
+            return categories[category] || category;
+        }
+
+        // Filter gallery
+        function filterGallery(filter) {
+            currentFilter = filter;
+            
+            // Update filter buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-filter="${filter}"]`).classList.add('active');
+            
+            // Filter data
+            if (filter === 'all') {
+                filteredData = [...galleryData];
+            } else {
+                filteredData = galleryData.filter(photo => photo.category === filter);
+            }
+            
+            // Apply search if active
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            if (searchTerm) {
+                filteredData = filteredData.filter(photo => 
+                    photo.title.toLowerCase().includes(searchTerm) ||
+                    photo.description.toLowerCase().includes(searchTerm) ||
+                    photo.category.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            renderGallery();
+            console.log('🔍 Filtered gallery:', filter, '-', filteredData.length, 'results');
+        }
+
+        // Search gallery
+        function searchGallery() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            
+            // Start with current filter
+            let baseData = currentFilter === 'all' ? [...galleryData] : 
+                          galleryData.filter(photo => photo.category === currentFilter);
+            
+            if (searchTerm) {
+                filteredData = baseData.filter(photo => 
+                    photo.title.toLowerCase().includes(searchTerm) ||
+                    photo.description.toLowerCase().includes(searchTerm) ||
+                    photo.category.toLowerCase().includes(searchTerm)
+                );
+            } else {
+                filteredData = baseData;
+            }
+            
+            renderGallery();
+        }
+
+        // Toggle view
+        function toggleView(view) {
+            currentView = view;
+            const grid = document.getElementById('gallery-grid');
+            
+            // Update buttons
+            document.querySelectorAll('.view-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`${view}-btn`).classList.add('active');
+            
+            // Update grid class
+            grid.className = `gallery-grid ${view}-view`;
+            
+            console.log('👁️ View changed to:', view);
+        }
+
+        // Lightbox functionality
+        function openLightbox(index) {
+            currentPhotoIndex = index;
+            const photo = filteredData[index];
+            
+            // Update lightbox content
+            document.getElementById('lightbox-image').src = photo.image;
+            document.getElementById('lightbox-title').textContent = photo.title;
+            document.getElementById('lightbox-description').textContent = photo.description;
+            
+            // Generate thumbnails
+            generateThumbnails();
+            
+            // Show lightbox
+            const lightbox = document.getElementById('lightbox');
+            lightbox.style.display = 'flex';
+            document.getElementById('slideshow-controls').style.display = 'flex';
+            setTimeout(() => lightbox.classList.add('show'), 10);
+            
+            // Prevent body scroll
+            document.body.style.overflow = 'hidden';
+            
+            console.log('🖼️ Lightbox opened for:', photo.title);
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.classList.remove('show');
+            setTimeout(() => {
+                lightbox.style.display = 'none';
+                document.getElementById('slideshow-controls').style.display = 'none';
+            }, 300);
+            
+            // Stop slideshow
+            if (isSlideshow) {
+                toggleSlideshow();
+            }
+            
+            // Reset zoom
+            if (isZoomed) {
+                toggleZoom();
+            }
+            
+            // Restore body scroll
+            document.body.style.overflow = '';
+            
+            console.log('❌ Lightbox closed');
+        }
+
+        function nextPhoto() {
+            currentPhotoIndex = (currentPhotoIndex + 1) % filteredData.length;
+            updateLightboxPhoto();
+        }
+
+        function previousPhoto() {
+            currentPhotoIndex = (currentPhotoIndex - 1 + filteredData.length) % filteredData.length;
+            updateLightboxPhoto();
+        }
+
+        function updateLightboxPhoto() {
+            const photo = filteredData[currentPhotoIndex];
+            document.getElementById('lightbox-image').src = photo.image;
+            document.getElementById('lightbox-title').textContent = photo.title;
+            document.getElementById('lightbox-description').textContent = photo.description;
+            
+            updateThumbnailActive();
+        }
+
+        function generateThumbnails() {
+            const nav = document.getElementById('thumbnail-nav');
+            nav.innerHTML = '';
+            
+            filteredData.forEach((photo, index) => {
+                const thumb = document.createElement('img');
+                thumb.className = 'thumbnail';
+                thumb.src = photo.image;
+                thumb.onclick = () => {
+                    currentPhotoIndex = index;
+                    updateLightboxPhoto();
+                };
+                
+                if (index === currentPhotoIndex) {
+                    thumb.classList.add('active');
+                }
+                
+                nav.appendChild(thumb);
+            });
+        }
+
+        function updateThumbnailActive() {
+            document.querySelectorAll('.thumbnail').forEach((thumb, index) => {
+                thumb.classList.toggle('active', index === currentPhotoIndex);
+            });
+        }
+
+        // Slideshow functionality
+        function toggleSlideshow() {
+            const btn = document.getElementById('slideshow-toggle');
+            
+            if (isSlideshow) {
+                clearInterval(slideshowInterval);
+                isSlideshow = false;
+                btn.textContent = '▶️ Start Slideshow';
+                btn.classList.remove('active');
+            } else {
+                slideshowInterval = setInterval(() => {
+                    nextPhoto();
+                }, 3000);
+                isSlideshow = true;
+                btn.textContent = '⏸️ Stop Slideshow';
+                btn.classList.add('active');
+            }
+            
+            console.log('🎬 Slideshow:', isSlideshow ? 'started' : 'stopped');
+        }
+
+        // Zoom functionality
+        function toggleZoom() {
+            const img = document.getElementById('lightbox-image');
+            isZoomed = !isZoomed;
+            img.classList.toggle('zoomed', isZoomed);
+            console.log('🔍 Zoom:', isZoomed ? 'enabled' : 'disabled');
+        }
+
+        // Click to zoom
+        document.getElementById('lightbox-image').onclick = toggleZoom;
+
+        // Download functionality
+        function downloadPhoto() {
+            const photo = filteredData[currentPhotoIndex];
+            const link = document.createElement('a');
+            link.href = photo.image;
+            link.download = `${photo.title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.jpg`;
+            link.click();
+            console.log('⬇️ Downloaded:', photo.title);
+        }
+
+        // Share functionality
+        function sharePhoto() {
+            const photo = filteredData[currentPhotoIndex];
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: photo.title,
+                    text: photo.description,
+                    url: window.location.href
+                });
+            } else {
+                // Fallback: copy to clipboard
+                const url = window.location.href;
+                navigator.clipboard.writeText(url).then(() => {
+                    alert('Photo link copied to clipboard!');
+                });
+            }
+            
+            console.log('📤 Shared:', photo.title);
+        }
+
+        // Admin upload functionality
+        function openUploadModal() {
+            document.getElementById('upload-modal').style.display = 'flex';
+            console.log('📤 Upload modal opened');
+        }
+
+        function closeUploadModal() {
+            document.getElementById('upload-modal').style.display = 'none';
+            document.getElementById('upload-form').reset();
+        }
+
+        // Upload zone functionality
+        const uploadZone = document.getElementById('upload-zone');
+        const photoFiles = document.getElementById('photo-files');
+
+        uploadZone.onclick = () => photoFiles.click();
+        uploadZone.ondragover = (e) => {
+            e.preventDefault();
+            uploadZone.classList.add('dragover');
+        };
+        uploadZone.ondragleave = () => uploadZone.classList.remove('dragover');
+        uploadZone.ondrop = (e) => {
+            e.preventDefault();
+            uploadZone.classList.remove('dragover');
+            handleFiles(e.dataTransfer.files);
+        };
+        photoFiles.onchange = (e) => handleFiles(e.target.files);
+
+        function handleFiles(files) {
+            const fileArray = Array.from(files);
+            const imageFiles = fileArray.filter(file => file.type.startsWith('image/'));
+            
+            if (imageFiles.length === 0) {
+                alert('Please select image files only.');
+                return;
+            }
+            
+            console.log('📷 Selected', imageFiles.length, 'image files');
+            
+            // Update upload zone to show file count
+            const uploadZone = document.getElementById('upload-zone');
+            uploadZone.innerHTML = `
+                <div class="upload-icon">📷</div>
+                <div>
+                    <p><strong>${imageFiles.length} photo(s) selected</strong></p>
+                    <p>Ready to upload with project details</p>
+                </div>
+            `;
+        }
+
+        function savePhotos() {
+            const title = document.getElementById('project-title').value;
+            const category = document.getElementById('project-category').value;
+            const description = document.getElementById('project-description').value;
+            const clientName = document.getElementById('client-name').value;
+            
+            if (!title || !description) {
+                alert('Please fill in the project title and description.');
+                return;
+            }
+            
+            // Simulate photo upload
+            const newPhoto = {
+                id: galleryData.length + 1,
+                title: title,
+                category: category,
+                description: description,
+                client: clientName || 'Client',
+                date: new Date().toLocaleDateString('en-US', { 
+                    month: 'long', 
+                    year: 'numeric' 
+                }),
+                views: 0,
+                image: generateSampleImage(title, getRandomColor()),
+                featured: false
+            };
+            
+            galleryData.unshift(newPhoto); // Add to beginning
+            updateStats();
+            
+            // Close modal and refresh gallery
+            closeUploadModal();
+            filterGallery(currentFilter);
+            
+            // Show success message
+            alert('Photos uploaded successfully!');
+            console.log('✅ New project added:', title);
+        }
+
+        function getRandomColor() {
+            const colors = ['#f8f9fa', '#f5f5dc', '#e6f3ff', '#fff5ee', '#f0f0f0', '#faf0e6', '#f8f8ff', '#f0ffff'];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (document.getElementById('lightbox').style.display === 'flex') {
+                switch(e.code) {
+                    case 'ArrowLeft':
+                        previousPhoto();
+                        break;
+                    case 'ArrowRight':
+                    case 'Space':
+                        e.preventDefault();
+                        nextPhoto();
+                        break;
+                    case 'Escape':
+                        closeLightbox();
+                        break;
+                    case 'KeyZ':
+                        toggleZoom();
+                        break;
+                    case 'KeyS':
+                        toggleSlideshow();
+                        break;
+                }
+            }
+        });
+
+        // Initialize gallery when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                initializeGallery();
+                console.log('✅ Multi-Photo Gallery initialized successfully');
+            }, 200);
+        });
+    </script>
+</body>
+</html>

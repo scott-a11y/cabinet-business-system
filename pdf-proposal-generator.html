@@ -1,0 +1,1550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">PDF Proposal Generator</title>
+    
+    <!-- 🛡️ BULLETPROOF CONFIGURATION SYSTEM -->
+    <script src="config.js"></script>
+    
+    <!-- 📄 PDF GENERATION LIBRARIES -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <style>
+        :root {
+            --primary-gold: #D4B062;
+            --light-gold: #F4E4A1;
+            --cream: #FBF8F0;
+            --warm-white: #FEFCF7;
+            --charcoal: #2C2C2C;
+            --dark-gray: #4A4A4A;
+            --light-gray: #E8E8E8;
+            --success: #2E7D4A;
+            --warning: #C5801A;
+            --error: #C53030;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, var(--warm-white) 0%, var(--cream) 100%);
+            color: var(--charcoal);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Navigation */
+        .nav-header {
+            background: white;
+            border-bottom: 1px solid var(--light-gray);
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            padding: 0 2rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-item {
+            color: var(--dark-gray);
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .nav-item:hover {
+            background: var(--light-gold);
+            color: var(--charcoal);
+        }
+
+        .nav-item.active {
+            background: var(--primary-gold);
+            color: white;
+        }
+
+        /* Header */
+        .generator-header {
+            background: linear-gradient(135deg, var(--primary-gold), #C5A055);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .generator-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .generator-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        .generator-description {
+            font-size: 1.1rem;
+            opacity: 0.8;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .generator-grid {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        /* Form Section */
+        .form-section {
+            background: white;
+            border-radius: 16px;
+            padding: 3rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border-left: 6px solid var(--primary-gold);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--charcoal);
+            margin-bottom: 2rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .form-group {
+            display: grid;
+            gap: 0.5rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--charcoal);
+            font-size: 0.95rem;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            padding: 1rem;
+            border: 2px solid var(--light-gray);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+            color: var(--charcoal);
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 0 3px rgba(212, 176, 98, 0.1);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* Pricing Section */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .pricing-tier {
+            background: var(--cream);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .pricing-tier:hover {
+            border-color: var(--light-gold);
+        }
+
+        .pricing-tier.selected {
+            border-color: var(--primary-gold);
+            background: white;
+            box-shadow: 0 4px 16px rgba(212, 176, 98, 0.2);
+        }
+
+        .tier-name {
+            font-weight: 700;
+            color: var(--charcoal);
+            margin-bottom: 0.5rem;
+        }
+
+        .tier-price {
+            font-size: 1.1rem;
+            color: var(--primary-gold);
+            font-weight: 600;
+        }
+
+        .tier-range {
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+        }
+
+        /* Add-ons Section */
+        .addons-grid {
+            display: grid;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .addon-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--cream);
+            padding: 1rem;
+            border-radius: 8px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .addon-item.selected {
+            border-color: var(--primary-gold);
+            background: white;
+        }
+
+        .addon-info {
+            flex: 1;
+        }
+
+        .addon-name {
+            font-weight: 600;
+            color: var(--charcoal);
+        }
+
+        .addon-description {
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+        }
+
+        .addon-price {
+            font-weight: 600;
+            color: var(--primary-gold);
+            margin-right: 1rem;
+        }
+
+        .addon-checkbox {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        /* Calculate Section */
+        .calculate-section {
+            background: var(--cream);
+            border-radius: 12px;
+            padding: 2rem;
+            position: sticky;
+            top: 2rem;
+        }
+
+        .calculate-title {
+            font-size: 1.3rem;
+            color: var(--charcoal);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .calc-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .calc-row:last-child {
+            border-bottom: none;
+        }
+
+        .calc-row.total {
+            border-top: 2px solid var(--primary-gold);
+            padding-top: 1rem;
+            margin-top: 1rem;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--primary-gold);
+        }
+
+        .calc-label {
+            color: var(--dark-gray);
+        }
+
+        .calc-value {
+            font-weight: 600;
+            color: var(--charcoal);
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: grid;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .action-btn {
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .action-btn.primary {
+            background: var(--primary-gold);
+            color: white;
+        }
+
+        .action-btn.primary:hover {
+            background: #C5A055;
+            transform: translateY(-2px);
+        }
+
+        .action-btn.secondary {
+            background: white;
+            color: var(--primary-gold);
+            border: 2px solid var(--primary-gold);
+        }
+
+        .action-btn.secondary:hover {
+            background: var(--primary-gold);
+            color: white;
+        }
+
+        .action-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        /* Templates */
+        .templates-section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-top: 2rem;
+            border-left: 4px solid var(--success);
+        }
+
+        .templates-title {
+            font-size: 1.2rem;
+            color: var(--charcoal);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .templates-grid {
+            display: grid;
+            gap: 0.5rem;
+        }
+
+        .template-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            background: var(--cream);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .template-item:hover {
+            background: var(--light-gold);
+        }
+
+        .template-name {
+            font-weight: 500;
+            color: var(--charcoal);
+        }
+
+        .template-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .template-btn {
+            padding: 0.25rem 0.5rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .template-btn.load {
+            background: var(--primary-gold);
+            color: white;
+        }
+
+        .template-btn.delete {
+            background: var(--error);
+            color: white;
+        }
+
+        /* Status Messages */
+        .status-message {
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            font-weight: 500;
+            display: none;
+        }
+
+        .status-message.success {
+            background: rgba(46, 125, 74, 0.1);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+
+        .status-message.error {
+            background: rgba(197, 48, 48, 0.1);
+            color: var(--error);
+            border: 1px solid var(--error);
+        }
+
+        .status-message.warning {
+            background: rgba(197, 128, 26, 0.1);
+            color: var(--warning);
+            border: 1px solid var(--warning);
+        }
+
+        /* Loading Spinner */
+        .loading-spinner {
+            display: none;
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* PDF Preview (Hidden) */
+        .pdf-preview {
+            display: none;
+            background: white;
+            padding: 3rem;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        .pdf-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid var(--primary-gold);
+        }
+
+        .pdf-logo {
+            font-size: 2rem;
+        }
+
+        .pdf-company {
+            text-align: right;
+        }
+
+        .pdf-company-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-gold);
+        }
+
+        .pdf-contact {
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+        }
+
+        .pdf-title {
+            font-size: 2rem;
+            color: var(--charcoal);
+            text-align: center;
+            margin: 2rem 0;
+            font-weight: 600;
+        }
+
+        .pdf-client-info {
+            background: var(--cream);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .pdf-client-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .pdf-info-item {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .pdf-label {
+            font-weight: 600;
+            color: var(--charcoal);
+            min-width: 80px;
+        }
+
+        .pdf-value {
+            color: var(--dark-gray);
+        }
+
+        .pdf-estimate {
+            margin: 2rem 0;
+        }
+
+        .pdf-estimate-title {
+            font-size: 1.3rem;
+            color: var(--charcoal);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .pdf-estimate-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .pdf-estimate-table th,
+        .pdf-estimate-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .pdf-estimate-table th {
+            background: var(--cream);
+            font-weight: 600;
+            color: var(--charcoal);
+        }
+
+        .pdf-estimate-table .total-row {
+            background: var(--cream);
+            font-weight: 700;
+            color: var(--primary-gold);
+        }
+
+        .pdf-terms {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: var(--cream);
+            border-radius: 8px;
+        }
+
+        .pdf-terms-title {
+            font-weight: 600;
+            color: var(--charcoal);
+            margin-bottom: 1rem;
+        }
+
+        .pdf-terms-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .pdf-terms-list li {
+            margin-bottom: 0.5rem;
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+        }
+
+        .pdf-footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--light-gray);
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                align-items: center;
+                gap: 0.5rem;
+            }
+
+            .generator-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .calculate-section {
+                position: static;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .generator-title {
+                font-size: 2rem;
+            }
+
+            .generator-header {
+                padding: 2rem 0;
+            }
+
+            .main-content {
+                padding: 2rem 1rem;
+            }
+
+            .form-section {
+                padding: 2rem;
+            }
+
+            .pdf-client-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-item {
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
+            }
+
+            .generator-title {
+                font-size: 1.5rem;
+            }
+
+            .form-section,
+            .calculate-section {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav-header">
+        <div class="nav-container">
+            <a href="index.html" class="nav-item">🏠 Business Hub</a>
+            <a href="admin-dashboard.html" class="nav-item">📊 Admin Dashboard</a>
+            <a href="client-proposal.html" class="nav-item">📋 Client Proposals</a>
+            <a href="pdf-proposal-generator.html" class="nav-item active">📄 PDF Generator</a>
+            <a href="client-portal.html" class="nav-item">👥 Client Portal</a>
+            <a href="multi-photo-gallery.html" class="nav-item">📸 Photo Gallery</a>
+            <a href="demo.html" class="nav-item">🎭 Live Demo</a>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="generator-header">
+        <div class="header-content">
+            <h1 class="generator-title" id="generator-title">Professional Proposal Generator</h1>
+            <p class="generator-subtitle" id="generator-subtitle">Create branded PDF proposals in minutes</p>
+            <p class="generator-description">Transform your client interactions with professional, branded proposals that close deals faster</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="generator-grid">
+            <!-- Form Section -->
+            <div class="form-section">
+                <h2 class="section-title">
+                    📋 Project Details
+                </h2>
+
+                <div id="status-message" class="status-message"></div>
+
+                <form id="proposal-form" class="form-grid">
+                    <!-- Client Information -->
+                    <div class="form-group">
+                        <h3 style="color: var(--primary-gold); font-size: 1.2rem; margin-bottom: 1rem;">👥 Client Information</h3>
+                        <div class="form-row">
+                            <div>
+                                <label class="form-label" for="client-name">Client Name *</label>
+                                <input type="text" id="client-name" class="form-input" placeholder="John & Jane Smith" required>
+                            </div>
+                            <div>
+                                <label class="form-label" for="client-email">Email Address</label>
+                                <input type="email" id="client-email" class="form-input" placeholder="client@example.com">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div>
+                                <label class="form-label" for="client-phone">Phone Number</label>
+                                <input type="tel" id="client-phone" class="form-input" placeholder="(503) 123-4567">
+                            </div>
+                            <div>
+                                <label class="form-label" for="project-address">Project Address</label>
+                                <input type="text" id="project-address" class="form-input" placeholder="1234 Oak Street, Portland, OR">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project Specifications -->
+                    <div class="form-group">
+                        <h3 style="color: var(--primary-gold); font-size: 1.2rem; margin-bottom: 1rem;">🏗️ Project Specifications</h3>
+                        <div class="form-row">
+                            <div>
+                                <label class="form-label" for="project-type">Project Type *</label>
+                                <select id="project-type" class="form-select" required>
+                                    <option value="">Select Project Type</option>
+                                    <option value="kitchen-remodel">Complete Kitchen Remodel</option>
+                                    <option value="kitchen-cabinets">Kitchen Cabinets Only</option>
+                                    <option value="bathroom-vanity">Bathroom Vanity</option>
+                                    <option value="built-ins">Custom Built-ins</option>
+                                    <option value="laundry-room">Laundry Room Cabinets</option>
+                                    <option value="office-cabinets">Home Office Built-ins</option>
+                                    <option value="pantry">Walk-in Pantry</option>
+                                    <option value="mudroom">Mudroom Storage</option>
+                                    <option value="entertainment">Entertainment Center</option>
+                                    <option value="other">Other Custom Work</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="form-label" for="linear-footage">Estimated Linear Footage *</label>
+                                <input type="number" id="linear-footage" class="form-input" placeholder="25" min="1" step="0.5" required>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="form-label" for="project-description">Project Description</label>
+                            <textarea id="project-description" class="form-textarea" placeholder="Describe the specific requirements, style preferences, and any special considerations for this project..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Pricing Tier Selection -->
+                    <div class="form-group">
+                        <h3 style="color: var(--primary-gold); font-size: 1.2rem; margin-bottom: 1rem;">💰 Select Pricing Tier *</h3>
+                        <div class="pricing-grid" id="pricing-tiers">
+                            <!-- Pricing tiers will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Add-ons and Options -->
+                    <div class="form-group">
+                        <h3 style="color: var(--primary-gold); font-size: 1.2rem; margin-bottom: 1rem;">🔧 Add-ons & Options</h3>
+                        <div class="addons-grid" id="addons-list">
+                            <!-- Add-ons will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Timeline and Terms -->
+                    <div class="form-group">
+                        <h3 style="color: var(--primary-gold); font-size: 1.2rem; margin-bottom: 1rem;">📅 Timeline & Terms</h3>
+                        <div class="form-row">
+                            <div>
+                                <label class="form-label" for="project-timeline">Estimated Timeline</label>
+                                <select id="project-timeline" class="form-select">
+                                    <option value="4-6 weeks">4-6 weeks (Standard)</option>
+                                    <option value="6-8 weeks">6-8 weeks (Complex Project)</option>
+                                    <option value="8-12 weeks">8-12 weeks (Large Scale)</option>
+                                    <option value="2-4 weeks">2-4 weeks (Rush Job +15%)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="form-label" for="discount-percent">Discount %</label>
+                                <input type="number" id="discount-percent" class="form-input" placeholder="0" min="0" max="50" step="1">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Template Management -->
+                <div class="templates-section">
+                    <h3 class="templates-title">📁 Template Management</h3>
+                    <div class="form-row" style="margin-bottom: 1rem;">
+                        <input type="text" id="template-name" class="form-input" placeholder="Enter template name">
+                        <button type="button" id="save-template-btn" class="action-btn secondary">💾 Save Template</button>
+                    </div>
+                    <div class="templates-grid" id="saved-templates">
+                        <!-- Saved templates will appear here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Calculate Section -->
+            <div class="calculate-section">
+                <h3 class="calculate-title">💰 Project Estimate</h3>
+                
+                <div id="calculation-breakdown">
+                    <div class="calc-row">
+                        <span class="calc-label">Base Cost:</span>
+                        <span class="calc-value" id="base-cost">$0</span>
+                    </div>
+                    <div class="calc-row">
+                        <span class="calc-label">Add-ons:</span>
+                        <span class="calc-value" id="addons-cost">$0</span>
+                    </div>
+                    <div class="calc-row">
+                        <span class="calc-label">Subtotal:</span>
+                        <span class="calc-value" id="subtotal">$0</span>
+                    </div>
+                    <div class="calc-row">
+                        <span class="calc-label">Discount:</span>
+                        <span class="calc-value" id="discount-amount">-$0</span>
+                    </div>
+                    <div class="calc-row">
+                        <span class="calc-label">Discounted Total:</span>
+                        <span class="calc-value" id="discounted-total">$0</span>
+                    </div>
+                    <div class="calc-row">
+                        <span class="calc-label">Tax (8.25%):</span>
+                        <span class="calc-value" id="tax-amount">$0</span>
+                    </div>
+                    <div class="calc-row total">
+                        <span class="calc-label">Total:</span>
+                        <span class="calc-value" id="total-cost">$0</span>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button type="button" id="generate-pdf-btn" class="action-btn primary" disabled>
+                        <span class="loading-spinner"></span>
+                        📄 Generate PDF Proposal
+                    </button>
+                    <button type="button" id="preview-btn" class="action-btn secondary">
+                        👀 Preview Proposal
+                    </button>
+                    <button type="button" id="clear-form-btn" class="action-btn secondary">
+                        🔄 Clear Form
+                    </button>
+                </div>
+
+                <!-- Quick Stats -->
+                <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--light-gray);">
+                    <h4 style="color: var(--dark-gray); margin-bottom: 1rem;">📊 Quick Stats</h4>
+                    <div style="font-size: 0.9rem; color: var(--dark-gray); line-height: 1.8;">
+                        <div>Cost per LF: <span id="cost-per-lf" style="font-weight: 600; color: var(--primary-gold);">$0</span></div>
+                        <div>Project Size: <span id="project-size" style="font-weight: 600; color: var(--primary-gold);">Medium</span></div>
+                        <div>Timeline: <span id="timeline-display" style="font-weight: 600; color: var(--primary-gold);">4-6 weeks</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- PDF Preview (Hidden) -->
+    <div id="pdf-preview" class="pdf-preview">
+        <div class="pdf-header">
+            <div class="pdf-logo" id="pdf-logo">🪵</div>
+            <div class="pdf-company">
+                <div class="pdf-company-name" id="pdf-company-name">Foundry Cabinets Co</div>
+                <div class="pdf-contact" id="pdf-contact">Portland, OR • 360-606-1106 • scott@ddbteam.com</div>
+            </div>
+        </div>
+
+        <h1 class="pdf-title">Professional Project Proposal</h1>
+
+        <div class="pdf-client-info">
+            <div class="pdf-client-grid">
+                <div class="pdf-info-item">
+                    <span class="pdf-label">Client:</span>
+                    <span class="pdf-value" id="pdf-client-name">-</span>
+                </div>
+                <div class="pdf-info-item">
+                    <span class="pdf-label">Email:</span>
+                    <span class="pdf-value" id="pdf-client-email">-</span>
+                </div>
+                <div class="pdf-info-item">
+                    <span class="pdf-label">Phone:</span>
+                    <span class="pdf-value" id="pdf-client-phone">-</span>
+                </div>
+                <div class="pdf-info-item">
+                    <span class="pdf-label">Address:</span>
+                    <span class="pdf-value" id="pdf-project-address">-</span>
+                </div>
+                <div class="pdf-info-item">
+                    <span class="pdf-label">Project:</span>
+                    <span class="pdf-value" id="pdf-project-type">-</span>
+                </div>
+                <div class="pdf-info-item">
+                    <span class="pdf-label">Date:</span>
+                    <span class="pdf-value" id="pdf-date">-</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="pdf-estimate">
+            <h3 class="pdf-estimate-title">Project Estimate Breakdown</h3>
+            <table class="pdf-estimate-table">
+                <thead>
+                    <tr>
+                        <th>Description</th>
+                        <th>Quantity</th>
+                        <th>Rate</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody id="pdf-estimate-items">
+                    <!-- Estimate items will be populated -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="pdf-terms">
+            <h4 class="pdf-terms-title">Terms & Conditions</h4>
+            <ul class="pdf-terms-list">
+                <li>• Project timeline is estimated and subject to material availability</li>
+                <li>• 50% deposit required to begin work, balance due upon completion</li>
+                <li>• 5-year comprehensive warranty on all workmanship and materials</li>
+                <li>• Changes to scope may affect timeline and pricing</li>
+                <li>• This estimate is valid for 30 days from the date above</li>
+                <li>• Licensed, bonded, and insured contractor</li>
+            </ul>
+        </div>
+
+        <div class="pdf-footer">
+            <p>Thank you for considering <span id="pdf-company-footer">Foundry Cabinets Co</span> for your project!</p>
+            <p>We look forward to transforming your space with exceptional craftsmanship.</p>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentConfig = null;
+        let selectedTier = null;
+        let selectedAddons = new Set();
+
+        // Pricing data (will be loaded from config)
+        const pricingTiers = {
+            economy: { min: 800, max: 1200, avg: 965, name: 'Economy', description: 'Quality materials, solid construction' },
+            standard: { min: 1000, max: 1500, avg: 1225, name: 'Standard', description: 'Enhanced features, better finishes' },
+            premium: { min: 1400, max: 1900, avg: 1630, name: 'Premium', description: 'High-end materials, custom details' },
+            luxury: { min: 1900, max: 2600, avg: 2250, name: 'Luxury', description: 'Luxury finishes, premium hardware' }
+        };
+
+        // Add-ons data
+        const addonsData = [
+            { id: 'soft-close', name: 'Soft-Close Hinges & Slides', price: 850, description: 'Premium hardware for smooth operation' },
+            { id: 'crown-molding', name: 'Crown Molding Package', price: 650, description: 'Professional finishing touches' },
+            { id: 'lighting', name: 'Under-Cabinet LED Lighting', price: 750, description: 'Energy-efficient task lighting' },
+            { id: 'pullout-drawers', name: 'Pull-Out Drawer Organizers', price: 950, description: 'Maximize storage efficiency' },
+            { id: 'lazy-susan', name: 'Corner Lazy Susan Systems', price: 450, description: 'Optimize corner cabinet access' },
+            { id: 'wine-rack', name: 'Built-in Wine Storage', price: 550, description: 'Custom wine bottle storage' },
+            { id: 'spice-rack', name: 'Pull-Out Spice Racks', price: 350, description: 'Organized spice storage' },
+            { id: 'trash-pullout', name: 'Trash Pull-Out Systems', price: 275, description: 'Concealed waste management' },
+            { id: 'glass-doors', name: 'Glass Cabinet Doors', price: 650, description: 'Elegant display options' },
+            { id: 'premium-handles', name: 'Premium Hardware Upgrade', price: 450, description: 'Luxury cabinet hardware' }
+        ];
+
+        // Configuration application
+        function applyConfiguration() {
+            try {
+                if (!window.CONFIG) {
+                    console.warn('⚠️ No configuration available');
+                    return false;
+                }
+
+                currentConfig = window.CONFIG;
+
+                // Update page elements
+                const elements = {
+                    'page-title': `${currentConfig.companyName} - PDF Proposal Generator`,
+                    'generator-title': `${currentConfig.companyName} Proposal Generator`,
+                    'generator-subtitle': 'Create professional PDF proposals',
+                    'pdf-company-name': currentConfig.companyName,
+                    'pdf-company-footer': currentConfig.companyName,
+                    'pdf-logo': currentConfig.logo || '🪵'
+                };
+
+                for (const [id, value] of Object.entries(elements)) {
+                    const el = document.getElementById(id);
+                    if (el) el.textContent = value;
+                }
+
+                // Update contact info
+                const contactEl = document.getElementById('pdf-contact');
+                if (contactEl && currentConfig.location) {
+                    contactEl.textContent = `${currentConfig.location} • ${currentConfig.phone} • ${currentConfig.email}`;
+                }
+
+                // Update document title
+                document.title = elements['page-title'];
+
+                // Initialize pricing tiers from config if available
+                if (currentConfig.pricing) {
+                    Object.assign(pricingTiers, currentConfig.pricing);
+                }
+
+                return true;
+
+            } catch (error) {
+                console.error('🚨 Error applying configuration:', error);
+                return false;
+            }
+        }
+
+        // Initialize pricing tiers UI
+        function initializePricingTiers() {
+            const container = document.getElementById('pricing-tiers');
+            container.innerHTML = '';
+
+            Object.entries(pricingTiers).forEach(([key, tier]) => {
+                const tierElement = document.createElement('div');
+                tierElement.className = 'pricing-tier';
+                tierElement.dataset.tier = key;
+                tierElement.innerHTML = `
+                    <div class="tier-name">${tier.name}</div>
+                    <div class="tier-price">$${tier.avg}/LF</div>
+                    <div class="tier-range">$${tier.min} - $${tier.max}/LF</div>
+                    ${tier.description ? `<div style="font-size: 0.8rem; color: var(--dark-gray); margin-top: 0.5rem;">${tier.description}</div>` : ''}
+                `;
+
+                tierElement.addEventListener('click', () => selectPricingTier(key, tierElement));
+                container.appendChild(tierElement);
+            });
+        }
+
+        // Initialize add-ons UI
+        function initializeAddons() {
+            const container = document.getElementById('addons-list');
+            container.innerHTML = '';
+
+            addonsData.forEach(addon => {
+                const addonElement = document.createElement('div');
+                addonElement.className = 'addon-item';
+                addonElement.dataset.addonId = addon.id;
+                addonElement.innerHTML = `
+                    <div class="addon-info">
+                        <div class="addon-name">${addon.name}</div>
+                        <div class="addon-description">${addon.description}</div>
+                    </div>
+                    <div class="addon-price">$${addon.price}</div>
+                    <input type="checkbox" class="addon-checkbox" data-addon="${addon.id}">
+                `;
+
+                const checkbox = addonElement.querySelector('.addon-checkbox');
+                checkbox.addEventListener('change', (e) => toggleAddon(addon.id, e.target.checked, addonElement));
+                container.appendChild(addonElement);
+            });
+        }
+
+        // Select pricing tier
+        function selectPricingTier(tierKey, element) {
+            // Remove previous selection
+            document.querySelectorAll('.pricing-tier.selected').forEach(el => {
+                el.classList.remove('selected');
+            });
+
+            // Select new tier
+            element.classList.add('selected');
+            selectedTier = tierKey;
+
+            // Enable form validation
+            validateForm();
+            calculateEstimate();
+        }
+
+        // Toggle add-on
+        function toggleAddon(addonId, checked, element) {
+            if (checked) {
+                selectedAddons.add(addonId);
+                element.classList.add('selected');
+            } else {
+                selectedAddons.delete(addonId);
+                element.classList.remove('selected');
+            }
+            calculateEstimate();
+        }
+
+        // Calculate estimate
+        function calculateEstimate() {
+            const linearFootage = parseFloat(document.getElementById('linear-footage').value) || 0;
+            const discountPercent = parseFloat(document.getElementById('discount-percent').value) || 0;
+
+            if (!selectedTier || linearFootage === 0) {
+                resetCalculation();
+                return;
+            }
+
+            const tierPrice = pricingTiers[selectedTier].avg;
+            const baseCost = linearFootage * tierPrice;
+
+            // Calculate add-ons cost
+            let addonsCost = 0;
+            selectedAddons.forEach(addonId => {
+                const addon = addonsData.find(a => a.id === addonId);
+                if (addon) addonsCost += addon.price;
+            });
+
+            const subtotal = baseCost + addonsCost;
+            const discountAmount = subtotal * (discountPercent / 100);
+            const discountedTotal = subtotal - discountAmount;
+            const taxAmount = discountedTotal * 0.0825; // 8.25% tax
+            const totalCost = discountedTotal + taxAmount;
+
+            // Update UI
+            document.getElementById('base-cost').textContent = formatCurrency(baseCost);
+            document.getElementById('addons-cost').textContent = formatCurrency(addonsCost);
+            document.getElementById('subtotal').textContent = formatCurrency(subtotal);
+            document.getElementById('discount-amount').textContent = `-${formatCurrency(discountAmount)}`;
+            document.getElementById('discounted-total').textContent = formatCurrency(discountedTotal);
+            document.getElementById('tax-amount').textContent = formatCurrency(taxAmount);
+            document.getElementById('total-cost').textContent = formatCurrency(totalCost);
+
+            // Update quick stats
+            document.getElementById('cost-per-lf').textContent = `$${Math.round(totalCost / linearFootage)}`;
+            document.getElementById('project-size').textContent = getProjectSize(linearFootage);
+            document.getElementById('timeline-display').textContent = document.getElementById('project-timeline').value;
+        }
+
+        // Reset calculation display
+        function resetCalculation() {
+            const elements = ['base-cost', 'addons-cost', 'subtotal', 'discount-amount', 'discounted-total', 'tax-amount', 'total-cost'];
+            elements.forEach(id => {
+                document.getElementById(id).textContent = '$0';
+            });
+            document.getElementById('cost-per-lf').textContent = '$0';
+        }
+
+        // Format currency
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(amount);
+        }
+
+        // Get project size category
+        function getProjectSize(linearFootage) {
+            if (linearFootage < 15) return 'Small';
+            if (linearFootage < 25) return 'Medium';
+            if (linearFootage < 40) return 'Large';
+            return 'Extra Large';
+        }
+
+        // Form validation
+        function validateForm() {
+            const clientName = document.getElementById('client-name').value.trim();
+            const projectType = document.getElementById('project-type').value;
+            const linearFootage = document.getElementById('linear-footage').value;
+
+            const isValid = clientName && projectType && linearFootage && selectedTier;
+            document.getElementById('generate-pdf-btn').disabled = !isValid;
+            
+            return isValid;
+        }
+
+        // Show status message
+        function showStatus(message, type = 'success') {
+            const statusEl = document.getElementById('status-message');
+            statusEl.textContent = message;
+            statusEl.className = `status-message ${type}`;
+            statusEl.style.display = 'block';
+
+            setTimeout(() => {
+                statusEl.style.display = 'none';
+            }, 5000);
+        }
+
+        // Generate PDF
+        async function generatePDF() {
+            if (!validateForm()) {
+                showStatus('Please fill in all required fields', 'error');
+                return;
+            }
+
+            const button = document.getElementById('generate-pdf-btn');
+            const spinner = button.querySelector('.loading-spinner');
+            
+            // Show loading state
+            button.disabled = true;
+            spinner.style.display = 'inline-block';
+            button.innerHTML = `<span class="loading-spinner" style="display: inline-block;"></span> Generating PDF...`;
+
+            try {
+                // Update PDF preview with current data
+                updatePDFPreview();
+
+                // Create PDF using jsPDF and html2canvas
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF('p', 'mm', 'a4');
+
+                // Capture the PDF preview element
+                const element = document.getElementById('pdf-preview');
+                element.style.display = 'block';
+
+                const canvas = await html2canvas(element, {
+                    scale: 2,
+                    useCORS: true,
+                    allowTaint: true,
+                    backgroundColor: '#ffffff'
+                });
+
+                element.style.display = 'none';
+
+                // Calculate dimensions
+                const imgWidth = 210; // A4 width in mm
+                const pageHeight = 295; // A4 height in mm
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                let heightLeft = imgHeight;
+
+                let position = 0;
+
+                // Add image to PDF
+                pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+
+                // Add new page if content is longer
+                while (heightLeft >= 0) {
+                    position = heightLeft - imgHeight;
+                    pdf.addPage();
+                    pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+                }
+
+                // Generate filename
+                const clientName = document.getElementById('client-name').value.trim();
+                const date = new Date().toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '-');
+                const filename = `${clientName.replace(/\s+/g, '_')}_Proposal_${date}.pdf`;
+
+                // Save PDF
+                pdf.save(filename);
+
+                showStatus('PDF proposal generated successfully!', 'success');
+
+            } catch (error) {
+                console.error('Error generating PDF:', error);
+                showStatus('Error generating PDF. Please try again.', 'error');
+            } finally {
+                // Reset button state
+                button.disabled = false;
+                spinner.style.display = 'none';
+                button.innerHTML = '📄 Generate PDF Proposal';
+            }
+        }
+
+        // Update PDF preview
+        function updatePDFPreview() {
+            const clientName = document.getElementById('client-name').value || '-';
+            const clientEmail = document.getElementById('client-email').value || '-';
+            const clientPhone = document.getElementById('client-phone').value || '-';
+            const projectAddress = document.getElementById('project-address').value || '-';
+            const projectType = document.getElementById('project-type').selectedOptions[0]?.text || '-';
+            const linearFootage = document.getElementById('linear-footage').value || '0';
+            const timeline = document.getElementById('project-timeline').value || '4-6 weeks';
+
+            // Update PDF fields
+            document.getElementById('pdf-client-name').textContent = clientName;
+            document.getElementById('pdf-client-email').textContent = clientEmail;
+            document.getElementById('pdf-client-phone').textContent = clientPhone;
+            document.getElementById('pdf-project-address').textContent = projectAddress;
+            document.getElementById('pdf-project-type').textContent = projectType;
+            document.getElementById('pdf-date').textContent = new Date().toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+
+            // Update estimate table
+            const tbody = document.getElementById('pdf-estimate-items');
+            tbody.innerHTML = '';
+
+            if (selectedTier) {
+                const tierPrice = pricingTiers[selectedTier].avg;
+                const baseCost = parseFloat(linearFootage) * tierPrice;
+                const discountPercent = parseFloat(document.getElementById('discount-percent').value) || 0;
+
+                // Base cost row
+                const baseRow = document.createElement('tr');
+                baseRow.innerHTML = `
+                    <td>${pricingTiers[selectedTier].name} Cabinets</td>
+                    <td>${linearFootage} LF</td>
+                    <td>$${tierPrice}/LF</td>
+                    <td>${formatCurrency(baseCost)}</td>
+                `;
+                tbody.appendChild(baseRow);
+
+                // Add-ons rows
+                let totalAddons = 0;
+                selectedAddons.forEach(addonId => {
+                    const addon = addonsData.find(a => a.id === addonId);
+                    if (addon) {
+                        const addonRow = document.createElement('tr');
+                        addonRow.innerHTML = `
+                            <td>${addon.name}</td>
+                            <td>1</td>
+                            <td>$${addon.price}</td>
+                            <td>${formatCurrency(addon.price)}</td>
+                        `;
+                        tbody.appendChild(addonRow);
+                        totalAddons += addon.price;
+                    }
+                });
+
+                // Subtotal
+                const subtotal = baseCost + totalAddons;
+                const subtotalRow = document.createElement('tr');
+                subtotalRow.innerHTML = `
+                    <td colspan="3"><strong>Subtotal</strong></td>
+                    <td><strong>${formatCurrency(subtotal)}</strong></td>
+                `;
+                tbody.appendChild(subtotalRow);
+
+                // Discount if applicable
+                if (discountPercent > 0) {
+                    const discountAmount = subtotal * (discountPercent / 100);
+                    const discountRow = document.createElement('tr');
+                    discountRow.innerHTML = `
+                        <td colspan="3">Discount (${discountPercent}%)</td>
+                        <td>-${formatCurrency(discountAmount)}</td>
+                    `;
+                    tbody.appendChild(discountRow);
+                }
+
+                // Tax and total
+                const discountAmount = subtotal * (discountPercent / 100);
+                const discountedTotal = subtotal - discountAmount;
+                const taxAmount = discountedTotal * 0.0825;
+                const totalCost = discountedTotal + taxAmount;
+
+                const taxRow = document.createElement('tr');
+                taxRow.innerHTML = `
+                    <td colspan="3">Tax (8.25%)</td>
+                    <td>${formatCurrency(taxAmount)}</td>
+                `;
+                tbody.appendChild(taxRow);
+
+                const totalRow = document.createElement('tr');
+                totalRow.className = 'total-row';
+                totalRow.innerHTML = `
+                    <td colspan="3"><strong>TOTAL PROJECT COST</strong></td>
+                    <td><strong>${formatCurrency(totalCost)}</strong></td>
+                `;
+                tbody.appendChild(totalRow);
+            }
+        }
+
+        // Preview proposal
+        function previewProposal() {
+            updatePDFPreview();
+            const preview = document.getElementById('pdf-preview');
+            preview.style.display = 'block';
+            preview.scrollIntoView({ behavior: 'smooth' });
+            
+            setTimeout(() => {
+                preview.style.display = 'none';
+            }, 10000);
+        }
+
+        // Clear form
+        function clearForm() {
+            if (confirm('Are you sure you want to clear all form data?')) {
+                document.getElementById('proposal-form').reset();
+                selectedTier = null;
+                selectedAddons.clear();
+                
+                document.querySelectorAll('.pricing-tier.selected').forEach(el => {
+                    el.classList.remove('selected');
+                });
+                
+                document.querySelectorAll('.addon-item.selected').forEach(el => {
+                    el.classList.remove('selected');
+                });
+                
+                document.querySelectorAll('.addon-checkbox').forEach(cb => {
+                    cb.checked = false;
+                });
+                
+                resetCalculation();
+                validateForm();
+                showStatus('Form cleared successfully', 'success');
+            }
+        }
+
+        // Template management
+        function saveTemplate() {
+            const templateName = document.getElementById('template-name').value.trim();
+            if (!templateName) {
+                showStatus('Please enter a template name', 'warning');
+                return;
+            }
+
+            const templateData = {
+                clientName: document.getElementById('client-name').value,
+                projectType: document.getElementById('project-type').value,
+                linearFootage: document.getElementById('linear-footage').value,
+                projectDescription: document.getElementById('project-description').value,
+                selectedTier,
+                selectedAddons: Array.from(selectedAddons),
+                projectTimeline: document.getElementById('project-timeline').value,
+                discountPercent: document.getElementById('discount-percent').value
+            };
+
+            // Save to localStorage
+            let templates = JSON.parse(localStorage.getItem('proposalTemplates') || '{}');
+            templates[templateName] = templateData;
+            localStorage.setItem('proposalTemplates', JSON.stringify(templates));
+
+            document.getElementById('template-name').value = '';
+            loadSavedTemplates();
+            showStatus(`Template "${templateName}" saved successfully!`, 'success');
+        }
+
+        function loadSavedTemplates() {
+            const container = document.getElementById('saved-templates');
+            const templates = JSON.parse(localStorage.getItem('proposalTemplates') || '{}');
+            
+            container.innerHTML = '';
+            
+            Object.keys(templates).forEach(templateName => {
+                const templateEl = document.createElement('div');
+                templateEl.className = 'template-item';
+                templateEl.innerHTML = `
+                    <span class="template-name">${templateName}</span>
+                    <div class="template-actions">
+                        <button class="template-btn load" onclick="loadTemplate('${templateName}')">Load</button>
+                        <button class="template-btn delete" onclick="deleteTemplate('${templateName}')">Delete</button>
+                    </div>
+                `;
+                container.appendChild(templateEl);
+            });
+        }
+
+        function loadTemplate(templateName) {
+            const templates = JSON.parse(localStorage.getItem('proposalTemplates') || '{}');
+            const template = templates[templateName];
+            
+            if (!template) return;
+
+            // Load form data
+            document.getElementById('client-name').value = template.clientName || '';
+            document.getElementById('project-type').value = template.projectType || '';
+            document.getElementById('linear-footage').value = template.linearFootage || '';
+            document.getElementById('project-description').value = template.projectDescription || '';
+            document.getElementById('project-timeline').value = template.projectTimeline || '4-6 weeks';
+            document.getElementById('discount-percent').value = template.discountPercent || '';
+
+            // Load pricing tier
+            if (template.selectedTier) {
+                selectedTier = template.selectedTier;
+                document.querySelector(`[data-tier="${selectedTier}"]`)?.classList.add('selected');
+            }
+
+            // Load addons
+            selectedAddons.clear();
+            if (template.selectedAddons) {
+                template.selectedAddons.forEach(addonId => {
+                    selectedAddons.add(addonId);
+                    const checkbox = document.querySelector(`[data-addon="${addonId}"]`);
+                    if (checkbox) {
+                        checkbox.checked = true;
+                        checkbox.closest('.addon-item').classList.add('selected');
+                    }
+                });
+            }
+
+            calculateEstimate();
+            validateForm();
+            showStatus(`Template "${templateName}" loaded successfully!`, 'success');
+        }
+
+        function deleteTemplate(templateName) {
+            if (confirm(`Are you sure you want to delete template "${templateName}"?`)) {
+                let templates = JSON.parse(localStorage.getItem('proposalTemplates') || '{}');
+                delete templates[templateName];
+                localStorage.setItem('proposalTemplates', JSON.stringify(templates));
+                
+                loadSavedTemplates();
+                showStatus(`Template "${templateName}" deleted successfully!`, 'success');
+            }
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Apply configuration
+            setTimeout(() => {
+                applyConfiguration();
+                initializePricingTiers();
+                initializeAddons();
+                loadSavedTemplates();
+                validateForm();
+                console.log('✅ PDF Proposal Generator initialized successfully');
+            }, 100);
+
+            // Form input listeners
+            ['client-name', 'project-type', 'linear-footage', 'discount-percent'].forEach(id => {
+                document.getElementById(id).addEventListener('input', () => {
+                    validateForm();
+                    calculateEstimate();
+                });
+            });
+
+            document.getElementById('project-timeline').addEventListener('change', calculateEstimate);
+
+            // Button listeners
+            document.getElementById('generate-pdf-btn').addEventListener('click', generatePDF);
+            document.getElementById('preview-btn').addEventListener('click', previewProposal);
+            document.getElementById('clear-form-btn').addEventListener('click', clearForm);
+            document.getElementById('save-template-btn').addEventListener('click', saveTemplate);
+        });
+    </script>
+</body>
+</html>

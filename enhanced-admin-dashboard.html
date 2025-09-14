@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">Admin Dashboard - Foundry Cabinets Co</title>
+    
+    <!-- 🛡️ BULLETPROOF CONFIGURATION SYSTEM -->
+    <script src="config.js"></script>
+    
+    <style>
+        :root {
+            --primary-gold: #D4B062;
+            --light-gold: #F4E4A1;
+            --cream: #FBF8F0;
+            --warm-white: #FEFCF7;
+            --charcoal: #2C2C2C;
+            --dark-gray: #4A4A4A;
+            --light-gray: #E8E8E8;
+            --success: #2E7D4A;
+            --warning: #C5801A;
+            --danger: #D73502;
+            --info: #0066CC;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, var(--warm-white) 0%, var(--cream) 100%);
+            color: var(--charcoal);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Navigation */
+        .nav-header {
+            background: white;
+            border-bottom: 1px solid var(--light-gray);
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            padding: 0 2rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-item {
+            color: var(--dark-gray);
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        .nav-item:hover {
+            background: var(--light-gold);
+            color: var(--charcoal);
+        }
+
+        .nav-item.active {
+            background: var(--primary-gold);
+            color: white;
+        }
+
+        /* Dashboard Header */
+        .dashboard-header {
+            background: linear-gradient(135deg, var(--primary-gold), #C5A055);
+            color: white;
+            padding: 2rem 0;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .header-info h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .header-subtitle {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .quick-action-btn {
+            background: rgba(255,255,255,0.2);
+            border: 2px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .quick-action-btn:hover {
+            background: rgba(255,255,255,0.3);
+            border-color: rgba(255,255,255,0.5);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .last-updated {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Dashboard Content */
+        .dashboard-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+        }
+
+        .main-content {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .sidebar {
+            display: grid;
+            gap: 2rem;
+            height: fit-content;
+        }
+
+        /* Stats Cards */
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border-left: 6px solid var(--primary-gold);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 48px rgba(0,0,0,0.15);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .stat-title {
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+            font-weight: 500;
+        }
+
+        .stat-icon {
+            font-size: 1.5rem;
+            color: var(--primary-gold);
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--charcoal);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-change {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .stat-change.positive {
+            color: var(--success);
+        }
+
+        .stat-change.negative {
+            color: var(--danger);
+        }
+
+        /* Project Cards Section */
+        .projects-section {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border-left: 6px solid var(--primary-gold);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: var(--charcoal);
+            font-weight: 600;
+        }
+
+        .section-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .tab-btn {
+            background: var(--light-gray);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn:hover {
+            background: var(--light-gold);
+        }
+
+        .tab-btn.active {
+            background: var(--primary-gold);
+            color: white;
+        }
+
+        .view-toggle-small {
+            display: flex;
+            background: var(--light-gray);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .view-btn-small {
+            background: none;
+            border: none;
+            padding: 0.5rem 0.75rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+            transition: all 0.3s ease;
+        }
+
+        .view-btn-small.active {
+            background: var(--primary-gold);
+            color: white;
+        }
+
+        /* Project Cards Grid */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .projects-grid.list-view {
+            grid-template-columns: 1fr;
+        }
+
+        .project-card {
+            background: var(--cream);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border-left: 4px solid transparent;
+        }
+
+        .project-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        }
+
+        .project-card.status-planning {
+            border-left-color: var(--info);
+        }
+
+        .project-card.status-active {
+            border-left-color: var(--primary-gold);
+        }
+
+        .project-card.status-installation {
+            border-left-color: var(--warning);
+        }
+
+        .project-card.status-completed {
+            border-left-color: var(--success);
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .project-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--charcoal);
+            margin-bottom: 0.25rem;
+        }
+
+        .project-client {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+        }
+
+        .project-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+
+        .project-status.status-planning {
+            background: rgba(0,102,204,0.1);
+            color: var(--info);
+        }
+
+        .project-status.status-active {
+            background: rgba(212,176,98,0.2);
+            color: var(--primary-gold);
+        }
+
+        .project-status.status-installation {
+            background: rgba(197,128,26,0.2);
+            color: var(--warning);
+        }
+
+        .project-status.status-completed {
+            background: rgba(46,125,74,0.2);
+            color: var(--success);
+        }
+
+        .project-progress {
+            margin: 1rem 0;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-label {
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+        }
+
+        .progress-percentage {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--charcoal);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: var(--light-gray);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary-gold);
+            transition: width 0.3s ease;
+        }
+
+        .project-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+            margin-bottom: 1rem;
+        }
+
+        .project-value {
+            font-weight: 600;
+            color: var(--charcoal);
+        }
+
+        .project-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .action-btn-small {
+            background: var(--light-gray);
+            border: none;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            color: var(--dark-gray);
+            transition: all 0.3s ease;
+        }
+
+        .action-btn-small:hover {
+            background: var(--light-gold);
+            transform: translateY(-1px);
+        }
+
+        .action-btn-small.primary {
+            background: var(--primary-gold);
+            color: white;
+        }
+
+        .action-btn-small.primary:hover {
+            background: #C5A055;
+        }
+
+        /* List view for projects */
+        .projects-grid.list-view .project-card {
+            display: grid;
+            grid-template-columns: 1fr 150px 100px 200px;
+            gap: 1rem;
+            align-items: center;
+            padding: 1rem 1.5rem;
+        }
+
+        .projects-grid.list-view .project-header {
+            margin: 0;
+        }
+
+        .projects-grid.list-view .project-progress {
+            margin: 0;
+        }
+
+        .projects-grid.list-view .project-meta {
+            margin: 0;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.25rem;
+        }
+
+        .projects-grid.list-view .project-actions {
+            justify-content: flex-end;
+        }
+
+        /* Client Management Sidebar */
+        .client-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border-left: 6px solid var(--primary-gold);
+        }
+
+        .client-list {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .client-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--cream);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .client-item:hover {
+            background: var(--light-gold);
+            transform: translateY(-2px);
+        }
+
+        .client-avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .client-info {
+            flex: 1;
+        }
+
+        .client-name {
+            font-weight: 600;
+            color: var(--charcoal);
+            margin-bottom: 0.25rem;
+        }
+
+        .client-project {
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+        }
+
+        .client-status {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .client-status.active {
+            background: var(--success);
+        }
+
+        .client-status.pending {
+            background: var(--warning);
+        }
+
+        .client-status.completed {
+            background: var(--light-gray);
+        }
+
+        /* Analytics Card */
+        .analytics-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border-left: 6px solid var(--primary-gold);
+        }
+
+        .analytics-chart {
+            width: 100%;
+            height: 200px;
+            background: var(--cream);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark-gray);
+            margin: 1rem 0;
+        }
+
+        .analytics-summary {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .summary-item {
+            text-align: center;
+            padding: 1rem;
+            background: var(--cream);
+            border-radius: 8px;
+        }
+
+        .summary-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--charcoal);
+        }
+
+        .summary-label {
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+        }
+
+        /* Timeline View */
+        .timeline-view {
+            display: none;
+        }
+
+        .timeline-view.active {
+            display: block;
+        }
+
+        .timeline-container {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 2rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--light-gray);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            padding-left: 4rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 1.5rem;
+            top: 0.5rem;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--primary-gold);
+            border: 3px solid white;
+            box-shadow: 0 0 0 2px var(--light-gray);
+        }
+
+        .timeline-date {
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-event {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        }
+
+        .timeline-title {
+            font-weight: 600;
+            color: var(--charcoal);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-description {
+            color: var(--dark-gray);
+            line-height: 1.5;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                order: -1;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                align-items: center;
+                gap: 0.5rem;
+            }
+
+            .nav-item {
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
+            }
+
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 1.5rem;
+            }
+
+            .header-info h1 {
+                font-size: 1.5rem;
+            }
+
+            .dashboard-content {
+                padding: 1rem;
+            }
+
+            .stats-section {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .projects-grid.list-view .project-card {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .section-actions {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 1rem;
+            }
+
+            .filter-tabs {
+                justify-content: center;
+            }
+
+            .sidebar {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline-item {
+                padding-left: 3rem;
+            }
+
+            .timeline-line {
+                left: 1.5rem;
+            }
+
+            .timeline-item::before {
+                left: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .quick-action-btn {
+                flex-direction: column;
+                gap: 0.25rem;
+                padding: 0.75rem;
+                font-size: 0.8rem;
+            }
+
+            .project-actions {
+                justify-content: center;
+            }
+
+            .analytics-summary {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav-header">
+        <div class="nav-container">
+            <a href="index.html" class="nav-item">🏠 Business Hub</a>
+            <a href="admin-dashboard.html" class="nav-item active">📊 Admin Dashboard</a>
+            <a href="client-proposal.html" class="nav-item">📋 Client Proposals</a>
+            <a href="pdf-proposal-generator.html" class="nav-item">📄 PDF Generator</a>
+            <a href="client-portal.html" class="nav-item">👥 Client Portal</a>
+            <a href="multi-photo-gallery.html" class="nav-item">📸 Photo Gallery</a>
+            <a href="demo.html" class="nav-item">🎭 Live Demo</a>
+        </div>
+    </nav>
+
+    <!-- Dashboard Header -->
+    <header class="dashboard-header">
+        <div class="header-content">
+            <div class="header-info">
+                <h1 id="dashboard-title">Admin Dashboard</h1>
+                <p class="header-subtitle" id="dashboard-subtitle">Complete project management and business oversight</p>
+            </div>
+            
+            <div class="header-actions">
+                <a href="pdf-proposal-generator.html" class="quick-action-btn">
+                    📄 <span>New Proposal</span>
+                </a>
+                <button class="quick-action-btn" onclick="addProject()">
+                    ➕ <span>Add Project</span>
+                </button>
+                <button class="quick-action-btn" onclick="viewReports()">
+                    📊 <span>Reports</span>
+                </button>
+                <div class="last-updated" id="last-updated">
+                    Last updated: <span id="update-time">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Dashboard Content -->
+    <div class="dashboard-content">
+        <!-- Stats Section -->
+        <div class="stats-section">
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-title">Active Projects</span>
+                    <span class="stat-icon">🏗️</span>
+                </div>
+                <div class="stat-value" id="active-projects">12</div>
+                <div class="stat-change positive">+3 from last month</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-title">Monthly Revenue</span>
+                    <span class="stat-icon">💰</span>
+                </div>
+                <div class="stat-value" id="monthly-revenue">$124K</div>
+                <div class="stat-change positive">+18% from last month</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-title">Client Satisfaction</span>
+                    <span class="stat-icon">⭐</span>
+                </div>
+                <div class="stat-value" id="satisfaction-score">98%</div>
+                <div class="stat-change positive">+2% from last month</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-title">Completion Rate</span>
+                    <span class="stat-icon">✅</span>
+                </div>
+                <div class="stat-value" id="completion-rate">92%</div>
+                <div class="stat-change positive">On-time delivery</div>
+            </div>
+        </div>
+
+        <!-- Main Dashboard Grid -->
+        <div class="dashboard-grid">
+            <!-- Main Content -->
+            <div class="main-content">
+                <!-- Projects Section -->
+                <div class="projects-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Project Management</h2>
+                        <div class="section-actions">
+                            <div class="filter-tabs">
+                                <button class="tab-btn active" onclick="filterProjects('all')">All</button>
+                                <button class="tab-btn" onclick="filterProjects('active')">Active</button>
+                                <button class="tab-btn" onclick="filterProjects('planning')">Planning</button>
+                                <button class="tab-btn" onclick="filterProjects('installation')">Installation</button>
+                                <button class="tab-btn" onclick="filterProjects('completed')">Completed</button>
+                            </div>
+                            
+                            <div class="view-toggle-small">
+                                <button class="view-btn-small active" onclick="toggleProjectView('grid')">⊞</button>
+                                <button class="view-btn-small" onclick="toggleProjectView('list')">☰</button>
+                                <button class="view-btn-small" onclick="toggleProjectView('timeline')">📅</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Grid View -->
+                    <div class="projects-grid" id="projects-grid">
+                        <!-- Projects will be generated here -->
+                    </div>
+
+                    <!-- Timeline View -->
+                    <div class="timeline-view" id="timeline-view">
+                        <div class="timeline-container" id="timeline-container">
+                            <!-- Timeline events will be generated here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Client Management -->
+                <div class="client-card">
+                    <h3 class="section-title">Recent Clients</h3>
+                    <div class="client-list" id="client-list">
+                        <!-- Clients will be generated here -->
+                    </div>
+                </div>
+
+                <!-- Analytics -->
+                <div class="analytics-card">
+                    <h3 class="section-title">Performance Analytics</h3>
+                    <div class="analytics-chart">
+                        📈 Revenue Trend Chart
+                        <br><small>(Chart integration ready)</small>
+                    </div>
+                    <div class="analytics-summary">
+                        <div class="summary-item">
+                            <div class="summary-value">$1.2M</div>
+                            <div class="summary-label">YTD Revenue</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-value">48</div>
+                            <div class="summary-label">Projects YTD</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration application
+        function applyConfiguration() {
+            try {
+                if (!window.CONFIG) {
+                    console.warn('⚠️ No configuration available');
+                    return false;
+                }
+
+                // Update page elements
+                const elements = {
+                    'page-title': `Admin Dashboard - ${window.CONFIG.companyName}`,
+                    'dashboard-title': 'Admin Dashboard',
+                    'dashboard-subtitle': `Complete project management and business oversight for ${window.CONFIG.companyName}`
+                };
+
+                for (const [id, value] of Object.entries(elements)) {
+                    const el = document.getElementById(id);
+                    if (el && value) {
+                        if (id === 'page-title') {
+                            document.title = value;
+                        } else {
+                            el.textContent = value;
+                        }
+                    }
+                }
+
+                return true;
+            } catch (error) {
+                console.error('🚨 Error applying configuration:', error);
+                return false;
+            }
+        }
+
+        // Dashboard data management
+        let projectsData = [];
+        let clientsData = [];
+        let filteredProjects = [];
+        let currentFilter = 'all';
+        let currentView = 'grid';
+
+        // Sample projects data
+        const sampleProjectsData = [
+            {
+                id: 1,
+                title: "Modern Downtown Kitchen",
+                client: "Thompson Family",
+                status: "active",
+                progress: 65,
+                value: "$45,550",
+                startDate: "2025-03-15",
+                endDate: "2025-04-20",
+                description: "Complete kitchen remodel with custom cabinets, quartz countertops, and modern fixtures."
+            },
+            {
+                id: 2,
+                title: "Traditional Oak Kitchen",
+                client: "Wilson Residence",
+                status: "installation",
+                progress: 85,
+                value: "$38,200",
+                startDate: "2025-02-28",
+                endDate: "2025-04-10",
+                description: "Classic oak cabinetry installation with raised panel doors and granite countertops."
+            },
+            {
+                id: 3,
+                title: "Luxury Master Bathroom",
+                client: "Davis Estate",
+                status: "completed",
+                progress: 100,
+                value: "$28,900",
+                startDate: "2025-02-10",
+                endDate: "2025-03-25",
+                description: "Custom bathroom vanity with dual sinks and premium finishes."
+            },
+            {
+                id: 4,
+                title: "Office Built-ins",
+                client: "Martinez Family",
+                status: "planning",
+                progress: 25,
+                value: "$19,500",
+                startDate: "2025-04-01",
+                endDate: "2025-05-15",
+                description: "Custom home office with floor-to-ceiling bookshelves and integrated desk."
+            },
+            {
+                id: 5,
+                title: "Restaurant Kitchen Refit",
+                client: "Bistro Downtown",
+                status: "active",
+                progress: 45,
+                value: "$67,800",
+                startDate: "2025-03-20",
+                endDate: "2025-05-30",
+                description: "Commercial kitchen upgrade with stainless steel cabinetry and commercial-grade hardware."
+            },
+            {
+                id: 6,
+                title: "Farmhouse Kitchen Renovation",
+                client: "Johnson Farm",
+                status: "completed",
+                progress: 100,
+                value: "$52,300",
+                startDate: "2025-01-15",
+                endDate: "2025-03-01",
+                description: "Rustic farmhouse kitchen with shaker cabinets and butcher block island."
+            },
+            {
+                id: 7,
+                title: "Condo Kitchen Update",
+                client: "Park Avenue Loft",
+                status: "installation",
+                progress: 75,
+                value: "$33,750",
+                startDate: "2025-03-10",
+                endDate: "2025-04-25",
+                description: "Modern condo kitchen with space-saving solutions and premium finishes."
+            },
+            {
+                id: 8,
+                title: "Beach House Kitchen",
+                client: "Coastal Retreat",
+                status: "planning",
+                progress: 15,
+                value: "$44,200",
+                startDate: "2025-04-15",
+                endDate: "2025-06-01",
+                description: "Coastal-inspired kitchen design with weathered finishes and nautical accents."
+            }
+        ];
+
+        // Sample clients data
+        const sampleClientsData = [
+            { name: "Thompson Family", project: "Downtown Kitchen", status: "active" },
+            { name: "Wilson Residence", project: "Oak Kitchen", status: "active" },
+            { name: "Davis Estate", project: "Master Bathroom", status: "completed" },
+            { name: "Martinez Family", project: "Office Built-ins", status: "pending" },
+            { name: "Bistro Downtown", project: "Restaurant Refit", status: "active" },
+            { name: "Johnson Farm", project: "Farmhouse Kitchen", status: "completed" },
+            { name: "Park Avenue Loft", project: "Condo Update", status: "active" },
+            { name: "Coastal Retreat", project: "Beach House", status: "pending" }
+        ];
+
+        // Initialize dashboard
+        function initializeDashboard() {
+            projectsData = [...sampleProjectsData];
+            clientsData = [...sampleClientsData];
+            filteredProjects = [...projectsData];
+            
+            updateLastUpdated();
+            renderProjects();
+            renderClients();
+            updateStats();
+            
+            console.log('📊 Admin Dashboard initialized with', projectsData.length, 'projects');
+        }
+
+        // Update last updated time
+        function updateLastUpdated() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', {
+                hour: 'numeric',
+                minute: '2-digit',
+                hour12: true
+            });
+            document.getElementById('update-time').textContent = timeString;
+        }
+
+        // Update statistics
+        function updateStats() {
+            const activeProjects = projectsData.filter(p => p.status === 'active' || p.status === 'installation').length;
+            const completedProjects = projectsData.filter(p => p.status === 'completed').length;
+            const totalValue = projectsData.reduce((sum, p) => sum + parseFloat(p.value.replace(/[$,]/g, '')), 0);
+            const monthlyRevenue = Math.round(totalValue * 0.3); // Simulate monthly revenue
+            
+            document.getElementById('active-projects').textContent = activeProjects;
+            document.getElementById('monthly-revenue').textContent = '$' + (monthlyRevenue / 1000).toFixed(0) + 'K';
+            
+            // Calculate on-time rate
+            const onTimeRate = Math.round(completedProjects / Math.max(1, completedProjects + 1) * 100);
+            document.getElementById('completion-rate').textContent = onTimeRate + '%';
+        }
+
+        // Render projects
+        function renderProjects() {
+            const grid = document.getElementById('projects-grid');
+            grid.innerHTML = '';
+
+            if (filteredProjects.length === 0) {
+                grid.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--dark-gray);">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">📋</div>
+                        <h3>No projects found</h3>
+                        <p>Try adjusting your filter settings or add a new project.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            filteredProjects.forEach(project => {
+                const card = document.createElement('div');
+                card.className = `project-card status-${project.status}`;
+                card.onclick = () => openProjectDetails(project.id);
+
+                const statusDisplay = {
+                    planning: 'Planning',
+                    active: 'Active',
+                    installation: 'Installation',
+                    completed: 'Completed'
+                };
+
+                card.innerHTML = `
+                    <div class="project-header">
+                        <div>
+                            <div class="project-title">${project.title}</div>
+                            <div class="project-client">${project.client}</div>
+                        </div>
+                        <div class="project-status status-${project.status}">
+                            ${statusDisplay[project.status]}
+                        </div>
+                    </div>
+                    
+                    <div class="project-progress">
+                        <div class="progress-info">
+                            <span class="progress-label">Progress</span>
+                            <span class="progress-percentage">${project.progress}%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${project.progress}%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-meta">
+                        <div class="project-value">${project.value}</div>
+                        <div>Due: ${formatDate(project.endDate)}</div>
+                    </div>
+                    
+                    <div class="project-actions">
+                        <button class="action-btn-small primary" onclick="editProject(${project.id}); event.stopPropagation();">
+                            ✏️ Edit
+                        </button>
+                        <button class="action-btn-small" onclick="contactClient('${project.client}'); event.stopPropagation();">
+                            📞 Contact
+                        </button>
+                        <button class="action-btn-small" onclick="viewProgress(${project.id}); event.stopPropagation();">
+                            📊 Progress
+                        </button>
+                    </div>
+                `;
+
+                grid.appendChild(card);
+            });
+        }
+
+        // Render clients
+        function renderClients() {
+            const list = document.getElementById('client-list');
+            list.innerHTML = '';
+
+            clientsData.slice(0, 6).forEach(client => {
+                const item = document.createElement('div');
+                item.className = 'client-item';
+                item.onclick = () => openClientDetails(client.name);
+
+                const initials = client.name.split(' ').map(n => n[0]).join('');
+
+                item.innerHTML = `
+                    <div class="client-avatar">${initials}</div>
+                    <div class="client-info">
+                        <div class="client-name">${client.name}</div>
+                        <div class="client-project">${client.project}</div>
+                    </div>
+                    <div class="client-status ${client.status}"></div>
+                `;
+
+                list.appendChild(item);
+            });
+        }
+
+        // Filter projects
+        function filterProjects(filter) {
+            currentFilter = filter;
+
+            // Update tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Filter data
+            if (filter === 'all') {
+                filteredProjects = [...projectsData];
+            } else {
+                filteredProjects = projectsData.filter(project => project.status === filter);
+            }
+
+            renderProjects();
+            console.log('🔍 Projects filtered:', filter, '-', filteredProjects.length, 'results');
+        }
+
+        // Toggle project view
+        function toggleProjectView(view) {
+            currentView = view;
+
+            // Update view buttons
+            document.querySelectorAll('.view-btn-small').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Toggle views
+            const grid = document.getElementById('projects-grid');
+            const timeline = document.getElementById('timeline-view');
+
+            if (view === 'timeline') {
+                grid.style.display = 'none';
+                timeline.classList.add('active');
+                renderTimeline();
+            } else {
+                grid.style.display = 'grid';
+                timeline.classList.remove('active');
+                
+                if (view === 'list') {
+                    grid.classList.add('list-view');
+                } else {
+                    grid.classList.remove('list-view');
+                }
+                
+                renderProjects();
+            }
+
+            console.log('👁️ Project view changed to:', view);
+        }
+
+        // Render timeline view
+        function renderTimeline() {
+            const container = document.getElementById('timeline-container');
+            container.innerHTML = '';
+
+            // Sort projects by start date
+            const sortedProjects = [...filteredProjects].sort((a, b) => 
+                new Date(a.startDate) - new Date(b.startDate)
+            );
+
+            sortedProjects.forEach(project => {
+                const item = document.createElement('div');
+                item.className = 'timeline-item';
+                
+                const startDate = formatDate(project.startDate);
+                const endDate = formatDate(project.endDate);
+                const statusIcon = {
+                    planning: '📋',
+                    active: '🏗️',
+                    installation: '🔧',
+                    completed: '✅'
+                };
+
+                item.innerHTML = `
+                    <div class="timeline-date">${startDate} - ${endDate}</div>
+                    <div class="timeline-event">
+                        <div class="timeline-title">
+                            ${statusIcon[project.status]} ${project.title}
+                        </div>
+                        <div class="timeline-description">
+                            <strong>Client:</strong> ${project.client}<br>
+                            <strong>Value:</strong> ${project.value}<br>
+                            <strong>Progress:</strong> ${project.progress}%<br>
+                            ${project.description}
+                        </div>
+                    </div>
+                `;
+
+                container.appendChild(item);
+            });
+        }
+
+        // Project actions
+        function openProjectDetails(projectId) {
+            const project = projectsData.find(p => p.id === projectId);
+            alert(`Project Details: ${project.title}\n\nClient: ${project.client}\nStatus: ${project.status}\nProgress: ${project.progress}%\nValue: ${project.value}\n\n${project.description}`);
+            console.log('📋 Opened project details:', project.title);
+        }
+
+        function editProject(projectId) {
+            const project = projectsData.find(p => p.id === projectId);
+            alert(`Edit Project: ${project.title}\n\nThis would open a detailed project editing form with all project specifications, timeline, and client information.`);
+            console.log('✏️ Edit project:', project.title);
+        }
+
+        function contactClient(clientName) {
+            const client = clientsData.find(c => c.name === clientName);
+            if (window.CONFIG) {
+                alert(`Contact ${clientName}\n\nThis would open your preferred communication method:\n\n📞 Phone: ${window.CONFIG.phone}\n📧 Email: ${window.CONFIG.email}\n💬 Text message\n📅 Schedule meeting`);
+            } else {
+                alert(`Contact ${clientName}\n\nThis would open communication options for the client.`);
+            }
+            console.log('📞 Contact client:', clientName);
+        }
+
+        function viewProgress(projectId) {
+            const project = projectsData.find(p => p.id === projectId);
+            alert(`Project Progress: ${project.title}\n\n${project.progress}% Complete\n\nThis would show detailed progress tracking, milestones, photos, and timeline updates.`);
+            console.log('📊 View progress:', project.title);
+        }
+
+        function openClientDetails(clientName) {
+            const client = clientsData.find(c => c.name === clientName);
+            alert(`Client Details: ${clientName}\n\nProject: ${client.project}\nStatus: ${client.status}\n\nThis would show complete client history, contact information, project details, and communication log.`);
+            console.log('👥 Opened client details:', clientName);
+        }
+
+        // Header actions
+        function addProject() {
+            alert('Add New Project\n\nThis would open a comprehensive project creation form with:\n\n• Client information\n• Project specifications\n• Timeline and milestones\n• Pricing and materials\n• Initial documentation');
+            console.log('➕ Add new project initiated');
+        }
+
+        function viewReports() {
+            alert('Business Reports\n\nThis would show detailed analytics including:\n\n📊 Revenue tracking\n📈 Project completion rates\n👥 Client satisfaction metrics\n⏰ Timeline performance\n💰 Profit margins');
+            console.log('📊 View reports initiated');
+        }
+
+        // Utility functions
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { 
+                month: 'short', 
+                day: 'numeric'
+            });
+        }
+
+        // Auto-refresh functionality
+        function startAutoRefresh() {
+            setInterval(() => {
+                updateLastUpdated();
+                // Simulate real-time updates
+                if (Math.random() < 0.1) { // 10% chance every interval
+                    updateStats();
+                    console.log('🔄 Dashboard auto-refreshed');
+                }
+            }, 60000); // Refresh every minute
+        }
+
+        // Initialize dashboard when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                initializeDashboard();
+                startAutoRefresh();
+                console.log('✅ Enhanced Admin Dashboard initialized successfully');
+            }, 200);
+        });
+    </script>
+</body>
+</html>

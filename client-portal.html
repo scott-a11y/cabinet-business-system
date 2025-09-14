@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title">Client Portal - Project Dashboard</title>
+    <title id="page-title">Client Portal - Foundry Cabinets Co</title>
     
     <!-- 🛡️ BULLETPROOF CONFIGURATION SYSTEM -->
     <script src="config.js"></script>
@@ -19,7 +19,7 @@
             --light-gray: #E8E8E8;
             --success: #2E7D4A;
             --warning: #C5801A;
-            --info: #2E7DC5;
+            --danger: #D73502;
         }
 
         * {
@@ -41,7 +41,6 @@
             background: white;
             border-bottom: 1px solid var(--light-gray);
             padding: 1rem 0;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
         .nav-container {
@@ -51,6 +50,7 @@
             justify-content: center;
             gap: 2rem;
             padding: 0 2rem;
+            flex-wrap: wrap;
         }
 
         .nav-item {
@@ -61,6 +61,7 @@
             transition: all 0.3s ease;
             font-weight: 500;
             font-size: 0.9rem;
+            white-space: nowrap;
         }
 
         .nav-item:hover {
@@ -73,160 +74,223 @@
             color: white;
         }
 
-        /* Portal Header */
-        .portal-header {
+        /* Client Access Section */
+        .access-section {
             background: linear-gradient(135deg, var(--primary-gold), #C5A055);
             color: white;
-            padding: 2rem 0;
+            padding: 3rem 0;
+            text-align: center;
         }
 
-        .header-content {
-            max-width: 1200px;
+        .access-content {
+            max-width: 600px;
             margin: 0 auto;
             padding: 0 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
 
-        .client-info h1 {
-            font-size: 2rem;
+        .access-title {
+            font-size: 2.5rem;
             font-weight: 700;
-            margin-bottom: 0.5rem;
+            margin-bottom: 1rem;
         }
 
-        .client-info p {
-            font-size: 1.1rem;
+        .access-subtitle {
+            font-size: 1.2rem;
             opacity: 0.9;
-        }
-
-        .project-status {
-            text-align: right;
-        }
-
-        .status-badge {
-            background: rgba(255,255,255,0.2);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .progress-bar {
-            width: 200px;
-            height: 8px;
-            background: rgba(255,255,255,0.3);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: white;
-            width: 65%;
-            transition: width 0.3s ease;
-        }
-
-        /* Main Content */
-        .main-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 3rem 2rem;
-        }
-
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 3rem;
-            margin-bottom: 3rem;
-        }
-
-        /* Dashboard Sections */
-        .dashboard-section {
-            background: white;
-            border-radius: 16px;
-            padding: 2rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            border-left: 4px solid var(--primary-gold);
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             margin-bottom: 2rem;
         }
 
-        .section-title {
-            font-size: 1.3rem;
-            font-weight: 600;
+        .client-login-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
             color: var(--charcoal);
         }
 
-        .section-action {
-            background: var(--primary-gold);
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.9rem;
+        .login-form {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            text-align: left;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--charcoal);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--light-gray);
+            border-radius: 8px;
+            font-size: 1rem;
             transition: all 0.3s ease;
         }
 
-        .section-action:hover {
-            background: #C5A055;
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 0 3px rgba(212, 176, 98, 0.1);
         }
 
-        /* Project Timeline */
+        .login-btn {
+            background: var(--primary-gold);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .login-btn:hover {
+            background: #C5A055;
+            transform: translateY(-2px);
+        }
+
+        .demo-access {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--light-gray);
+        }
+
+        .demo-link {
+            color: var(--primary-gold);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .demo-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Portal Dashboard */
+        .portal-dashboard {
+            display: none;
+            padding: 2rem 0;
+        }
+
+        .portal-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .welcome-bar {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .welcome-info h2 {
+            color: var(--charcoal);
+            margin-bottom: 0.5rem;
+        }
+
+        .project-status {
+            color: var(--dark-gray);
+        }
+
+        .status-badge {
+            background: var(--success);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .portal-grid {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 2rem;
+        }
+
+        .main-content {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .sidebar {
+            display: grid;
+            gap: 2rem;
+            height: fit-content;
+        }
+
+        /* Timeline Section */
+        .timeline-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border-left: 6px solid var(--primary-gold);
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            color: var(--charcoal);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
         .timeline {
             position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--light-gray);
         }
 
         .timeline-item {
             position: relative;
-            padding-left: 3rem;
             margin-bottom: 2rem;
+            padding-left: 2rem;
         }
 
-        .timeline-item:before {
+        .timeline-item::before {
             content: '';
             position: absolute;
-            left: 0;
-            top: 0;
+            left: -2rem;
+            top: 0.5rem;
             width: 12px;
             height: 12px;
-            background: var(--primary-gold);
             border-radius: 50%;
-            border: 3px solid white;
-            box-shadow: 0 0 0 3px var(--light-gold);
+            border: 3px solid var(--light-gray);
+            background: white;
         }
 
-        .timeline-item.completed:before {
+        .timeline-item.completed::before {
             background: var(--success);
-            box-shadow: 0 0 0 3px rgba(46, 125, 74, 0.2);
+            border-color: var(--success);
         }
 
-        .timeline-item.current:before {
-            background: var(--warning);
-            box-shadow: 0 0 0 3px rgba(197, 128, 26, 0.2);
-            animation: pulse 2s infinite;
-        }
-
-        .timeline-item:not(:last-child):after {
-            content: '';
-            position: absolute;
-            left: 5px;
-            top: 20px;
-            width: 2px;
-            height: calc(100% + 1rem);
-            background: var(--light-gray);
-        }
-
-        .timeline-content {
-            background: var(--cream);
-            padding: 1.5rem;
-            border-radius: 8px;
+        .timeline-item.active::before {
+            background: var(--primary-gold);
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 0 4px rgba(212, 176, 98, 0.2);
         }
 
         .timeline-title {
@@ -235,172 +299,183 @@
             margin-bottom: 0.5rem;
         }
 
+        .timeline-date {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
         .timeline-description {
+            color: var(--dark-gray);
+            line-height: 1.5;
+        }
+
+        /* Photo Upload Section */
+        .upload-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border-left: 6px solid var(--primary-gold);
+        }
+
+        .upload-zone {
+            border: 2px dashed var(--light-gray);
+            border-radius: 12px;
+            padding: 3rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin-bottom: 1.5rem;
+        }
+
+        .upload-zone:hover,
+        .upload-zone.dragover {
+            border-color: var(--primary-gold);
+            background: rgba(212, 176, 98, 0.05);
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: var(--primary-gold);
+            margin-bottom: 1rem;
+        }
+
+        .upload-text {
             color: var(--dark-gray);
             margin-bottom: 0.5rem;
         }
 
-        .timeline-date {
-            font-size: 0.9rem;
+        .upload-hint {
             color: var(--dark-gray);
-            opacity: 0.8;
+            font-size: 0.9rem;
         }
 
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-        }
-
-        /* Project Photos */
         .photo-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
             gap: 1rem;
-            margin-bottom: 1rem;
         }
 
         .photo-item {
+            position: relative;
             aspect-ratio: 1;
-            background: linear-gradient(135deg, var(--light-gold), var(--cream));
             border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        }
+
+        .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .photo-remove {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: rgba(215, 53, 2, 0.9);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            font-size: 0.8rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
         }
 
-        .photo-item:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-
-        .photo-upload {
-            border: 2px dashed var(--light-gray);
-            background: var(--warm-white);
-            color: var(--dark-gray);
-            cursor: pointer;
-        }
-
-        .photo-upload:hover {
-            border-color: var(--primary-gold);
-            background: var(--light-gold);
-        }
-
-        .view-all-btn {
-            background: var(--primary-gold);
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s ease;
+        .progress-bar {
             width: 100%;
+            height: 4px;
+            background: var(--light-gray);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 1rem;
+            display: none;
         }
 
-        .view-all-btn:hover {
-            background: #C5A055;
-            transform: translateY(-2px);
+        .progress-fill {
+            height: 100%;
+            background: var(--primary-gold);
+            transition: width 0.3s ease;
+            width: 0%;
         }
 
-        /* Quick Stats */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin-bottom: 2rem;
+        /* Messaging Section */
+        .messages-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border-left: 6px solid var(--primary-gold);
+            height: 400px;
+            display: flex;
+            flex-direction: column;
         }
 
-        .stat-card {
-            background: var(--cream);
-            padding: 1.5rem;
-            border-radius: 8px;
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--primary-gold);
-            display: block;
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            color: var(--dark-gray);
-            margin-top: 0.5rem;
-        }
-
-        /* Communication Section */
-        .message-thread {
-            max-height: 300px;
+        .messages-container {
+            flex: 1;
             overflow-y: auto;
             margin-bottom: 1rem;
-            padding: 1rem;
-            background: var(--cream);
-            border-radius: 8px;
+            padding-right: 0.5rem;
         }
 
         .message {
             margin-bottom: 1rem;
             padding: 1rem;
-            border-radius: 8px;
-            background: white;
+            border-radius: 12px;
+            max-width: 80%;
         }
 
-        .message.from-client {
-            background: var(--light-gold);
-            margin-left: 2rem;
+        .message.sent {
+            background: var(--primary-gold);
+            color: white;
+            margin-left: auto;
+            text-align: right;
         }
 
-        .message-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.5rem;
-        }
-
-        .message-sender {
-            font-weight: 600;
+        .message.received {
+            background: var(--cream);
             color: var(--charcoal);
         }
 
         .message-time {
             font-size: 0.8rem;
-            color: var(--dark-gray);
-            opacity: 0.8;
+            opacity: 0.7;
+            margin-top: 0.5rem;
         }
 
-        .message-content {
-            color: var(--dark-gray);
-        }
-
-        .message-form {
+        .message-input-container {
             display: flex;
-            gap: 1rem;
+            gap: 0.5rem;
         }
 
         .message-input {
             flex: 1;
             padding: 0.75rem;
-            border: 1px solid var(--light-gray);
+            border: 2px solid var(--light-gray);
             border-radius: 8px;
             font-size: 0.9rem;
+            resize: none;
+        }
+
+        .message-input:focus {
+            outline: none;
+            border-color: var(--primary-gold);
         }
 
         .send-btn {
             background: var(--primary-gold);
             color: white;
             border: none;
-            padding: 0.75rem 1.5rem;
+            padding: 0.75rem 1rem;
             border-radius: 8px;
             cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s ease;
+            font-size: 1rem;
         }
 
         .send-btn:hover {
@@ -408,41 +483,58 @@
         }
 
         /* Documents Section */
+        .documents-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border-left: 6px solid var(--primary-gold);
+        }
+
         .document-list {
-            space-y: 1rem;
+            display: grid;
+            gap: 1rem;
         }
 
         .document-item {
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            gap: 1rem;
             padding: 1rem;
             background: var(--cream);
             border-radius: 8px;
-            margin-bottom: 0.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
         }
 
-        .document-info {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
+        .document-item:hover {
+            background: var(--light-gold);
+            transform: translateY(-2px);
         }
 
         .document-icon {
             font-size: 1.5rem;
-            width: 40px;
-            text-align: center;
+            color: var(--primary-gold);
+        }
+
+        .document-info {
+            flex: 1;
         }
 
         .document-name {
-            font-weight: 500;
+            font-weight: 600;
             color: var(--charcoal);
+            margin-bottom: 0.25rem;
+        }
+
+        .document-date {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
         }
 
         .document-size {
-            font-size: 0.8rem;
             color: var(--dark-gray);
-            opacity: 0.8;
+            font-size: 0.8rem;
         }
 
         .download-btn {
@@ -452,7 +544,7 @@
             padding: 0.5rem 1rem;
             border-radius: 6px;
             cursor: pointer;
-            font-size: 0.8rem;
+            font-size: 0.9rem;
             transition: all 0.3s ease;
         }
 
@@ -460,58 +552,56 @@
             background: #C5A055;
         }
 
-        /* Lightbox for Photos */
-        .lightbox {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0,0,0,0.95);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            gap: 1rem;
         }
 
-        .lightbox.active {
+        .action-btn {
             display: flex;
-        }
-
-        .lightbox-content {
-            position: relative;
-            max-width: 90%;
-            max-height: 90%;
+            align-items: center;
+            gap: 1rem;
             background: white;
+            border: 2px solid var(--light-gray);
+            padding: 1rem;
             border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .lightbox-image {
-            width: 100%;
-            height: 400px;
-            background: linear-gradient(135deg, var(--light-gold), var(--cream));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 4rem;
-        }
-
-        .lightbox-close {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: rgba(0,0,0,0.7);
-            color: white;
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
             cursor: pointer;
-            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: var(--charcoal);
         }
 
-        /* Mobile Responsive */
+        .action-btn:hover {
+            border-color: var(--primary-gold);
+            background: rgba(212, 176, 98, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .action-icon {
+            font-size: 1.2rem;
+            color: var(--primary-gold);
+        }
+
+        .action-text {
+            font-weight: 500;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 968px) {
+            .portal-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                order: -1;
+            }
+
+            .quick-actions {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+        }
+
         @media (max-width: 768px) {
             .nav-container {
                 flex-direction: column;
@@ -519,84 +609,81 @@
                 gap: 0.5rem;
             }
 
-            .header-content {
+            .nav-item {
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
+            }
+
+            .access-title {
+                font-size: 2rem;
+            }
+
+            .welcome-bar {
                 flex-direction: column;
                 text-align: center;
-                gap: 1rem;
             }
 
-            .dashboard-grid {
-                grid-template-columns: 1fr;
-                gap: 2rem;
+            .timeline {
+                padding-left: 1.5rem;
             }
 
-            .stats-grid {
-                grid-template-columns: 1fr;
+            .timeline-item {
+                padding-left: 1.5rem;
+            }
+
+            .timeline-item::before {
+                left: -1.5rem;
             }
 
             .photo-grid {
-                grid-template-columns: repeat(3, 1fr);
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
             }
 
-            .message-form {
-                flex-direction: column;
+            .message {
+                max-width: 90%;
             }
 
-            .client-info h1 {
-                font-size: 1.5rem;
+            .upload-zone {
+                padding: 2rem 1rem;
+            }
+
+            .upload-icon {
+                font-size: 2rem;
             }
         }
 
-        /* File Upload Styling */
-        .file-input {
-            display: none;
-        }
-
-        .upload-progress {
-            margin-top: 1rem;
-            display: none;
-        }
-
-        .progress-bar-upload {
-            width: 100%;
-            height: 4px;
-            background: var(--light-gray);
-            border-radius: 2px;
-            overflow: hidden;
-        }
-
-        .progress-fill-upload {
-            height: 100%;
-            background: var(--primary-gold);
-            width: 0%;
-            transition: width 0.3s ease;
-        }
-
-        /* Notification */
-        .notification {
+        /* Auto-save indicator */
+        .autosave-indicator {
             position: fixed;
-            top: 2rem;
+            bottom: 2rem;
             right: 2rem;
             background: var(--success);
             color: white;
-            padding: 1rem 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-            transform: translateX(100%);
-            transition: transform 0.3s ease;
-            z-index: 10000;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
         }
 
-        .notification.show {
-            transform: translateX(0);
+        .autosave-indicator.visible {
+            opacity: 1;
         }
 
-        .notification.error {
-            background: #D73027;
+        .logout-btn {
+            background: var(--danger);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
         }
 
-        .notification.warning {
-            background: var(--warning);
+        .logout-btn:hover {
+            background: #B02E02;
         }
     </style>
 </head>
@@ -606,478 +693,633 @@
         <div class="nav-container">
             <a href="index.html" class="nav-item">🏠 Business Hub</a>
             <a href="admin-dashboard.html" class="nav-item">📊 Admin Dashboard</a>
-            <a href="client-portal.html" class="nav-item active">👤 Client Portal</a>
-            <a href="enhanced-gallery-preview.html" class="nav-item">📸 Photo Gallery</a>
-            <a href="enhanced-client-proposal-phase3.html" class="nav-item">🎭 Demo</a>
+            <a href="client-proposal.html" class="nav-item">📋 Client Proposals</a>
+            <a href="pdf-proposal-generator.html" class="nav-item">📄 PDF Generator</a>
+            <a href="client-portal.html" class="nav-item active">👥 Client Portal</a>
+            <a href="multi-photo-gallery.html" class="nav-item">📸 Photo Gallery</a>
+            <a href="demo.html" class="nav-item">🎭 Live Demo</a>
         </div>
     </nav>
 
-    <!-- Portal Header -->
-    <header class="portal-header">
-        <div class="header-content">
-            <div class="client-info">
-                <h1 id="client-name">Thompson Family Kitchen Project</h1>
-                <p id="project-description">Custom cabinet installation and design</p>
-            </div>
-            <div class="project-status">
-                <div class="status-badge" id="status-badge">In Progress - Design Phase</div>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progress-fill"></div>
-                </div>
-                <div style="margin-top: 0.5rem; font-size: 0.9rem;">65% Complete</div>
-            </div>
-        </div>
-    </header>
-
-    <!-- Main Content -->
-    <main class="main-content">
-        <div class="dashboard-grid">
-            <!-- Project Timeline -->
-            <section class="dashboard-section">
-                <div class="section-header">
-                    <h3 class="section-title">📅 Project Timeline</h3>
-                    <button class="section-action" onclick="downloadTimeline()">Download Schedule</button>
-                </div>
-                
-                <div class="timeline">
-                    <div class="timeline-item completed">
-                        <div class="timeline-content">
-                            <div class="timeline-title">✅ Initial Consultation</div>
-                            <div class="timeline-description">Project scope defined, measurements taken</div>
-                            <div class="timeline-date">Completed Sept 1, 2025</div>
-                        </div>
-                    </div>
-                    
-                    <div class="timeline-item completed">
-                        <div class="timeline-content">
-                            <div class="timeline-title">✅ Design Development</div>
-                            <div class="timeline-description">3D renderings and material selection finalized</div>
-                            <div class="timeline-date">Completed Sept 8, 2025</div>
-                        </div>
-                    </div>
-                    
-                    <div class="timeline-item current">
-                        <div class="timeline-content">
-                            <div class="timeline-title">🔄 Manufacturing</div>
-                            <div class="timeline-description">Custom cabinets being built in our workshop</div>
-                            <div class="timeline-date">In Progress - Est. completion Sept 25, 2025</div>
-                        </div>
-                    </div>
-                    
-                    <div class="timeline-item">
-                        <div class="timeline-content">
-                            <div class="timeline-title">⏳ Installation</div>
-                            <div class="timeline-description">Professional installation and finishing</div>
-                            <div class="timeline-date">Scheduled Oct 1-5, 2025</div>
-                        </div>
-                    </div>
-                    
-                    <div class="timeline-item">
-                        <div class="timeline-content">
-                            <div class="timeline-title">⏳ Final Walkthrough</div>
-                            <div class="timeline-description">Quality inspection and project completion</div>
-                            <div class="timeline-date">Scheduled Oct 8, 2025</div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Project Overview -->
-            <section class="dashboard-section">
-                <div class="section-header">
-                    <h3 class="section-title">📊 Project Overview</h3>
-                </div>
-                
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <span class="stat-number">18</span>
-                        <div class="stat-label">Days Remaining</div>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-number">$49K</span>
-                        <div class="stat-label">Project Value</div>
-                    </div>
-                </div>
-                
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <span class="stat-number">12</span>
-                        <div class="stat-label">Base Cabinets</div>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-number">8</span>
-                        <div class="stat-label">Wall Cabinets</div>
-                    </div>
-                </div>
-            </section>
-        </div>
-
-        <div class="dashboard-grid">
-            <!-- Project Photos -->
-            <section class="dashboard-section">
-                <div class="section-header">
-                    <h3 class="section-title">📸 Project Photos</h3>
-                    <button class="section-action" onclick="openPhotoUpload()">Upload Photos</button>
-                </div>
-                
-                <div class="photo-grid">
-                    <div class="photo-item" onclick="openLightbox('🏗️', 'Construction Progress - Week 1')">🏗️</div>
-                    <div class="photo-item" onclick="openLightbox('🪵', 'Custom Cabinet Frames')">🪵</div>
-                    <div class="photo-item" onclick="openLightbox('🎨', 'Finish Samples')">🎨</div>
-                    <div class="photo-item photo-upload" onclick="openPhotoUpload()">
-                        📁
-                        <div style="font-size: 0.7rem; position: absolute; bottom: 5px; left: 50%; transform: translateX(-50%);">Add Photo</div>
-                    </div>
-                </div>
-                
-                <button class="view-all-btn" onclick="window.location.href='enhanced-gallery-preview.html'">
-                    📸 View All Photos (12 total)
-                </button>
-                
-                <!-- Hidden file input -->
-                <input type="file" id="photoInput" class="file-input" multiple accept="image/*" onchange="handlePhotoUpload(event)">
-                
-                <div class="upload-progress" id="uploadProgress">
-                    <div style="font-size: 0.9rem; margin-bottom: 0.5rem;">Uploading photos...</div>
-                    <div class="progress-bar-upload">
-                        <div class="progress-fill-upload" id="uploadFill"></div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Communication -->
-            <section class="dashboard-section">
-                <div class="section-header">
-                    <h3 class="section-title">💬 Messages</h3>
-                    <button class="section-action" onclick="markAllRead()">Mark All Read</button>
-                </div>
-                
-                <div class="message-thread" id="messageThread">
-                    <div class="message">
-                        <div class="message-header">
-                            <span class="message-sender">Sarah - Project Manager</span>
-                            <span class="message-time">2 hours ago</span>
-                        </div>
-                        <div class="message-content">
-                            Great news! Your cabinet doors are ready for staining. We're ahead of schedule on manufacturing.
-                        </div>
-                    </div>
-                    
-                    <div class="message from-client">
-                        <div class="message-header">
-                            <span class="message-sender">You</span>
-                            <span class="message-time">1 hour ago</span>
-                        </div>
-                        <div class="message-content">
-                            That's wonderful! Can you send photos of the staining options again?
-                        </div>
-                    </div>
-                    
-                    <div class="message">
-                        <div class="message-header">
-                            <span class="message-sender">Mike - Installer</span>
-                            <span class="message-time">30 minutes ago</span>
-                        </div>
-                        <div class="message-content">
-                            I'll be stopping by tomorrow morning to do final measurements for the countertop installation.
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="message-form">
-                    <input type="text" class="message-input" id="messageInput" placeholder="Type your message..." onkeypress="handleEnterKey(event)">
-                    <button class="send-btn" onclick="sendMessage()">Send</button>
-                </div>
-            </section>
-        </div>
-
-        <!-- Documents Section -->
-        <section class="dashboard-section" style="grid-column: 1 / -1;">
-            <div class="section-header">
-                <h3 class="section-title">📄 Project Documents</h3>
-                <button class="section-action" onclick="downloadAllDocs()">Download All</button>
-            </div>
+    <!-- Client Access Section -->
+    <section class="access-section" id="access-section">
+        <div class="access-content">
+            <h1 class="access-title">Client Portal</h1>
+            <p class="access-subtitle" id="access-subtitle">
+                Access your project timeline, photos, messages, and documents
+            </p>
             
-            <div class="document-list">
-                <div class="document-item">
-                    <div class="document-info">
-                        <div class="document-icon">📋</div>
-                        <div>
-                            <div class="document-name">Project Contract & Specifications</div>
-                            <div class="document-size">PDF • 2.4 MB</div>
-                        </div>
+            <div class="client-login-card">
+                <form class="login-form" id="login-form">
+                    <div class="form-group">
+                        <label class="form-label" for="client-name">Your Name</label>
+                        <input type="text" id="client-name" class="form-input" placeholder="Enter your full name" required>
                     </div>
-                    <button class="download-btn" onclick="downloadDoc('contract')">Download</button>
-                </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="project-code">Project Access Code</label>
+                        <input type="text" id="project-code" class="form-input" placeholder="Enter your project code" required>
+                    </div>
+                    
+                    <button type="submit" class="login-btn">Access My Project</button>
+                </form>
                 
-                <div class="document-item">
-                    <div class="document-info">
-                        <div class="document-icon">📐</div>
-                        <div>
-                            <div class="document-name">3D Design Renderings</div>
-                            <div class="document-size">PDF • 8.7 MB</div>
-                        </div>
-                    </div>
-                    <button class="download-btn" onclick="downloadDoc('renderings')">Download</button>
-                </div>
-                
-                <div class="document-item">
-                    <div class="document-info">
-                        <div class="document-icon">💰</div>
-                        <div>
-                            <div class="document-name">Payment Schedule & Invoice</div>
-                            <div class="document-size">PDF • 1.2 MB</div>
-                        </div>
-                    </div>
-                    <button class="download-btn" onclick="downloadDoc('invoice')">Download</button>
-                </div>
-                
-                <div class="document-item">
-                    <div class="document-info">
-                        <div class="document-icon">🔧</div>
-                        <div>
-                            <div class="document-name">Care & Maintenance Guide</div>
-                            <div class="document-size">PDF • 850 KB</div>
-                        </div>
-                    </div>
-                    <button class="download-btn" onclick="downloadDoc('maintenance')">Download</button>
-                </div>
-                
-                <div class="document-item">
-                    <div class="document-info">
-                        <div class="document-icon">🛡️</div>
-                        <div>
-                            <div class="document-name">5-Year Warranty Certificate</div>
-                            <div class="document-size">PDF • 650 KB</div>
-                        </div>
-                    </div>
-                    <button class="download-btn" onclick="downloadDoc('warranty')">Download</button>
+                <div class="demo-access">
+                    <p>Demo Access: <a href="#" class="demo-link" onclick="demoLogin()">Thompson Kitchen Project</a></p>
                 </div>
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
 
-    <!-- Lightbox -->
-    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
-        <div class="lightbox-content" onclick="event.stopPropagation()">
-            <button class="lightbox-close" onclick="closeLightbox()">×</button>
-            <div class="lightbox-image" id="lightboxImage">🏗️</div>
-            <div style="padding: 1rem; text-align: center;">
-                <div style="font-weight: 600; margin-bottom: 0.5rem;" id="lightboxTitle">Construction Progress</div>
-                <div style="color: #666; font-size: 0.9rem;">Click to zoom • Swipe for more photos</div>
+    <!-- Portal Dashboard -->
+    <div class="portal-dashboard" id="portal-dashboard">
+        <!-- Welcome Bar -->
+        <div class="welcome-bar">
+            <div class="welcome-info">
+                <h2 id="client-welcome">Welcome back, Thompson Family!</h2>
+                <p class="project-status" id="project-info">Kitchen Cabinet Installation • Started March 15, 2025</p>
+            </div>
+            <div class="welcome-actions">
+                <span class="status-badge" id="status-badge">In Progress</span>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+        </div>
+
+        <div class="portal-container">
+            <div class="portal-grid">
+                <!-- Main Content -->
+                <div class="main-content">
+                    <!-- Project Timeline -->
+                    <div class="timeline-card">
+                        <h3 class="card-title">📅 Project Timeline</h3>
+                        <div class="timeline">
+                            <div class="timeline-item completed">
+                                <div class="timeline-title">Initial Consultation & Design</div>
+                                <div class="timeline-date">March 15, 2025</div>
+                                <div class="timeline-description">Met with design team, discussed requirements, and finalized cabinet specifications.</div>
+                            </div>
+                            
+                            <div class="timeline-item completed">
+                                <div class="timeline-title">Contract Signed & Materials Ordered</div>
+                                <div class="timeline-date">March 18, 2025</div>
+                                <div class="timeline-description">Contract finalized and premium solid wood materials ordered from trusted suppliers.</div>
+                            </div>
+                            
+                            <div class="timeline-item active">
+                                <div class="timeline-title">Cabinet Manufacturing</div>
+                                <div class="timeline-date">March 20 - April 10, 2025</div>
+                                <div class="timeline-description">Custom cabinets being crafted with precision. Currently 65% complete.</div>
+                            </div>
+                            
+                            <div class="timeline-item">
+                                <div class="timeline-title">Site Preparation</div>
+                                <div class="timeline-date">April 8 - April 10, 2025</div>
+                                <div class="timeline-description">Kitchen area preparation and existing cabinet removal.</div>
+                            </div>
+                            
+                            <div class="timeline-item">
+                                <div class="timeline-title">Installation</div>
+                                <div class="timeline-date">April 12 - April 18, 2025</div>
+                                <div class="timeline-description">Professional installation of all cabinetry with precise measurements.</div>
+                            </div>
+                            
+                            <div class="timeline-item">
+                                <div class="timeline-title">Final Inspection & Completion</div>
+                                <div class="timeline-date">April 20, 2025</div>
+                                <div class="timeline-description">Quality inspection, final touches, and project handover.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Photo Upload Section -->
+                    <div class="upload-card">
+                        <h3 class="card-title">📸 Project Photos</h3>
+                        <div class="upload-zone" id="upload-zone">
+                            <div class="upload-icon">📷</div>
+                            <div class="upload-text">Drag & drop photos here or click to browse</div>
+                            <div class="upload-hint">Upload progress photos, reference images, or any project-related pictures</div>
+                            <input type="file" id="file-input" multiple accept="image/*" style="display: none;">
+                        </div>
+                        
+                        <div class="progress-bar" id="progress-bar">
+                            <div class="progress-fill" id="progress-fill"></div>
+                        </div>
+                        
+                        <div class="photo-grid" id="photo-grid">
+                            <!-- Sample photos will be added here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="sidebar">
+                    <!-- Messages -->
+                    <div class="messages-card">
+                        <h3 class="card-title">💬 Messages</h3>
+                        <div class="messages-container" id="messages-container">
+                            <div class="message received">
+                                <div class="message-text">Hi Thompson family! Your cabinets are coming along beautifully. We're about 65% complete with manufacturing. I'll send photos of the progress soon!</div>
+                                <div class="message-time">Today, 10:30 AM</div>
+                            </div>
+                            
+                            <div class="message sent">
+                                <div class="message-text">That's great to hear! We're so excited to see them. When do you think installation will start?</div>
+                                <div class="message-time">Today, 11:15 AM</div>
+                            </div>
+                            
+                            <div class="message received">
+                                <div class="message-text">Based on current progress, we should be ready to start installation on April 12th as planned. I'll confirm the exact schedule by Friday.</div>
+                                <div class="message-time">Today, 11:45 AM</div>
+                            </div>
+                        </div>
+                        
+                        <div class="message-input-container">
+                            <textarea class="message-input" id="message-input" placeholder="Type your message..." rows="2"></textarea>
+                            <button class="send-btn" onclick="sendMessage()">Send</button>
+                        </div>
+                    </div>
+
+                    <!-- Documents -->
+                    <div class="documents-card">
+                        <h3 class="card-title">📄 Documents</h3>
+                        <div class="document-list">
+                            <div class="document-item" onclick="downloadDocument('contract')">
+                                <div class="document-icon">📝</div>
+                                <div class="document-info">
+                                    <div class="document-name">Signed Contract</div>
+                                    <div class="document-date">March 18, 2025</div>
+                                    <div class="document-size">2.3 MB</div>
+                                </div>
+                                <button class="download-btn">Download</button>
+                            </div>
+                            
+                            <div class="document-item" onclick="downloadDocument('receipt')">
+                                <div class="document-icon">🧾</div>
+                                <div class="document-info">
+                                    <div class="document-name">Payment Receipt</div>
+                                    <div class="document-date">March 18, 2025</div>
+                                    <div class="document-size">145 KB</div>
+                                </div>
+                                <button class="download-btn">Download</button>
+                            </div>
+                            
+                            <div class="document-item" onclick="downloadDocument('warranty')">
+                                <div class="document-icon">🛡️</div>
+                                <div class="document-info">
+                                    <div class="document-name">5-Year Warranty</div>
+                                    <div class="document-date">March 18, 2025</div>
+                                    <div class="document-size">890 KB</div>
+                                </div>
+                                <button class="download-btn">Download</button>
+                            </div>
+                            
+                            <div class="document-item" onclick="downloadDocument('care')">
+                                <div class="document-icon">📚</div>
+                                <div class="document-info">
+                                    <div class="document-name">Care Instructions</div>
+                                    <div class="document-date">March 20, 2025</div>
+                                    <div class="document-size">425 KB</div>
+                                </div>
+                                <button class="download-btn">Download</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="quick-actions">
+                        <a href="#" class="action-btn" onclick="scheduleVisit()">
+                            <span class="action-icon">📅</span>
+                            <span class="action-text">Schedule Site Visit</span>
+                        </a>
+                        
+                        <a href="#" class="action-btn" onclick="requestChanges()">
+                            <span class="action-icon">✏️</span>
+                            <span class="action-text">Request Changes</span>
+                        </a>
+                        
+                        <a href="#" class="action-btn" onclick="viewGallery()">
+                            <span class="action-icon">🖼️</span>
+                            <span class="action-text">View Portfolio</span>
+                        </a>
+                        
+                        <a href="#" class="action-btn" onclick="contactSupport()">
+                            <span class="action-icon">📞</span>
+                            <span class="action-text">Contact Support</span>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Notification -->
-    <div class="notification" id="notification"></div>
+    <!-- Auto-save indicator -->
+    <div class="autosave-indicator" id="autosave-indicator">
+        ✓ Auto-saved
+    </div>
 
     <script>
-        // Client Portal Functionality
-        class ClientPortal {
-            constructor() {
-                this.messages = [];
-                this.initializePortal();
-            }
-
-            initializePortal() {
-                this.loadDraftMessage();
-                console.log('✅ Client Portal initialized');
-            }
-
-            showNotification(message, type = 'success') {
-                const notification = document.getElementById('notification');
-                notification.textContent = message;
-                notification.className = `notification ${type}`;
-                notification.classList.add('show');
-                
-                setTimeout(() => {
-                    notification.classList.remove('show');
-                }, 3000);
-            }
-
-            sendMessage() {
-                const input = document.getElementById('messageInput');
-                const message = input.value.trim();
-                
-                if (!message) {
-                    this.showNotification('Please enter a message', 'warning');
-                    return;
+        // Configuration application
+        function applyConfiguration() {
+            try {
+                if (!window.CONFIG) {
+                    console.warn('⚠️ No configuration available');
+                    return false;
                 }
 
-                // Add message to thread
-                const messageThread = document.getElementById('messageThread');
-                const messageElement = document.createElement('div');
-                messageElement.className = 'message from-client';
-                messageElement.innerHTML = `
-                    <div class="message-header">
-                        <span class="message-sender">You</span>
-                        <span class="message-time">Just now</span>
-                    </div>
-                    <div class="message-content">${message}</div>
-                `;
-                
-                messageThread.appendChild(messageElement);
-                messageThread.scrollTop = messageThread.scrollHeight;
-                
-                // Clear input
-                input.value = '';
-                
-                // Clear draft
-                localStorage.removeItem('messageDraft');
-                
-                this.showNotification('Message sent successfully!');
-                
-                // Simulate response after 2 seconds
-                setTimeout(() => {
-                    this.addSystemResponse();
-                }, 2000);
-            }
+                // Update page elements
+                const elements = {
+                    'page-title': `Client Portal - ${window.CONFIG.companyName}`,
+                    'access-subtitle': `Access your project timeline, photos, messages, and documents with ${window.CONFIG.companyName}`
+                };
 
-            addSystemResponse() {
-                const responses = [
-                    "Thanks for your message! I'll update you on that shortly.",
-                    "Got it! I'll check on the status and get back to you.",
-                    "Perfect timing! I was just about to reach out with an update.",
-                    "Thanks for reaching out. I'll coordinate with the team on this."
-                ];
-                
-                const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-                
-                const messageThread = document.getElementById('messageThread');
-                const messageElement = document.createElement('div');
-                messageElement.className = 'message';
-                messageElement.innerHTML = `
-                    <div class="message-header">
-                        <span class="message-sender">Sarah - Project Manager</span>
-                        <span class="message-time">Just now</span>
-                    </div>
-                    <div class="message-content">${randomResponse}</div>
-                `;
-                
-                messageThread.appendChild(messageElement);
-                messageThread.scrollTop = messageThread.scrollHeight;
-            }
-
-            handlePhotoUpload(files) {
-                if (files.length === 0) return;
-                
-                const progressDiv = document.getElementById('uploadProgress');
-                const progressFill = document.getElementById('uploadFill');
-                
-                progressDiv.style.display = 'block';
-                
-                // Simulate upload progress
-                let progress = 0;
-                const interval = setInterval(() => {
-                    progress += Math.random() * 30;
-                    if (progress >= 100) {
-                        progress = 100;
-                        clearInterval(interval);
-                        
-                        setTimeout(() => {
-                            progressDiv.style.display = 'none';
-                            this.showNotification(`Successfully uploaded ${files.length} photo(s)`);
-                        }, 500);
+                for (const [id, value] of Object.entries(elements)) {
+                    const el = document.getElementById(id);
+                    if (el && value) {
+                        if (id === 'page-title') {
+                            document.title = value;
+                        } else {
+                            el.textContent = value;
+                        }
                     }
-                    
-                    progressFill.style.width = progress + '%';
-                }, 200);
-            }
-
-            loadDraftMessage() {
-                const draft = localStorage.getItem('messageDraft');
-                if (draft) {
-                    document.getElementById('messageInput').value = draft;
                 }
-            }
 
-            saveDraftMessage() {
-                const message = document.getElementById('messageInput').value;
-                if (message) {
-                    localStorage.setItem('messageDraft', message);
-                }
+                return true;
+            } catch (error) {
+                console.error('🚨 Error applying configuration:', error);
+                return false;
             }
         }
 
-        // Global portal instance
-        let portal;
+        // Client portal functionality
+        let currentClient = null;
+        let uploadedPhotos = [];
+        let messageHistory = [];
 
-        // Initialize portal
-        document.addEventListener('DOMContentLoaded', function() {
-            portal = new ClientPortal();
-            
-            // Apply configuration if available
-            if (window.CONFIG) {
-                document.getElementById('client-name').textContent = `${window.CONFIG.clientName || 'Thompson Family'} Project`;
-                document.title = `Client Portal - ${window.CONFIG.companyName}`;
-            }
-            
-            // Auto-save draft message
-            const messageInput = document.getElementById('messageInput');
-            messageInput.addEventListener('input', () => {
-                portal.saveDraftMessage();
-            });
+        // Demo login
+        function demoLogin() {
+            document.getElementById('client-name').value = 'Thompson Family';
+            document.getElementById('project-code').value = 'KITCHEN2025';
+            handleLogin();
+        }
+
+        // Login handling
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            handleLogin();
         });
 
-        // Global functions
-        function sendMessage() {
-            portal.sendMessage();
+        function handleLogin() {
+            const clientName = document.getElementById('client-name').value;
+            const projectCode = document.getElementById('project-code').value;
+
+            if (!clientName || !projectCode) {
+                alert('Please enter both your name and project code.');
+                return;
+            }
+
+            // Simulate authentication
+            currentClient = {
+                name: clientName,
+                code: projectCode,
+                project: 'Kitchen Cabinet Installation',
+                startDate: 'March 15, 2025'
+            };
+
+            // Show dashboard
+            document.getElementById('access-section').style.display = 'none';
+            document.getElementById('portal-dashboard').style.display = 'block';
+            
+            // Update welcome message
+            document.getElementById('client-welcome').textContent = `Welcome back, ${clientName}!`;
+            
+            // Load existing data
+            loadClientData();
+            
+            console.log('✅ Client logged in:', currentClient);
         }
 
-        function handleEnterKey(event) {
-            if (event.key === 'Enter') {
-                sendMessage();
+        function logout() {
+            currentClient = null;
+            document.getElementById('access-section').style.display = 'block';
+            document.getElementById('portal-dashboard').style.display = 'none';
+            
+            // Clear form
+            document.getElementById('login-form').reset();
+            
+            console.log('📤 Client logged out');
+        }
+
+        // Load client data
+        function loadClientData() {
+            // Load saved photos from localStorage
+            const savedPhotos = localStorage.getItem(`photos_${currentClient.code}`);
+            if (savedPhotos) {
+                uploadedPhotos = JSON.parse(savedPhotos);
+                displayPhotos();
+            }
+
+            // Load saved messages
+            const savedMessages = localStorage.getItem(`messages_${currentClient.code}`);
+            if (savedMessages) {
+                const messages = JSON.parse(savedMessages);
+                messages.forEach(msg => {
+                    if (msg.type === 'sent') {
+                        addMessageToUI(msg.text, 'sent', msg.timestamp);
+                    }
+                });
+            }
+
+            // Add some sample photos
+            if (uploadedPhotos.length === 0) {
+                addSamplePhotos();
             }
         }
 
-        function openPhotoUpload() {
-            document.getElementById('photoInput').click();
+        // Photo upload functionality
+        const uploadZone = document.getElementById('upload-zone');
+        const fileInput = document.getElementById('file-input');
+
+        uploadZone.addEventListener('click', () => fileInput.click());
+        uploadZone.addEventListener('dragover', handleDragOver);
+        uploadZone.addEventListener('drop', handleDrop);
+        uploadZone.addEventListener('dragleave', handleDragLeave);
+        fileInput.addEventListener('change', handleFileSelect);
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            uploadZone.classList.add('dragover');
         }
 
-        function handlePhotoUpload(event) {
-            portal.handlePhotoUpload(event.target.files);
+        function handleDragLeave(e) {
+            e.preventDefault();
+            uploadZone.classList.remove('dragover');
         }
 
-        function openLightbox(icon, title) {
-            document.getElementById('lightboxImage').textContent = icon;
-            document.getElementById('lightboxTitle').textContent = title;
-            document.getElementById('lightbox').classList.add('active');
+        function handleDrop(e) {
+            e.preventDefault();
+            uploadZone.classList.remove('dragover');
+            
+            const files = Array.from(e.dataTransfer.files);
+            processFiles(files);
         }
 
-        function closeLightbox() {
-            document.getElementById('lightbox').classList.remove('active');
+        function handleFileSelect(e) {
+            const files = Array.from(e.target.files);
+            processFiles(files);
         }
 
-        function downloadDoc(docType) {
-            const docNames = {
-                contract: 'Project Contract & Specifications',
-                renderings: '3D Design Renderings',
-                invoice: 'Payment Schedule & Invoice',
-                maintenance: 'Care & Maintenance Guide',
-                warranty: '5-Year Warranty Certificate'
+        function processFiles(files) {
+            const imageFiles = files.filter(file => file.type.startsWith('image/'));
+            
+            if (imageFiles.length === 0) {
+                alert('Please select image files only.');
+                return;
+            }
+
+            imageFiles.forEach(file => {
+                uploadPhoto(file);
+            });
+        }
+
+        function uploadPhoto(file) {
+            const reader = new FileReader();
+            
+            // Show progress bar
+            const progressBar = document.getElementById('progress-bar');
+            const progressFill = document.getElementById('progress-fill');
+            progressBar.style.display = 'block';
+
+            // Simulate upload progress
+            let progress = 0;
+            const progressInterval = setInterval(() => {
+                progress += Math.random() * 30;
+                if (progress > 100) progress = 100;
+                
+                progressFill.style.width = progress + '%';
+                
+                if (progress >= 100) {
+                    clearInterval(progressInterval);
+                    setTimeout(() => {
+                        progressBar.style.display = 'none';
+                        progressFill.style.width = '0%';
+                    }, 500);
+                }
+            }, 200);
+
+            reader.onload = function(e) {
+                const photoData = {
+                    id: Date.now() + Math.random(),
+                    name: file.name,
+                    src: e.target.result,
+                    uploadDate: new Date().toLocaleString(),
+                    size: formatFileSize(file.size)
+                };
+
+                uploadedPhotos.push(photoData);
+                displayPhotos();
+                savePhotos();
+                showAutoSave();
+
+                console.log('📸 Photo uploaded:', photoData.name);
+            };
+
+            reader.readAsDataURL(file);
+        }
+
+        function displayPhotos() {
+            const photoGrid = document.getElementById('photo-grid');
+            photoGrid.innerHTML = '';
+
+            uploadedPhotos.forEach(photo => {
+                const photoItem = document.createElement('div');
+                photoItem.className = 'photo-item';
+                photoItem.innerHTML = `
+                    <img src="${photo.src}" alt="${photo.name}" title="Uploaded: ${photo.uploadDate}">
+                    <button class="photo-remove" onclick="removePhoto('${photo.id}')" title="Remove photo">×</button>
+                `;
+                photoGrid.appendChild(photoItem);
+            });
+        }
+
+        function removePhoto(photoId) {
+            uploadedPhotos = uploadedPhotos.filter(photo => photo.id != photoId);
+            displayPhotos();
+            savePhotos();
+            showAutoSave();
+        }
+
+        function savePhotos() {
+            if (currentClient) {
+                localStorage.setItem(`photos_${currentClient.code}`, JSON.stringify(uploadedPhotos));
+            }
+        }
+
+        function addSamplePhotos() {
+            const samplePhotos = [
+                {
+                    id: 'sample1',
+                    name: 'kitchen-before.jpg',
+                    src: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkJlZm9yZTwvdGV4dD48L3N2Zz4=',
+                    uploadDate: 'March 15, 2025',
+                    size: '2.1 MB'
+                },
+                {
+                    id: 'sample2',
+                    name: 'progress-1.jpg',
+                    src: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjBmMGYwIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzY2NiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPk1hbnVmYWN0dXJpbmc8L3RleHQ+PC9zdmc+',
+                    uploadDate: 'March 25, 2025',
+                    size: '1.8 MB'
+                }
+            ];
+
+            uploadedPhotos = samplePhotos;
+            displayPhotos();
+        }
+
+        // Messaging functionality
+        function sendMessage() {
+            const messageInput = document.getElementById('message-input');
+            const messageText = messageInput.value.trim();
+
+            if (!messageText) return;
+
+            // Add to UI
+            addMessageToUI(messageText, 'sent');
+            
+            // Save message
+            const messageData = {
+                text: messageText,
+                type: 'sent',
+                timestamp: new Date().toISOString()
             };
             
-            portal.showNotification(`Downloading: ${docNames[docType]}`);
+            messageHistory.push(messageData);
+            saveMessages();
+            showAutoSave();
+
+            // Clear input
+            messageInput.value = '';
+
+            // Auto-resize textarea
+            messageInput.style.height = 'auto';
+
+            // Simulate contractor response (demo only)
+            setTimeout(() => {
+                const responses = [
+                    "Thanks for your message! I'll get back to you shortly.",
+                    "Noted! I'll make sure to address that in our next update.",
+                    "Great question! Let me check on that and respond with details.",
+                    "I appreciate your feedback. We'll incorporate that into the project."
+                ];
+                const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                addMessageToUI(randomResponse, 'received');
+            }, 2000 + Math.random() * 3000);
+
+            console.log('💬 Message sent:', messageText);
         }
 
-        function downloadAllDocs() {
-            portal.showNotification('Preparing download of all project documents...');
+        function addMessageToUI(text, type, timestamp = null) {
+            const messagesContainer = document.getElementById('messages-container');
+            const message = document.createElement('div');
+            message.className = `message ${type}`;
+            
+            const now = timestamp ? new Date(timestamp) : new Date();
+            const timeString = now.toLocaleTimeString('en-US', { 
+                hour: 'numeric', 
+                minute: '2-digit',
+                hour12: true 
+            });
+
+            message.innerHTML = `
+                <div class="message-text">${text}</div>
+                <div class="message-time">${timestamp ? 'Today, ' : ''}${timeString}</div>
+            `;
+
+            messagesContainer.appendChild(message);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
 
-        function downloadTimeline() {
-            portal.showNotification('Downloading project timeline...');
-        }
-
-        function markAllRead() {
-            portal.showNotification('All messages marked as read');
-        }
-
-        // Keyboard shortcuts
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && document.getElementById('lightbox').classList.contains('active')) {
-                closeLightbox();
+        function saveMessages() {
+            if (currentClient) {
+                const sentMessages = messageHistory.filter(msg => msg.type === 'sent');
+                localStorage.setItem(`messages_${currentClient.code}`, JSON.stringify(sentMessages));
             }
+        }
+
+        // Auto-resize message textarea
+        document.getElementById('message-input').addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = this.scrollHeight + 'px';
+        });
+
+        // Enter key to send message
+        document.getElementById('message-input').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        // Document downloads
+        function downloadDocument(docType) {
+            const documents = {
+                contract: 'Signed_Contract_Thompson_Kitchen.pdf',
+                receipt: 'Payment_Receipt_March_2025.pdf',
+                warranty: '5_Year_Warranty_Certificate.pdf',
+                care: 'Cabinet_Care_Instructions.pdf'
+            };
+
+            const filename = documents[docType] || 'document.pdf';
+            
+            // Simulate download
+            console.log('📄 Downloading:', filename);
+            alert(`Downloading ${filename}...\n\nIn a real system, this would download the actual document.`);
+        }
+
+        // Quick actions
+        function scheduleVisit() {
+            alert('Schedule Site Visit\n\nThis would open a calendar booking system to schedule an in-person consultation or site visit.');
+        }
+
+        function requestChanges() {
+            alert('Request Changes\n\nThis would open a form to request modifications to the project specifications or timeline.');
+        }
+
+        function viewGallery() {
+            alert('View Portfolio\n\nThis would redirect to the full photo gallery showing completed projects and inspiration.');
+            // window.open('multi-photo-gallery.html', '_blank');
+        }
+
+        function contactSupport() {
+            if (window.CONFIG) {
+                alert(`Contact Support\n\nPhone: ${window.CONFIG.phone}\nEmail: ${window.CONFIG.email}\n\nOur team is here to help with any questions!`);
+            } else {
+                alert('Contact Support\n\nOur team is here to help with any questions or concerns you may have.');
+            }
+        }
+
+        // Auto-save indicator
+        function showAutoSave() {
+            const indicator = document.getElementById('autosave-indicator');
+            indicator.classList.add('visible');
+            setTimeout(() => {
+                indicator.classList.remove('visible');
+            }, 2000);
+        }
+
+        // Format file size
+        function formatFileSize(bytes) {
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            if (bytes === 0) return '0 Bytes';
+            const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+            return Math.round(bytes / Math.pow(1024, i) * 100) / 100 + ' ' + sizes[i];
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                console.log('✅ Client Portal initialized successfully');
+            }, 200);
         });
     </script>
 </body>
