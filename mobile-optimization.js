@@ -1,7 +1,7 @@
-// ðŸ"± MOBILE PERFORMANCE OPTIMIZATION SYSTEM
+// 🪵"± MOBILE PERFORMANCE OPTIMIZATION SYSTEM
 // Comprehensive mobile performance enhancements and touch optimizations
 
-// ðŸ"Š PERFORMANCE TRACKING
+// 🪵"Š PERFORMANCE TRACKING
 window.MOBILE_PERFORMANCE = {
     metrics: {
         touchDelay: 0,
@@ -19,7 +19,7 @@ window.MOBILE_PERFORMANCE = {
     isEnabled: true
 };
 
-// ðŸŽ¯ DEVICE DETECTION AND OPTIMIZATION
+// 🪵Ž¯ DEVICE DETECTION AND OPTIMIZATION
 function detectDeviceCapabilities() {
     const device = {
         isMobile: /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent),
@@ -64,7 +64,7 @@ function detectDeviceCapabilities() {
     return device;
 }
 
-// ðŸš€ MOBILE OPTIMIZATIONS
+// 🪵š€ MOBILE OPTIMIZATIONS
 function applyMobileOptimizations() {
     // Disable hover states on mobile
     const style = document.createElement('style');
@@ -103,7 +103,7 @@ function applyMobileOptimizations() {
     document.head.appendChild(noSelectStyle);
 }
 
-// ðŸ iOS SPECIFIC OPTIMIZATIONS
+// 🪵 iOS SPECIFIC OPTIMIZATIONS
 function applyIOSOptimizations() {
     // Fix iOS viewport scaling issues
     const viewport = document.querySelector('meta[name="viewport"]');
@@ -141,7 +141,7 @@ function applyIOSOptimizations() {
     document.head.appendChild(safeAreaStyle);
 }
 
-// ðŸ¤– ANDROID OPTIMIZATIONS
+// 🪵¤– ANDROID OPTIMIZATIONS
 function applyAndroidOptimizations() {
     // Optimize for Android Chrome
     const androidStyle = document.createElement('style');
@@ -160,7 +160,7 @@ function applyAndroidOptimizations() {
     document.head.appendChild(androidStyle);
 }
 
-// ðŸ"‹ LOW MEMORY OPTIMIZATIONS
+// 🪵"‹ LOW MEMORY OPTIMIZATIONS
 function applyLowMemoryOptimizations() {
     // Reduce animation complexity
     const lowMemStyle = document.createElement('style');
@@ -184,7 +184,7 @@ function applyLowMemoryOptimizations() {
     enableAggressiveLazyLoading();
 }
 
-// ðŸŽ¯ TOUCH TARGET OPTIMIZATION
+// 🪵Ž¯ TOUCH TARGET OPTIMIZATION
 function optimizeTouchTargets() {
     const minTouchSize = MOBILE_PERFORMANCE.settings.touchThreshold;
     
@@ -214,7 +214,7 @@ function optimizeTouchTargets() {
     document.head.appendChild(style);
 }
 
-// ðŸ–¼ï¸ LAZY LOADING SYSTEM
+// 🪵–¼ï¸ LAZY LOADING SYSTEM
 function enableAggressiveLazyLoading() {
     if ('IntersectionObserver' in window) {
         const lazyImageObserver = new IntersectionObserver((entries) => {
@@ -275,7 +275,7 @@ function optimizeTouchEvents() {
     });
 }
 
-// ðŸ"Š PERFORMANCE MONITORING
+// 🪵"Š PERFORMANCE MONITORING
 function startPerformanceMonitoring() {
     let lastFrameTime = performance.now();
     let frameCount = 0;
@@ -305,7 +305,7 @@ function startPerformanceMonitoring() {
     requestAnimationFrame(measureFrame);
 }
 
-// ðŸŽ¨ ANIMATION OPTIMIZATIONS
+// 🪵Ž¨ ANIMATION OPTIMIZATIONS
 function optimizeAnimations() {
     // Use CSS transforms instead of changing layout properties
     const animationStyle = document.createElement('style');
@@ -343,7 +343,7 @@ function optimizeAnimations() {
     document.head.appendChild(animationStyle);
 }
 
-// ðŸ"± RESPONSIVE IMAGE LOADING
+// 🪵"± RESPONSIVE IMAGE LOADING
 function setupResponsiveImages() {
     const images = document.querySelectorAll('img');
     images.forEach(img => {
@@ -355,7 +355,7 @@ function setupResponsiveImages() {
     });
 }
 
-// ðŸžï¸ MEMORY MANAGEMENT
+// 🪵žï¸ MEMORY MANAGEMENT
 function setupMemoryManagement() {
     let memoryCleanupInterval;
     
@@ -385,10 +385,10 @@ function setupMemoryManagement() {
     });
 }
 
-// ðŸš€ INITIALIZATION
+// 🪵š€ INITIALIZATION
 function initializeMobileOptimizations() {
     try {
-        console.log('ðŸ"± Initializing mobile optimizations...');
+        console.log('🪵"± Initializing mobile optimizations...');
         
         const device = detectDeviceCapabilities();
         
@@ -411,11 +411,11 @@ function initializeMobileOptimizations() {
         console.log('âœ… Mobile optimizations initialized', device);
         
     } catch (error) {
-        console.error('ðŸš¨ Mobile optimization initialization failed:', error);
+        console.error('🪵š¨ Mobile optimization initialization failed:', error);
     }
 }
 
-// ðŸ"§ MOBILE UTILITIES
+// 🪵"§ MOBILE UTILITIES
 window.MOBILE_UTILS = {
     isMobile: () => window.innerWidth <= 768,
     isTouch: () => 'ontouchstart' in window,
@@ -441,4 +441,4 @@ window.MOBILE_UTILS = {
 // Auto-initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', initializeMobileOptimizations);
 
-console.log('ðŸ"± Mobile Performance Optimization System loaded');
+console.log('🪵"± Mobile Performance Optimization System loaded');
