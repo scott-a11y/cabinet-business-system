@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">Your Custom Estimate</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="apple-touch-icon" href="favicon.svg">
+    
+    <!-- 🛡️ BULLETPROOF CONFIGURATION SYSTEM - PHASE 3 -->
+    <script src="enhanced-config-phase3.js"></script>
+    
+    <style>
+        :root {
+            --primary-gold: #D4B062;
+            --light-gold: #F4E4A1;
+            --cream: #FBF8F0;
+            --warm-white: #FEFCF7;
+            --charcoal: #2C2C2C;
+            --dark-gray: #4A4A4A;
+            --light-gray: #E8E8E8;
+            --success: #2E7D4A;
+            --warning: #C5801A;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, var(--warm-white) 0%, var(--cream) 100%);
+            color: var(--charcoal);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Navigation */
+        .nav-header {
+            background: white;
+            border-bottom: 1px solid var(--light-gray);
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            padding: 0 2rem;
+        }
+
+        .nav-item {
+            color: var(--dark-gray);
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .nav-item:hover {
+            background: var(--light-gold);
+            color: var(--charcoal);
+        }
+
+        .nav-item.active {
+            background: var(--primary-gold);
+            color: white;
+        }
+
+        /* Configuration Switcher */
+        .config-switcher {
+            background: var(--cream);
+            padding: 1rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .config-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .config-title {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+            font-weight: 500;
+        }
+
+        .config-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .config-btn {
+            background: var(--light-gray);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+            color: var(--dark-gray);
+        }
+
+        .config-btn:hover {
+            background: var(--light-gold);
+        }
+
+        .config-btn.active {
+            background: var(--primary-gold);
+            color: white;
+        }
+
+        /* Proposal Header */
+        .proposal-header {
+            background: linear-gradient(135deg, var(--primary-gold), #C5A055);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .company-logo-text {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .company-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        .company-tagline {
+            font-size: 1.1rem;
+            font-style: italic;
+            opacity: 0.8;
+            margin-bottom: 2rem;
+        }
+
+        .contact-info {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        /* Welcome Section */
+        .welcome-section {
+            background: white;
+            padding: 3rem 0;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .welcome-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 0 2rem;
+        }
+
+        .welcome-title {
+            font-size: 2.5rem;
+            color: var(--charcoal);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .client-project-info {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .info-card {
+            background: var(--cream);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-gold);
+        }
+
+        .info-label {
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+            font-weight: 500;
+        }
+
+        .info-value {
+            font-size: 1.1rem;
+            color: var(--charcoal);
+            font-weight: 600;
+        }
+
+        .welcome-message {
+            font-size: 1.2rem;
+            color: var(--dark-gray);
+            line-height: 1.7;
+            margin-top: 2rem;
+        }
+
+        /* CRM Tracking Banner */
+        .crm-banner {
+            background: linear-gradient(135deg, #2E7D4A, #246B3A);
+            color: white;
+            padding: 1rem 0;
+            text-align: center;
+        }
+
+        .crm-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .lead-score {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            margin: 0 1rem;
+            font-weight: 600;
+        }
+
+        /* Estimate Details */
+        .estimate-section {
+            padding: 3rem 0;
+        }
+
+        .estimate-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: var(--charcoal);
+            text-align: center;
+            margin-bottom: 3rem;
+            font-weight: 600;
+        }
+
+        .estimate-card {
+            background: white;
+            border-radius: 16px;
+            padding: 3rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border-left: 6px solid var(--primary-gold);
+            margin-bottom: 2rem;
+        }
+
+        .estimate-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .estimate-details {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .detail-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--light-gray);
+            align-items: center;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--primary-gold);
+        }
+
+        .detail-description {
+            color: var(--charcoal);
+        }
+
+        .detail-quantity {
+            color: var(--dark-gray);
+            text-align: center;
+        }
+
+        .detail-price {
+            color: var(--charcoal);
+            text-align: right;
+            font-weight: 500;
+        }
+
+        .estimate-summary {
+            background: var(--cream);
+            padding: 2rem;
+            border-radius: 12px;
+            height: fit-content;
+        }
+
+        .summary-title {
+            font-size: 1.3rem;
+            color: var(--charcoal);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding: 0.5rem 0;
+        }
+
+        .summary-row.total {
+            border-top: 2px solid var(--primary-gold);
+            padding-top: 1rem;
+            margin-top: 1rem;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--primary-gold);
+        }
+
+        /* Features Section */
+        .features-section {
+            background: white;
+            padding: 3rem 0;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .feature-card {
+            background: var(--cream);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            border-left: 4px solid var(--primary-gold);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-title {
+            font-size: 1.2rem;
+            color: var(--charcoal);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .feature-description {
+            color: var(--dark-gray);
+            line-height: 1.6;
+        }
+
+        /* Action Section */
+        .action-section {
+            background: var(--cream);
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .action-content {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .action-title {
+            font-size: 2rem;
+            color: var(--charcoal);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .action-description {
+            font-size: 1.1rem;
+            color: var(--dark-gray);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .action-btn.primary {
+            background: var(--primary-gold);
+            color: white;
+        }
+
+        .action-btn.primary:hover {
+            background: #C5A055;
+            transform: translateY(-2px);
+        }
+
+        .action-btn.secondary {
+            background: white;
+            color: var(--primary-gold);
+            border: 2px solid var(--primary-gold);
+        }
+
+        .action-btn.secondary:hover {
+            background: var(--primary-gold);
+            color: white;
+        }
+
+        /* Footer */
+        .proposal-footer {
+            background: var(--charcoal);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                align-items: center;
+                gap: 0.5rem;
+            }
+
+            .config-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .client-project-info {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .estimate-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .detail-row {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+                text-align: center;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .welcome-title {
+                font-size: 2rem;
+            }
+
+            .proposal-header {
+                padding: 2rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav-header">
+        <div class="nav-container">
+            <a href="business-hub-phase3.html" class="nav-item">🏠 Business Hub</a>
+            <a href="crm-dashboard.html" class="nav-item">👥 CRM Dashboard</a>
+            <a href="analytics-dashboard.html" class="nav-item">📊 Analytics</a>
+            <a href="client-proposal-phase3.html" class="nav-item active">📋 Client Proposals</a>
+            <a href="demo.html" class="nav-item">🎭 Live Demo</a>
+        </div>
+    </nav>
+
+    <!-- Configuration Switcher -->
+    <div class="config-switcher">
+        <div class="config-content">
+            <div class="config-title">View Different Business Configurations</div>
+            <div class="config-buttons">
+                <button class="config-btn active" id="btn-foundry_cabinets" onclick="switchConfig('foundry_cabinets')">
+                    🪵 Foundry Cabinets
+                </button>
+                <button class="config-btn" id="btn-seattle_cabinets" onclick="switchConfig('seattle_cabinets')">
+                    🏔️ Seattle Cabinets
+                </button>
+                <button class="config-btn" id="btn-district_design" onclick="switchConfig('district_design')">
+                    🏗️ District Design
+                </button>
+                <button class="config-btn" id="btn-luxury_kitchens" onclick="switchConfig('luxury_kitchens')">
+                    💎 Luxury Kitchens
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CRM Tracking Banner -->
+    <div class="crm-banner">
+        <div class="crm-content">
+            <span>🎯 Lead Score: </span>
+            <span class="lead-score" id="lead-score-display">0</span>
+            <span>📊 Engagement Level: </span>
+            <span id="engagement-level">New Visitor</span>
+        </div>
+    </div>
+
+    <!-- Proposal Header -->
+    <header class="proposal-header">
+        <div class="header-content">
+            <h1 class="company-logo-text" id="company-name">Foundry Cabinets Co</h1>
+            <p class="company-subtitle" id="company-subtitle">by District Design Build, LLC</p>
+            <p class="company-tagline" id="company-tagline">Driven by Precision. Evolved by Design.</p>
+            <p class="contact-info" id="contact-info">Portland, OR • 360-606-1106 • scott@ddbteam.com • www.ddb503.com</p>
+        </div>
+    </header>
+
+    <!-- Welcome Section -->
+    <section class="welcome-section">
+        <div class="welcome-content">
+            <h2 class="welcome-title" id="welcome-title">Your Custom Cabinet Estimate</h2>
+            
+            <div class="client-project-info">
+                <div class="info-card">
+                    <div class="info-label">Client</div>
+                    <div class="info-value" id="client-name">The Thompson Family</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">Project</div>
+                    <div class="info-value" id="project-name">Kitchen Cabinet Installation</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">Date</div>
+                    <div class="info-value" id="estimate-date">September 13, 2025</div>
+                </div>
+            </div>
+
+            <p class="welcome-message" id="welcome-message">
+                Thank you for choosing Foundry Cabinets for your home transformation. We've carefully crafted this estimate based on your specific needs and our commitment to exceptional quality and craftsmanship.
+            </p>
+        </div>
+    </section>
+
+    <!-- Estimate Details -->
+    <section class="estimate-section">
+        <div class="estimate-container">
+            <h3 class="section-title">Project Estimate Details</h3>
+            
+            <div class="estimate-card">
+                <div class="estimate-grid">
+                    <div class="estimate-details">
+                        <div class="detail-row">
+                            <div class="detail-description"><strong>Item Description</strong></div>
+                            <div class="detail-quantity"><strong>Qty</strong></div>
+                            <div class="detail-price"><strong>Price</strong></div>
+                        </div>
+                        
+                        <div class="detail-row">
+                            <div class="detail-description">Premium Solid Wood Kitchen Cabinets (Base Units)</div>
+                            <div class="detail-quantity">12 units</div>
+                            <div class="detail-price">$18,500</div>
+                        </div>
+                        
+                        <div class="detail-row">
+                            <div class="detail-description">Upper Wall Cabinets with Crown Molding</div>
+                            <div class="detail-quantity">8 units</div>
+                            <div class="detail-price">$12,800</div>
+                        </div>
+                        
+                        <div class="detail-row">
+                            <div class="detail-description">Custom Kitchen Island with Storage</div>
+                            <div class="detail-quantity">1 unit</div>
+                            <div class="detail-price">$8,200</div>
+                        </div>
+                        
+                        <div class="detail-row">
+                            <div class="detail-description">Soft-Close Hinges and Drawer Slides</div>
+                            <div class="detail-quantity">Set</div>
+                            <div class="detail-price">$1,850</div>
+                        </div>
+                        
+                        <div class="detail-row">
+                            <div class="detail-description">Professional Installation and Finishing</div>
+                            <div class="detail-quantity">Service</div>
+                            <div class="detail-price">$4,200</div>
+                        </div>
+                        
+                        <div class="detail-row">
+                            <div class="detail-description"><strong>Total Project Cost</strong></div>
+                            <div class="detail-quantity"></div>
+                            <div class="detail-price"><strong>$45,550</strong></div>
+                        </div>
+                    </div>
+
+                    <div class="estimate-summary">
+                        <h4 class="summary-title">Estimate Summary</h4>
+                        
+                        <div class="summary-row">
+                            <span>Subtotal:</span>
+                            <span>$41,350</span>
+                        </div>
+                        
+                        <div class="summary-row">
+                            <span>Installation:</span>
+                            <span>$4,200</span>
+                        </div>
+                        
+                        <div class="summary-row">
+                            <span>Tax (8.25%):</span>
+                            <span>$3,761</span>
+                        </div>
+                        
+                        <div class="summary-row total">
+                            <span>Total:</span>
+                            <span>$49,311</span>
+                        </div>
+
+                        <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--light-gray);">
+                            <p style="font-size: 0.9rem; color: var(--dark-gray); line-height: 1.5;">
+                                <strong>Project Timeline:</strong> 4-6 weeks from approval<br>
+                                <strong>Warranty:</strong> 5-year comprehensive coverage<br>
+                                <strong>Valid Until:</strong> October 13, 2025
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🏗️</div>
+                <h4 class="feature-title">Professional Installation</h4>
+                <p class="feature-description">Expert craftsmen with decades of experience ensure perfect installation and finishing.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🛡️</div>
+                <h4 class="feature-title">5-Year Warranty</h4>
+                <p class="feature-description">Comprehensive warranty coverage on all materials and workmanship for your peace of mind.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🎨</div>
+                <h4 class="feature-title">Custom Design</h4>
+                <p class="feature-description">Tailored solutions designed specifically for your space, style, and functional requirements.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">⏰</div>
+                <h4 class="feature-title">On-Time Delivery</h4>
+                <p class="feature-description">Reliable project timelines with 92% on-time completion rate and regular progress updates.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Action Section -->
+    <section class="action-section">
+        <div class="action-content">
+            <h3 class="action-title">Ready to Transform Your Space?</h3>
+            <p class="action-description">
+                We're excited to bring your vision to life with our exceptional craftsmanship and attention to detail. 
+                This estimate is valid for 30 days, and we're here to answer any questions you may have.
+            </p>
+            
+            <div class="action-buttons">
+                <button class="action-btn primary" onclick="approveEstimate()">
+                    ✅ Approve Estimate
+                </button>
+                <button class="action-btn secondary" onclick="requestChanges()">
+                    📝 Request Changes
+                </button>
+                <button class="action-btn secondary" onclick="scheduleConsultation()">
+                    📅 Schedule Consultation
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="proposal-footer">
+        <div class="footer-content">
+            <p>&copy; 2025 <span id="company-name-footer">Foundry Cabinets Co</span> | <span id="company-subtitle-footer">District Design Build, LLC</span></p>
+            <p style="margin-top: 0.5rem; opacity: 0.8;">Licensed • Bonded • Insured • Your Satisfaction Guaranteed</p>
+        </div>
+    </footer>
+
+    <script>
+        // Enhanced configuration application for client proposals with CRM integration
+        function applyConfiguration() {
+            try {
+                if (!window.CONFIG) {
+                    console.warn('⚠️ No configuration available for application');
+                    return false;
+                }
+
+                const elements = {
+                    'page-title': window.CONFIG.companyName + ' - Your Custom Estimate',
+                    'company-name': window.CONFIG.companyName,
+                    'company-subtitle': window.CONFIG.companySubtitle,
+                    'company-tagline': window.CONFIG.companyTagline,
+                    'welcome-title': window.CONFIG.welcomeTitle,
+                    'welcome-message': window.CONFIG.welcomeMessage,
+                    'client-name': window.CONFIG.clientName,
+                    'project-name': window.CONFIG.projectName,
+                    'company-name-footer': window.CONFIG.companyName,
+                    'company-subtitle-footer': window.CONFIG.companySubtitle
+                };
+
+                // Apply elements with error handling
+                for (const [id, value] of Object.entries(elements)) {
+                    try {
+                        const el = document.getElementById(id);
+                        if (el && value) {
+                            el.textContent = value;
+                        }
+                    } catch (elementError) {
+                        console.warn(`⚠️ Could not update element ${id}:`, elementError);
+                    }
+                }
+
+                // Update contact info
+                try {
+                    const contactEl = document.getElementById('contact-info');
+                    if (contactEl && window.CONFIG.location) {
+                        const contactInfo = `${window.CONFIG.location} • ${window.CONFIG.phone} • ${window.CONFIG.email} • ${window.CONFIG.website}`;
+                        contactEl.textContent = contactInfo;
+                    }
+                } catch (contactError) {
+                    console.warn('⚠️ Could not update contact info:', contactError);
+                }
+
+                // Update document title
+                try {
+                    document.title = elements['page-title'];
+                } catch (titleError) {
+                    console.warn('⚠️ Could not update document title:', titleError);
+                }
+
+                return true;
+
+            } catch (error) {
+                console.error('🚨 Error applying configuration:', error);
+                return false;
+            }
+        }
+
+        // CRM Integration Functions
+        function updateLeadScore() {
+            const score = parseInt(localStorage.getItem('leadScore') || '0');
+            const scoreElement = document.getElementById('lead-score-display');
+            const engagementElement = document.getElementById('engagement-level');
+            
+            if (scoreElement) {
+                scoreElement.textContent = score;
+            }
+            
+            if (engagementElement) {
+                let level = 'New Visitor';
+                if (score >= 50) level = 'Hot Lead 🔥';
+                else if (score >= 25) level = 'Warm Lead';
+                else if (score >= 10) level = 'Interested';
+                else if (score >= 5) level = 'Engaged';
+                
+                engagementElement.textContent = level;
+            }
+        }
+
+        // Client proposal specific functions with CRM tracking
+        function approveEstimate() {
+            const clientName = document.getElementById('client-name').textContent;
+            
+            // Track high-value interaction
+            if (typeof window.scoreInteraction === 'function') {
+                window.scoreInteraction('estimate_approval', 5);
+            }
+            if (typeof window.trackEvent === 'function') {
+                window.trackEvent('estimate_approved', { 
+                    client: clientName, 
+                    amount: 49311,
+                    source: 'client_proposal'
+                });
+            }
+            
+            console.log('🚀 Estimate approved by:', clientName);
+            alert(`Thank you ${clientName}! Your approval has been received. We'll contact you within 24 hours to schedule the project kickoff meeting and finalize all details.`);
+            
+            updateLeadScore();
+        }
+
+        function requestChanges() {
+            const clientName = document.getElementById('client-name').textContent;
+            
+            // Track interaction
+            if (typeof window.scoreInteraction === 'function') {
+                window.scoreInteraction('change_request', 2);
+            }
+            if (typeof window.trackEvent === 'function') {
+                window.trackEvent('changes_requested', { 
+                    client: clientName,
+                    source: 'client_proposal'
+                });
+            }
+            
+            console.log('🚀 Changes requested by:', clientName);
+            alert(`Thank you ${clientName}! We'll contact you to discuss the changes you'd like to make to this estimate. Our team is committed to ensuring your complete satisfaction.`);
+            
+            updateLeadScore();
+        }
+
+        function scheduleConsultation() {
+            const clientName = document.getElementById('client-name').textContent;
+            
+            // Track interaction
+            if (typeof window.scoreInteraction === 'function') {
+                window.scoreInteraction('consultation_request', 3);
+            }
+            if (typeof window.trackEvent === 'function') {
+                window.trackEvent('consultation_scheduled', { 
+                    client: clientName,
+                    source: 'client_proposal'
+                });
+            }
+            
+            console.log('🚀 Consultation requested by:', clientName);
+            alert(`Thank you ${clientName}! We'll reach out to schedule a convenient time for an in-person consultation to review the project details and answer any questions you may have.`);
+            
+            updateLeadScore();
+        }
+
+        // Update estimate date to current date
+        function updateEstimateDate() {
+            try {
+                const dateElement = document.getElementById('estimate-date');
+                if (dateElement) {
+                    const now = new Date();
+                    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                    dateElement.textContent = now.toLocaleDateString('en-US', options);
+                }
+            } catch (error) {
+                console.warn('⚠️ Could not update estimate date:', error);
+            }
+        }
+
+        // Enhanced initialization with CRM tracking and error handling
+        document.addEventListener('DOMContentLoaded', function() {
+            try {
+                setTimeout(() => {
+                    try {
+                        updateEstimateDate();
+                        updateLeadScore();
+                        
+                        // Track page view with error handling
+                        if (typeof window.scoreInteraction === 'function') {
+                            try {
+                                window.scoreInteraction('page_view', 1);
+                            } catch (scoreError) {
+                                console.warn('⚠️ Score interaction error (browser extension conflict):', scoreError);
+                            }
+                        }
+                        if (typeof window.trackEvent === 'function') {
+                            try {
+                                window.trackEvent('proposal_viewed', { 
+                                    page: 'client_proposal',
+                                    timestamp: new Date().toISOString()
+                                });
+                            } catch (trackError) {
+                                console.warn('⚠️ Event tracking error (browser extension conflict):', trackError);
+                            }
+                        }
+                        
+                        console.log('✅ Client Proposal Phase 3 initialized successfully');
+                    } catch (initError) {
+                        console.warn('⚠️ Initialization error (browser extension conflict):', initError);
+                        // Continue with basic functionality even if tracking fails
+                        try {
+                            updateEstimateDate();
+                        } catch (dateError) {
+                            console.warn('⚠️ Date update fallback error:', dateError);
+                        }
+                    }
+                }, 200);
+            } catch (domError) {
+                console.warn('⚠️ DOM event listener error (browser extension conflict):', domError);
+            }
+        });
+
+        // Global configuration switching function
+        function switchConfig(configName) {
+            if (typeof window.switchConfig === 'function') {
+                window.switchConfig(configName);
+                setTimeout(() => {
+                    applyConfiguration();
+                    updateLeadScore();
+                }, 100);
+            }
+        }
+    </script>
+</body>
+</html>

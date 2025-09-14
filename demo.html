@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo Center - Cabinet Management System</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    
+    <!-- Configuration System -->
+    <script src="config.js"></script>
+    
+    <style>
+        :root {
+            --primary-gold: #D4B062;
+            --light-gold: #F4E4A1;
+            --cream: #FBF8F0;
+            --warm-white: #FEFCF7;
+            --charcoal: #2C2C2C;
+            --dark-gray: #4A4A4A;
+            --light-gray: #E8E8E8;
+            --success: #2E7D4A;
+            --warning: #C5801A;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, var(--warm-white) 0%, var(--cream) 100%);
+            color: var(--charcoal);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary-gold), #C5A055);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .header-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .header-subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .demo-intro {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Navigation */
+        .nav-bar {
+            background: white;
+            border-bottom: 1px solid var(--light-gray);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            padding: 0 2rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-item {
+            color: var(--dark-gray);
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .nav-item:hover {
+            background: var(--light-gold);
+            color: var(--charcoal);
+        }
+
+        .nav-item.active {
+            background: var(--primary-gold);
+            color: white;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Configuration Demo */
+        .config-demo {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .demo-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--charcoal);
+            margin-bottom: 1rem;
+        }
+
+        .demo-description {
+            color: var(--dark-gray);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .config-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .config-demo-btn {
+            background: var(--light-gray);
+            border: none;
+            padding: 1.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--dark-gray);
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        .config-demo-btn:hover {
+            background: var(--light-gold);
+            transform: translateY(-2px);
+        }
+
+        .config-demo-btn.active {
+            background: var(--primary-gold);
+            color: white;
+            box-shadow: 0 4px 16px rgba(212, 176, 98, 0.3);
+        }
+
+        .current-config {
+            background: var(--cream);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: left;
+        }
+
+        .config-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .config-detail {
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-gold);
+        }
+
+        .config-detail-label {
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .config-detail-value {
+            font-weight: 600;
+            color: var(--charcoal);
+        }
+
+        /* Feature Demos */
+        .feature-demos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .demo-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .demo-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .demo-card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .demo-card-icon {
+            font-size: 2.5rem;
+            margin-right: 1rem;
+        }
+
+        .demo-card-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--charcoal);
+        }
+
+        .demo-card-description {
+            color: var(--dark-gray);
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        .demo-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .demo-features li {
+            color: var(--dark-gray);
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .demo-features li::before {
+            content: "✨ ";
+            margin-right: 0.5rem;
+        }
+
+        .demo-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .demo-btn {
+            background: var(--primary-gold);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .demo-btn:hover {
+            background: #C5A055;
+            transform: translateY(-2px);
+        }
+
+        .demo-btn.secondary {
+            background: var(--light-gray);
+            color: var(--charcoal);
+        }
+
+        .demo-btn.secondary:hover {
+            background: var(--dark-gray);
+            color: white;
+        }
+
+        /* Interactive Pricing Demo */
+        .pricing-demo {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            margin-bottom: 3rem;
+        }
+
+        .pricing-tiers {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .pricing-tier {
+            background: var(--cream);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            border-left: 4px solid var(--primary-gold);
+        }
+
+        .tier-name {
+            font-weight: 600;
+            color: var(--charcoal);
+            margin-bottom: 0.5rem;
+        }
+
+        .tier-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .tier-range {
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--charcoal);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            border-radius: 16px;
+            margin-top: 3rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 1rem;
+            }
+
+            .header-title {
+                font-size: 2.2rem;
+            }
+
+            .feature-demos {
+                grid-template-columns: 1fr;
+            }
+
+            .config-showcase,
+            .pricing-tiers {
+                grid-template-columns: 1fr;
+            }
+
+            .demo-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <h1 class="header-title">🎭 Demo Center</h1>
+            <p class="header-subtitle" id="demo-subtitle">Interactive Feature Demonstrations</p>
+            <p class="demo-intro">
+                Explore all the features and capabilities of your cabinet business management system. 
+                Switch configurations, test features, and see how everything works together.
+            </p>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="nav-bar">
+        <div class="nav-container">
+            <a href="app-launcher.html" class="nav-item">🚀 System Home</a>
+            <a href="index.html" class="nav-item">🏠 Business Hub</a>
+            <a href="admin-dashboard.html" class="nav-item">⚙️ Admin Dashboard</a>
+            <a href="demo.html" class="nav-item active">🎭 Demo Center</a>
+            <a href="client-proposal.html" class="nav-item">📋 Proposals</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Configuration Demo -->
+        <section class="config-demo">
+            <h2 class="demo-title">Business Configuration Demo</h2>
+            <p class="demo-description">
+                See how the system adapts to different business types and markets. 
+                Click any configuration below to see real-time changes throughout the system.
+            </p>
+            
+            <div class="config-showcase">
+                <button class="config-demo-btn active" id="demo-btn-foundry_cabinets" onclick="demoSwitchConfig('foundry_cabinets')">
+                    🪵<br>Foundry Cabinets Co
+                </button>
+                <button class="config-demo-btn" id="demo-btn-seattle_cabinets" onclick="demoSwitchConfig('seattle_cabinets')">
+                    🏔️<br>Seattle Premium Cabinets
+                </button>
+                <button class="config-demo-btn" id="demo-btn-district_design" onclick="demoSwitchConfig('district_design')">
+                    🏗️<br>District Design Build
+                </button>
+                <button class="config-demo-btn" id="demo-btn-luxury_kitchens" onclick="demoSwitchConfig('luxury_kitchens')">
+                    💎<br>Prestige Kitchen Studios
+                </button>
+            </div>
+
+            <div class="current-config">
+                <h3 style="margin-bottom: 1rem; color: var(--charcoal);">Current Configuration Details:</h3>
+                <div class="config-info">
+                    <div class="config-detail">
+                        <div class="config-detail-label">Company Name</div>
+                        <div class="config-detail-value" id="current-company">Foundry Cabinets Co</div>
+                    </div>
+                    <div class="config-detail">
+                        <div class="config-detail-label">Location</div>
+                        <div class="config-detail-value" id="current-location">Portland, OR</div>
+                    </div>
+                    <div class="config-detail">
+                        <div class="config-detail-label">Phone</div>
+                        <div class="config-detail-value" id="current-phone">360-606-1106</div>
+                    </div>
+                    <div class="config-detail">
+                        <div class="config-detail-label">Email</div>
+                        <div class="config-detail-value" id="current-email">scott@ddbteam.com</div>
+                    </div>
+                    <div class="config-detail">
+                        <div class="config-detail-label">Tagline</div>
+                        <div class="config-detail-value" id="current-tagline">Driven by Precision. Evolved by Design.</div>
+                    </div>
+                    <div class="config-detail">
+                        <div class="config-detail-label">Market Focus</div>
+                        <div class="config-detail-value" id="current-focus">Quality-focused Portland market</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Pricing Demo -->
+        <section class="pricing-demo">
+            <h2 class="demo-title">Dynamic Pricing Intelligence</h2>
+            <p class="demo-description">
+                Watch how pricing tiers change based on business configuration and market positioning. 
+                Each configuration includes market-validated pricing for different customer segments.
+            </p>
+            
+            <div class="pricing-tiers" id="pricing-tiers">
+                <div class="pricing-tier">
+                    <div class="tier-name">Economy</div>
+                    <div class="tier-price">$965</div>
+                    <div class="tier-range">$800-$1,200/LF</div>
+                </div>
+                <div class="pricing-tier">
+                    <div class="tier-name">Standard</div>
+                    <div class="tier-price">$1,225</div>
+                    <div class="tier-range">$1,000-$1,500/LF</div>
+                </div>
+                <div class="pricing-tier">
+                    <div class="tier-name">Premium</div>
+                    <div class="tier-price">$1,630</div>
+                    <div class="tier-range">$1,400-$1,900/LF</div>
+                </div>
+                <div class="pricing-tier">
+                    <div class="tier-name">Luxury</div>
+                    <div class="tier-price">$2,250</div>
+                    <div class="tier-range">$1,900-$2,600/LF</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Feature Demos -->
+        <section class="feature-demos">
+            <div class="demo-card">
+                <div class="demo-card-header">
+                    <span class="demo-card-icon">📋</span>
+                    <h3 class="demo-card-title">Client Proposals</h3>
+                </div>
+                <p class="demo-card-description">
+                    Professional proposal system with interactive pricing, PDF generation, and mobile optimization.
+                </p>
+                <ul class="demo-features">
+                    <li>Real-time pricing calculator</li>
+                    <li>Professional PDF generation</li>
+                    <li>Mobile-responsive design</li>
+                    <li>Client interaction tracking</li>
+                </ul>
+                <div class="demo-actions">
+                    <a href="client-proposal.html" class="demo-btn">Live Demo</a>
+                    <button class="demo-btn secondary" onclick="showFeatureInfo('proposals')">Learn More</button>
+                </div>
+            </div>
+
+            <div class="demo-card">
+                <div class="demo-card-header">
+                    <span class="demo-card-icon">📱</span>
+                    <h3 class="demo-card-title">Client Portal</h3>
+                </div>
+                <p class="demo-card-description">
+                    Dedicated client dashboard with project tracking, communication tools, and document access.
+                </p>
+                <ul class="demo-features">
+                    <li>Project timeline visualization</li>
+                    <li>Photo upload capabilities</li>
+                    <li>Message communication system</li>
+                    <li>Document downloads</li>
+                </ul>
+                <div class="demo-actions">
+                    <a href="client-portal.html" class="demo-btn">Live Demo</a>
+                    <button class="demo-btn secondary" onclick="showFeatureInfo('portal')">Learn More</button>
+                </div>
+            </div>
+
+            <div class="demo-card">
+                <div class="demo-card-header">
+                    <span class="demo-card-icon">📸</span>
+                    <h3 class="demo-card-title">Photo Gallery</h3>
+                </div>
+                <p class="demo-card-description">
+                    Advanced photo gallery system with lightbox navigation, slideshow mode, and mobile controls.
+                </p>
+                <ul class="demo-features">
+                    <li>Professional lightbox display</li>
+                    <li>Keyboard and touch navigation</li>
+                    <li>Slideshow and zoom features</li>
+                    <li>Mobile swipe controls</li>
+                </ul>
+                <div class="demo-actions">
+                    <a href="multi-photo-gallery.html" class="demo-btn">Live Demo</a>
+                    <button class="demo-btn secondary" onclick="showFeatureInfo('gallery')">Learn More</button>
+                </div>
+            </div>
+
+            <div class="demo-card">
+                <div class="demo-card-header">
+                    <span class="demo-card-icon">🔄</span>
+                    <h3 class="demo-card-title">Before/After Showcase</h3>
+                </div>
+                <p class="demo-card-description">
+                    Interactive comparison sliders that showcase project transformations with smooth animations.
+                </p>
+                <ul class="demo-features">
+                    <li>Touch-friendly comparison sliders</li>
+                    <li>Multiple project showcases</li>
+                    <li>Auto-play presentation mode</li>
+                    <li>Professional project presentation</li>
+                </ul>
+                <div class="demo-actions">
+                    <a href="before-after-showcase.html" class="demo-btn">Live Demo</a>
+                    <button class="demo-btn secondary" onclick="showFeatureInfo('showcase')">Learn More</button>
+                </div>
+            </div>
+
+            <div class="demo-card">
+                <div class="demo-card-header">
+                    <span class="demo-card-icon">🌐</span>
+                    <h3 class="demo-card-title">Virtual Tours</h3>
+                </div>
+                <p class="demo-card-description">
+                    360° virtual project tours with interactive hotspots and detailed project specifications.
+                </p>
+                <ul class="demo-features">
+                    <li>Immersive panoramic viewing</li>
+                    <li>Interactive hotspot annotations</li>
+                    <li>VR-ready experience design</li>
+                    <li>Mobile and desktop support</li>
+                </ul>
+                <div class="demo-actions">
+                    <a href="360-project-viewer.html" class="demo-btn">Live Demo</a>
+                    <button class="demo-btn secondary" onclick="showFeatureInfo('tours')">Learn More</button>
+                </div>
+            </div>
+
+            <div class="demo-card">
+                <div class="demo-card-header">
+                    <span class="demo-card-icon">📄</span>
+                    <h3 class="demo-card-title">PDF Generation</h3>
+                </div>
+                <p class="demo-card-description">
+                    Professional PDF proposal generation with branded templates and client-side processing.
+                </p>
+                <ul class="demo-features">
+                    <li>Client-side PDF creation</li>
+                    <li>Branded document templates</li>
+                    <li>Real-time calculations</li>
+                    <li>Template save/load functionality</li>
+                </ul>
+                <div class="demo-actions">
+                    <a href="pdf-proposal-generator.html" class="demo-btn">Live Demo</a>
+                    <button class="demo-btn secondary" onclick="showFeatureInfo('pdf')">Learn More</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <h3 id="footer-company-name">Demo Center</h3>
+            <p>Interactive demonstrations of your cabinet business management system.</p>
+            <p style="margin-top: 1rem; opacity: 0.8;">
+                Try all features • Test configurations • See the possibilities
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Demo-specific configuration switching
+        function demoSwitchConfig(configName) {
+            if (typeof window.switchConfig === 'function') {
+                window.switchConfig(configName);
+                setTimeout(() => {
+                    updateConfigDemo();
+                    updatePricingDemo();
+                }, 100);
+            }
+        }
+
+        // Update configuration demo display
+        function updateConfigDemo() {
+            if (!window.CONFIG) return;
+            
+            const config = window.CONFIG;
+            
+            // Update current config display
+            document.getElementById('current-company').textContent = config.companyName;
+            document.getElementById('current-location').textContent = config.location;
+            document.getElementById('current-phone').textContent = config.phone;
+            document.getElementById('current-email').textContent = config.email;
+            document.getElementById('current-tagline').textContent = config.companyTagline;
+            
+            // Update market focus based on configuration
+            const marketFocus = {
+                'foundry_cabinets': 'Quality-focused Portland market',
+                'seattle_cabinets': 'Pacific Northwest expansion',
+                'district_design': 'Architectural millwork specialist',
+                'luxury_kitchens': 'Ultra-luxury positioning'
+            };
+            
+            const currentConfig = Object.keys(window.BUSINESS_CONFIGS).find(key => 
+                window.BUSINESS_CONFIGS[key] === config
+            );
+            
+            document.getElementById('current-focus').textContent = marketFocus[currentConfig] || 'Custom market positioning';
+            
+            // Update active button
+            document.querySelectorAll('.config-demo-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`demo-btn-${currentConfig}`).classList.add('active');
+        }
+
+        // Update pricing demo display
+        function updatePricingDemo() {
+            if (!window.CONFIG || !window.CONFIG.pricingTiers) return;
+            
+            const pricing = window.CONFIG.pricingTiers;
+            const tiers = Object.values(pricing);
+            const tierElements = document.querySelectorAll('.pricing-tier');
+            
+            tiers.forEach((tier, index) => {
+                if (tierElements[index]) {
+                    tierElements[index].querySelector('.tier-name').textContent = tier.name;
+                    tierElements[index].querySelector('.tier-price').textContent = `$${tier.price}`;
+                    tierElements[index].querySelector('.tier-range').textContent = tier.range;
+                }
+            });
+        }
+
+        // Show feature information
+        function showFeatureInfo(feature) {
+            const featureInfo = {
+                'proposals': 'Interactive proposal system with real-time pricing, PDF generation, and mobile optimization. Perfect for closing deals faster.',
+                'portal': 'Complete client dashboard with project tracking, photo uploads, and communication tools. Keeps clients engaged throughout the project.',
+                'gallery': 'Professional photo gallery system with advanced navigation, slideshow mode, and mobile controls. Showcase your best work beautifully.',
+                'showcase': 'Interactive before/after comparison sliders with smooth animations. Perfect for demonstrating project transformations.',
+                'tours': '360° virtual project tours with interactive hotspots. Give clients an immersive experience of your completed work.',
+                'pdf': 'Professional PDF generation system with branded templates. Create impressive proposals that stand out from the competition.'
+            };
+            
+            alert(featureInfo[feature] || 'Feature information not available.');
+        }
+
+        // Apply configuration to demo page
+        function applyConfiguration() {
+            if (!window.CONFIG) {
+                console.warn('⚠️ No configuration available');
+                return false;
+            }
+
+            const config = window.CONFIG;
+            
+            // Update page elements
+            document.getElementById('demo-subtitle').textContent = `${config.companyName} Feature Demonstrations`;
+            document.getElementById('footer-company-name').textContent = `${config.companyName} Demo Center`;
+            
+            // Update page title
+            document.title = `${config.companyName} - Demo Center`;
+            
+            // Update configuration demo
+            updateConfigDemo();
+            updatePricingDemo();
+            
+            console.log('✅ Demo center configuration applied:', config.companyName);
+            return true;
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                if (window.CONFIG) {
+                    applyConfiguration();
+                } else {
+                    // Retry after config loads
+                    setTimeout(applyConfiguration, 500);
+                }
+                console.log('🎭 Demo Center initialized successfully');
+            }, 100);
+        });
+    </script>
+</body>
+</html>

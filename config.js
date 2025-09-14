@@ -1,337 +1,283 @@
 // 🛡️ BULLETPROOF CONFIGURATION SYSTEM
-// Original configuration system for Phase 1 files
+// Enhanced Visual Business Management System
 
-(function() {
-    'use strict';
+// Current configuration state
+let currentConfig = localStorage.getItem('businessConfig') || 'foundry_cabinets';
 
-    // 🔧 BUSINESS CONFIGURATIONS
-    const BUSINESS_CONFIGS = {
-        foundry_cabinets: {
-            companyName: 'Foundry Cabinets Co',
-            companySubtitle: 'by District Design Build, LLC',
-            companyTagline: 'Driven by Precision. Evolved by Design.',
-            location: 'Portland, OR',
-            phone: '360-606-1106',
-            email: 'scott@ddbteam.com',
-            website: 'www.ddb503.com',
-            
-            // Pricing tiers (per linear foot)
-            pricing: {
-                economy: { min: 800, max: 1200, avg: 965 },
-                standard: { min: 1000, max: 1500, avg: 1225 },
-                premium: { min: 1400, max: 1900, avg: 1630 },
-                luxury: { min: 1900, max: 2600, avg: 2250 }
-            },
-            
-            // Visual branding
-            primaryColor: '#D4B062',
-            secondaryColor: '#F4E4A1',
-            accentColor: '#C5A055',
-            
-            // Business specifics
-            specialties: ['Custom Kitchen Cabinets', 'Built-in Storage', 'Bathroom Vanities'],
-            targetMarket: 'Mid to High-end Residential',
-            yearEstablished: '2018',
-            
-            // Sample projects for demos
-            sampleProjects: [
-                {
-                    name: 'Modern Farmhouse Kitchen',
-                    client: 'Thompson Family',
-                    value: '$45,500',
-                    image: '🏡'
-                },
-                {
-                    name: 'Industrial Loft Storage',
-                    client: 'Urban Residence',
-                    value: '$28,200',
-                    image: '🏭'
-                }
-            ]
-        },
-
-        seattle_cabinets: {
-            companyName: 'Seattle Premium Cabinets',
-            companySubtitle: 'Pacific Northwest Craftsmanship',
-            companyTagline: 'Where Nature Meets Craftsmanship.',
-            location: 'Seattle, WA',
-            phone: '206-555-0142',
-            email: 'info@seattlecabinets.com',
-            website: 'www.seattlecabinets.com',
-            
-            pricing: {
-                economy: { min: 850, max: 1300, avg: 1060 },
-                standard: { min: 1100, max: 1600, avg: 1340 },
-                premium: { min: 1500, max: 2100, avg: 1785 },
-                luxury: { min: 2100, max: 2900, avg: 2475 }
-            },
-            
-            primaryColor: '#2E4A62',
-            secondaryColor: '#A8C4D6',
-            accentColor: '#1A3A52',
-            
-            specialties: ['Sustainable Materials', 'Pacific NW Design', 'Rain-Resistant Finishes'],
-            targetMarket: 'Eco-Conscious High-end Residential',
-            yearEstablished: '2016',
-            
-            sampleProjects: [
-                {
-                    name: 'Sustainable Seattle Kitchen',
-                    client: 'Green Living Family',
-                    value: '$52,800',
-                    image: '🌲'
-                },
-                {
-                    name: 'Waterfront Condo Remodel',
-                    client: 'City Executive',
-                    value: '$38,900',
-                    image: '🏢'
-                }
-            ]
-        },
-
-        district_design: {
-            companyName: 'District Design Build',
-            companySubtitle: 'Architectural Millwork Specialists',
-            companyTagline: 'Precision Architecture. Masterful Execution.',
-            location: 'Portland, OR',
-            phone: '503-555-0198',
-            email: 'projects@districtdesign.com',
-            website: 'www.districtdesign.com',
-            
-            pricing: {
-                economy: { min: 1000, max: 1400, avg: 1200 },
-                standard: { min: 1300, max: 1800, avg: 1550 },
-                premium: { min: 1700, max: 2400, avg: 2050 },
-                luxury: { min: 2400, max: 3300, avg: 2850 }
-            },
-            
-            primaryColor: '#8B4513',
-            secondaryColor: '#DEB887',
-            accentColor: '#654321',
-            
-            specialties: ['Architectural Millwork', 'Commercial Fit-outs', 'Historic Restoration'],
-            targetMarket: 'Commercial & High-end Residential',
-            yearEstablished: '2012',
-            
-            sampleProjects: [
-                {
-                    name: 'Historic Home Restoration',
-                    client: 'Heritage Foundation',
-                    value: '$67,500',
-                    image: '🏛️'
-                },
-                {
-                    name: 'Corporate Office Build-out',
-                    client: 'Tech Company',
-                    value: '$125,000',
-                    image: '🏢'
-                }
-            ]
-        },
-
-        luxury_kitchens: {
-            companyName: 'Prestige Kitchen Studios',
-            companySubtitle: 'Ultra-Luxury Kitchen Design',
-            companyTagline: 'Where Culinary Dreams Become Reality.',
-            location: 'Lake Oswego, OR',
-            phone: '503-555-0287',
-            email: 'concierge@prestigekitchens.com',
-            website: 'www.prestigekitchens.com',
-            
-            pricing: {
-                economy: { min: 1500, max: 2200, avg: 1800 },
-                standard: { min: 2200, max: 3000, avg: 2600 },
-                premium: { min: 3000, max: 4000, avg: 3500 },
-                luxury: { min: 4000, max: 6000, avg: 4500 }
-            },
-            
-            primaryColor: '#B8860B',
-            secondaryColor: '#FFD700',
-            accentColor: '#9A7B0A',
-            
-            specialties: ['Ultra-Luxury Kitchens', 'Smart Home Integration', 'European Imports'],
-            targetMarket: 'Ultra High-end Residential',
-            yearEstablished: '2010',
-            
-            sampleProjects: [
-                {
-                    name: 'Celebrity Chef Kitchen',
-                    client: 'Private Client',
-                    value: '$185,000',
-                    image: '👑'
-                },
-                {
-                    name: 'Smart Home Integration',
-                    client: 'Tech Executive',
-                    value: '$95,500',
-                    image: '🤖'
-                }
-            ]
-        }
-    };
-
-    // 🎯 CURRENT CONFIGURATION
-    let currentConfig = 'foundry_cabinets';
-
-    // 🔧 CONFIGURATION MANAGEMENT
-    function switchConfig(configName) {
-        try {
-            if (!BUSINESS_CONFIGS[configName]) {
-                console.error('🚨 Invalid configuration:', configName);
-                return false;
-            }
-
-            currentConfig = configName;
-            window.CONFIG = BUSINESS_CONFIGS[configName];
-            
-            // Update active button
-            document.querySelectorAll('.config-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            
-            const activeBtn = document.getElementById(`btn-${configName}`);
-            if (activeBtn) {
-                activeBtn.classList.add('active');
-            }
-
-            // Apply configuration to page
-            if (typeof applyConfiguration === 'function') {
-                applyConfiguration();
-            }
-
-            // Store selection
-            try {
-                localStorage.setItem('selectedConfig', configName);
-            } catch(e) {
-                console.warn('⚠️ Could not save to localStorage:', e.message);
-            }
-
-            console.log('✅ Configuration switched to:', configName);
-            return true;
-
-        } catch (error) {
-            console.error('🚨 Error switching configuration:', error);
-            return false;
-        }
-    }
-
-    // 📱 RESPONSIVE UTILITIES
-    function isMobile() {
-        return window.innerWidth <= 768;
-    }
-
-    function isTablet() {
-        return window.innerWidth > 768 && window.innerWidth <= 1024;
-    }
-
-    function isDesktop() {
-        return window.innerWidth > 1024;
-    }
-
-    // 🎨 THEME UTILITIES
-    function updateThemeColors(config) {
-        if (!config) return;
+// Business configurations
+const BUSINESS_CONFIGS = {
+    foundry_cabinets: {
+        // Company Identity
+        companyName: 'Foundry Cabinets Co',
+        companySubtitle: 'by District Design Build, LLC',
+        companyTagline: 'Driven by Precision. Evolved by Design.',
+        logo: '🪵',
         
-        const root = document.documentElement;
-        if (config.primaryColor) {
-            root.style.setProperty('--primary-color', config.primaryColor);
-            root.style.setProperty('--primary-gold', config.primaryColor);
-        }
-        if (config.secondaryColor) {
-            root.style.setProperty('--secondary-color', config.secondaryColor);
-            root.style.setProperty('--light-gold', config.secondaryColor);
-        }
-        if (config.accentColor) {
-            root.style.setProperty('--accent-color', config.accentColor);
-        }
-    }
-
-    // 💰 PRICING UTILITIES
-    function formatPrice(amount) {
-        return new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'USD',
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0
-        }).format(amount);
-    }
-
-    function calculateEstimate(linearFeet, tier = 'standard') {
-        const config = window.CONFIG;
-        if (!config || !config.pricing[tier]) {
-            return { min: 0, max: 0, avg: 0 };
-        }
-
-        const pricing = config.pricing[tier];
-        return {
-            min: linearFeet * pricing.min,
-            max: linearFeet * pricing.max,
-            avg: linearFeet * pricing.avg
-        };
-    }
-
-    // 📊 ANALYTICS UTILITIES
-    function trackConfigSwitch(configName) {
-        try {
-            console.log('📊 Analytics: Configuration switched to', configName);
-            // Integrate with Google Analytics or other analytics platforms
-            if (typeof gtag !== 'undefined') {
-                gtag('event', 'config_switch', {
-                    'event_category': 'Configuration',
-                    'event_label': configName
-                });
+        // Contact Information
+        location: 'Portland, OR',
+        phone: '360-606-1106',
+        email: 'scott@ddbteam.com',
+        website: 'www.ddb503.com',
+        
+        // Pricing Configuration (Portland Market)
+        pricingTiers: {
+            economy: { 
+                name: 'Economy', 
+                price: 965, 
+                range: '$800-$1,200/LF',
+                features: ['Particle board construction', 'Basic hardware', '1-year warranty']
+            },
+            standard: { 
+                name: 'Standard', 
+                price: 1225, 
+                range: '$1,000-$1,500/LF',
+                features: ['Plywood construction', 'Soft-close hardware', '3-year warranty']
+            },
+            premium: { 
+                name: 'Premium', 
+                price: 1630, 
+                range: '$1,400-$1,900/LF',
+                features: ['Solid wood construction', 'Premium hardware', '5-year warranty']
+            },
+            luxury: { 
+                name: 'Luxury', 
+                price: 2250, 
+                range: '$1,900-$2,600/LF',
+                features: ['Custom solid wood', 'Designer hardware', '10-year warranty']
             }
-        } catch (error) {
-            console.warn('⚠️ Analytics tracking failed:', error);
-        }
-    }
+        },
+        
+        // Visual Branding
+        colors: {
+            primary: '#D4B062',
+            light: '#F4E4A1',
+            cream: '#FBF8F0',
+            warmWhite: '#FEFCF7'
+        },
+        
+        // Client-facing content
+        welcomeTitle: 'Your Custom Cabinet Estimate',
+        welcomeMessage: 'Thank you for choosing Foundry Cabinets for your home transformation. We\'ve carefully crafted this estimate based on your specific needs and our commitment to exceptional quality and craftsmanship.',
+        clientName: 'The Thompson Family',
+        projectName: 'Kitchen Cabinet Installation'
+    },
 
-    // 🚀 INITIALIZATION
-    function initializeConfig() {
-        try {
-            // Try to load saved configuration
-            let savedConfig = 'foundry_cabinets'; // default
-            
-            try {
-                const stored = localStorage.getItem('selectedConfig');
-                if (stored && BUSINESS_CONFIGS[stored]) {
-                    savedConfig = stored;
-                }
-            } catch(e) {
-                console.warn('⚠️ Could not load from localStorage:', e.message);
+    seattle_cabinets: {
+        companyName: 'Seattle Premium Cabinets',
+        companySubtitle: 'Pacific Northwest Craftsmanship',
+        companyTagline: 'Where Innovation Meets Tradition.',
+        logo: '🏔️',
+        
+        location: 'Seattle, WA',
+        phone: '206-555-0123',
+        email: 'info@seattlecabinets.com',
+        website: 'www.seattlepremiumcabinets.com',
+        
+        pricingTiers: {
+            economy: { 
+                name: 'Craftsman', 
+                price: 1060, 
+                range: '$900-$1,300/LF',
+                features: ['Premium plywood', 'Northwest styling', '2-year warranty']
+            },
+            standard: { 
+                name: 'Professional', 
+                price: 1350, 
+                range: '$1,100-$1,600/LF',
+                features: ['Solid wood frames', 'Custom finishes', '5-year warranty']
+            },
+            premium: { 
+                name: 'Artisan', 
+                price: 1795, 
+                range: '$1,500-$2,100/LF',
+                features: ['Hand-crafted details', 'Premium hardware', '7-year warranty']
+            },
+            luxury: { 
+                name: 'Master Craft', 
+                price: 2475, 
+                range: '$2,100-$2,850/LF',
+                features: ['Heirloom quality', 'Imported hardware', '15-year warranty']
             }
+        },
+        
+        colors: {
+            primary: '#2E5C3E',
+            light: '#A8C8A8',
+            cream: '#F5F8F5',
+            warmWhite: '#FEFFFE'
+        },
+        
+        welcomeTitle: 'Your Seattle Premium Cabinet Solution',
+        welcomeMessage: 'Experience the finest in Pacific Northwest craftsmanship. Our Seattle team combines traditional woodworking techniques with modern innovation to create cabinets that stand the test of time.',
+        clientName: 'The Johnson Family',
+        projectName: 'Complete Kitchen Renovation'
+    },
 
-            // Set initial configuration
-            switchConfig(savedConfig);
+    district_design: {
+        companyName: 'District Design Build',
+        companySubtitle: 'Architectural Millwork Specialists',
+        companyTagline: 'Building Tomorrow\'s Spaces Today.',
+        logo: '🏗️',
+        
+        location: 'Portland, OR',
+        phone: '503-555-0456',
+        email: 'projects@districtdesign.com',
+        website: 'www.districtdesignbuild.com',
+        
+        pricingTiers: {
+            economy: { 
+                name: 'Studio', 
+                price: 1200, 
+                range: '$1,000-$1,400/LF',
+                features: ['Architectural grade', 'Custom design', '3-year warranty']
+            },
+            standard: { 
+                name: 'Professional', 
+                price: 1525, 
+                range: '$1,300-$1,750/LF',
+                features: ['Designer millwork', 'Premium finishes', '5-year warranty']
+            },
+            premium: { 
+                name: 'Architect Series', 
+                price: 2050, 
+                range: '$1,750-$2,350/LF',
+                features: ['Custom architectural details', 'Luxury finishes', '10-year warranty']
+            },
+            luxury: { 
+                name: 'Signature Collection', 
+                price: 2850, 
+                range: '$2,400-$3,300/LF',
+                features: ['Bespoke design', 'Museum quality', 'Lifetime warranty']
+            }
+        },
+        
+        colors: {
+            primary: '#1A365D',
+            light: '#90CDF4',
+            cream: '#F7FAFC',
+            warmWhite: '#FFFEF7'
+        },
+        
+        welcomeTitle: 'Your Architectural Millwork Solution',
+        welcomeMessage: 'District Design Build specializes in creating architectural millwork that seamlessly integrates with your space\'s design vision. Our team of craftsmen and designers work together to bring your unique vision to life.',
+        clientName: 'The Martinez Family',
+        projectName: 'Custom Architectural Millwork'
+    },
 
-            console.log('✅ Configuration system initialized');
+    luxury_kitchens: {
+        companyName: 'Prestige Kitchen Studios',
+        companySubtitle: 'Ultra-Luxury Kitchen Design',
+        companyTagline: 'Where Luxury Meets Functionality.',
+        logo: '💎',
+        
+        location: 'Lake Oswego, OR',
+        phone: '503-555-0789',
+        email: 'concierge@prestigekitchens.com',
+        website: 'www.prestigekitchenstudios.com',
+        
+        pricingTiers: {
+            economy: { 
+                name: 'Prestige Select', 
+                price: 1800, 
+                range: '$1,500-$2,100/LF',
+                features: ['Premium materials', 'Luxury hardware', '5-year warranty']
+            },
+            standard: { 
+                name: 'Prestige Professional', 
+                price: 2750, 
+                range: '$2,300-$3,200/LF',
+                features: ['Designer materials', 'Custom features', '10-year warranty']
+            },
+            premium: { 
+                name: 'Prestige Signature', 
+                price: 3650, 
+                range: '$3,200-$4,100/LF',
+                features: ['Exotic materials', 'Concierge service', '15-year warranty']
+            },
+            luxury: { 
+                name: 'Prestige Elite', 
+                price: 4500, 
+                range: '$4,000-$5,000/LF',
+                features: ['Museum quality', '24/7 concierge', 'Lifetime warranty']
+            }
+        },
+        
+        colors: {
+            primary: '#744C2E',
+            light: '#E6D2B7',
+            cream: '#FAF8F4',
+            warmWhite: '#FFFFFE'
+        },
+        
+        welcomeTitle: 'Your Ultra-Luxury Kitchen Experience',
+        welcomeMessage: 'Welcome to the pinnacle of kitchen luxury. At Prestige Kitchen Studios, we create more than kitchens – we craft culinary masterpieces that reflect your refined taste and lifestyle.',
+        clientName: 'The Wellington Family',
+        projectName: 'Ultra-Luxury Kitchen Design'
+    }
+};
 
-        } catch (error) {
-            console.error('🚨 Error initializing configuration:', error);
-            // Fallback to default
-            window.CONFIG = BUSINESS_CONFIGS.foundry_cabinets;
+// Configuration switching function
+function switchConfig(configName) {
+    if (BUSINESS_CONFIGS[configName]) {
+        currentConfig = configName;
+        localStorage.setItem('businessConfig', configName);
+        window.CONFIG = BUSINESS_CONFIGS[configName];
+        
+        // Apply global CSS custom properties
+        if (BUSINESS_CONFIGS[configName].colors) {
+            const root = document.documentElement;
+            root.style.setProperty('--primary-gold', BUSINESS_CONFIGS[configName].colors.primary);
+            root.style.setProperty('--light-gold', BUSINESS_CONFIGS[configName].colors.light);
+            root.style.setProperty('--cream', BUSINESS_CONFIGS[configName].colors.cream);
+            root.style.setProperty('--warm-white', BUSINESS_CONFIGS[configName].colors.warmWhite);
+        }
+        
+        // Update configuration buttons
+        const buttons = document.querySelectorAll('.config-btn');
+        buttons.forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.id === `btn-${configName}`) {
+                btn.classList.add('active');
+            }
+        });
+        
+        // Apply configuration to current page
+        if (typeof applyConfiguration === 'function') {
+            applyConfiguration();
+        }
+        
+        console.log('✅ Switched to configuration:', configName);
+        return true;
+    }
+    return false;
+}
+
+// Load current configuration on startup
+function loadConfiguration() {
+    const config = BUSINESS_CONFIGS[currentConfig];
+    if (config) {
+        window.CONFIG = config;
+        
+        // Apply global styles
+        if (config.colors) {
+            const root = document.documentElement;
+            root.style.setProperty('--primary-gold', config.colors.primary);
+            root.style.setProperty('--light-gold', config.colors.light);
+            root.style.setProperty('--cream', config.colors.cream);
+            root.style.setProperty('--warm-white', config.colors.warmWhite);
         }
     }
+    return config;
+}
 
-    // 🌐 GLOBAL EXPORTS
-    window.BUSINESS_CONFIGS = BUSINESS_CONFIGS;
-    window.switchConfig = switchConfig;
-    window.formatPrice = formatPrice;
-    window.calculateEstimate = calculateEstimate;
-    window.isMobile = isMobile;
-    window.isTablet = isTablet;
-    window.isDesktop = isDesktop;
-    window.updateThemeColors = updateThemeColors;
-    window.trackConfigSwitch = trackConfigSwitch;
+// Initialize configuration system
+document.addEventListener('DOMContentLoaded', function() {
+    loadConfiguration();
+    console.log('🚀 Configuration system initialized');
+    console.log('📊 Current configuration:', currentConfig);
+});
 
-    // 🎬 AUTO-INITIALIZE
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initializeConfig);
-    } else {
-        initializeConfig();
-    }
-
-    console.log('🛡️ Bulletproof Configuration System loaded successfully');
-
-})();
+// Make functions globally available
+window.switchConfig = switchConfig;
+window.loadConfiguration = loadConfiguration;
+window.BUSINESS_CONFIGS = BUSINESS_CONFIGS;

@@ -3,10 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title">Business Management System</title>
+    <title>Cabinet Business Management System</title>
     
-    <!-- 🛡️ BULLETPROOF CONFIGURATION SYSTEM -->
-    <script src="enhanced-config.js"></script>
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    
+    <!-- Configuration System -->
+    <script src="config.js"></script>
     
     <style>
         :root {
@@ -35,77 +39,44 @@
             min-height: 100vh;
         }
 
-        /* Configuration Switcher */
-        .config-switcher {
-            background: var(--cream);
-            padding: 1rem;
-            border-bottom: 1px solid var(--light-gray);
-        }
-
-        .config-content {
+        .container {
             max-width: 1200px;
             margin: 0 auto;
-            text-align: center;
+            padding: 2rem;
         }
 
-        .config-title {
-            color: var(--dark-gray);
-            font-size: 0.9rem;
-            margin-bottom: 0.75rem;
-            font-weight: 500;
-        }
-
-        .config-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-
-        .config-btn {
-            background: var(--light-gray);
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            transition: all 0.3s ease;
-            color: var(--dark-gray);
-        }
-
-        .config-btn:hover {
-            background: var(--light-gold);
-        }
-
-        .config-btn.active {
-            background: var(--primary-gold);
-            color: white;
-        }
-
-        /* Header */
-        .header {
+        /* Hero Header */
+        .hero-header {
             background: linear-gradient(135deg, var(--primary-gold), #C5A055);
             color: white;
-            padding: 3rem 0;
+            padding: 4rem 0;
             text-align: center;
+            margin-bottom: 4rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
         }
 
-        .header-content {
+        .hero-content {
             max-width: 800px;
             margin: 0 auto;
             padding: 0 2rem;
         }
 
-        .company-logo-text {
+        .company-logo {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .company-name {
             font-size: 3rem;
             font-weight: 700;
-            margin-bottom: 0.5rem;
+            margin-bottom: 1rem;
         }
 
         .company-subtitle {
             font-size: 1.4rem;
             opacity: 0.9;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
         }
 
         .company-tagline {
@@ -115,108 +86,213 @@
             margin-bottom: 2rem;
         }
 
-        .contact-info {
-            font-size: 1rem;
+        .hero-description {
+            font-size: 1.1rem;
             opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto 2rem;
         }
 
-        /* Main Content */
-        .main-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 3rem 2rem;
-        }
-
-        .system-overview {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .overview-title {
-            font-size: 2.5rem;
-            color: var(--charcoal);
-            margin-bottom: 1rem;
+        .cta-button {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 1rem 3rem;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50px;
+            font-size: 1.1rem;
             font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
         }
 
-        .overview-description {
-            font-size: 1.2rem;
-            color: var(--dark-gray);
-            line-height: 1.6;
-            max-width: 800px;
-            margin: 0 auto;
+        .cta-button:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
         }
 
-        /* Module Grid */
-        .modules-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .module-card {
+        /* Configuration Switcher */
+        .config-switcher {
             background: white;
             border-radius: 16px;
             padding: 2rem;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-            border-left: 6px solid var(--primary-gold);
-            transition: all 0.3s ease;
+            margin-bottom: 4rem;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
             text-align: center;
         }
 
-        .module-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 48px rgba(0,0,0,0.15);
-        }
-
-        .module-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        .module-title {
+        .config-title {
             font-size: 1.5rem;
             color: var(--charcoal);
             margin-bottom: 1rem;
             font-weight: 600;
         }
 
-        .module-description {
+        .config-description {
             color: var(--dark-gray);
             margin-bottom: 2rem;
-            line-height: 1.6;
+            font-size: 1.1rem;
         }
 
-        .module-features {
-            text-align: left;
-            margin-bottom: 2rem;
+        .config-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
         }
 
-        .module-features ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .module-features li {
-            padding: 0.5rem 0;
+        .config-btn {
+            background: var(--light-gray);
+            border: none;
+            padding: 1.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
             color: var(--dark-gray);
-            position: relative;
-            padding-left: 1.5rem;
+            font-weight: 500;
+            font-size: 1rem;
         }
 
-        .module-features li:before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            color: var(--success);
-            font-weight: bold;
+        .config-btn:hover {
+            background: var(--light-gold);
+            transform: translateY(-2px);
         }
 
-        .module-btn {
+        .config-btn.active {
             background: var(--primary-gold);
             color: white;
-            padding: 1rem 2rem;
+            box-shadow: 0 4px 16px rgba(212, 176, 98, 0.3);
+        }
+
+        /* Features Section */
+        .features-section {
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--charcoal);
+            text-align: center;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--dark-gray);
+            text-align: center;
+            margin-bottom: 3rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-left: 6px solid var(--primary-gold);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--charcoal);
+            margin-bottom: 1rem;
+        }
+
+        .feature-description {
+            color: var(--dark-gray);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            text-align: left;
+        }
+
+        .feature-list li {
+            color: var(--dark-gray);
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .feature-list li::before {
+            content: "✅ ";
+            margin-right: 0.5rem;
+        }
+
+        /* Navigation Section */
+        .navigation-section {
+            margin-bottom: 4rem;
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .nav-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border-left: 6px solid var(--primary-gold);
+        }
+
+        .nav-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 32px rgba(212, 176, 98, 0.2);
+        }
+
+        .nav-card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .nav-card-icon {
+            font-size: 2rem;
+            margin-right: 1rem;
+        }
+
+        .nav-card-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--charcoal);
+        }
+
+        .nav-card-description {
+            color: var(--dark-gray);
+            margin-bottom: 1.5rem;
+        }
+
+        .nav-card-button {
+            background: var(--primary-gold);
+            color: white;
+            padding: 0.75rem 2rem;
             border: none;
             border-radius: 8px;
             font-size: 1rem;
@@ -225,272 +301,313 @@
             transition: all 0.3s ease;
             text-decoration: none;
             display: inline-block;
-            width: 100%;
         }
 
-        .module-btn:hover {
+        .nav-card-button:hover {
             background: #C5A055;
             transform: translateY(-2px);
         }
 
-        /* Status Section */
-        .status-section {
-            background: white;
-            border-radius: 16px;
-            padding: 2rem;
-            margin-top: 3rem;
+        /* Footer */
+        .footer {
+            background: var(--charcoal);
+            color: white;
             text-align: center;
-            border-left: 6px solid var(--success);
+            padding: 3rem;
+            border-radius: 16px;
+            margin-top: 4rem;
         }
 
-        .status-title {
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .footer-title {
             font-size: 1.5rem;
-            color: var(--charcoal);
             margin-bottom: 1rem;
-            font-weight: 600;
         }
 
-        .status-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
+        .footer-description {
+            opacity: 0.8;
+            margin-bottom: 1.5rem;
         }
 
-        .status-item {
-            padding: 1rem;
-            background: var(--cream);
-            border-radius: 8px;
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
         }
 
-        .status-number {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--primary-gold);
-        }
-
-        .status-label {
-            color: var(--dark-gray);
-            font-size: 0.9rem;
+        .contact-item {
+            opacity: 0.9;
         }
 
         /* Responsive Design */
         @media (max-width: 768px) {
-            .config-buttons {
-                flex-direction: column;
-                align-items: center;
+            .container {
+                padding: 1rem;
             }
 
-            .header {
-                padding: 2rem 0;
+            .hero-header {
+                padding: 3rem 0;
             }
 
-            .company-logo-text {
-                font-size: 2rem;
+            .company-name {
+                font-size: 2.2rem;
             }
 
-            .overview-title {
-                font-size: 2rem;
-            }
-
-            .modules-grid {
+            .features-grid,
+            .nav-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .config-buttons {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-info {
+                flex-direction: column;
+                gap: 0.5rem;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Configuration Switcher -->
-    <div class="config-switcher">
-        <div class="config-content">
-            <div class="config-title">Select Your Business Configuration</div>
+    <div class="container">
+        <!-- Hero Header -->
+        <header class="hero-header">
+            <div class="hero-content">
+                <div class="company-logo" id="company-logo">🪵</div>
+                <h1 class="company-name" id="company-name">Cabinet Business Management System</h1>
+                <p class="company-subtitle" id="company-subtitle">Enhanced Visual Business Management System</p>
+                <p class="company-tagline" id="company-tagline">Drive Growth. Automate Success. Lead Your Market.</p>
+                <p class="hero-description">
+                    Transform your cabinet business with our comprehensive management platform. 
+                    From interactive proposals to client portals, we provide everything you need to stand out in the market.
+                </p>
+                <a href="index.html" class="cta-button">🚀 Launch Business Hub</a>
+            </div>
+        </header>
+
+        <!-- Configuration Switcher -->
+        <section class="config-switcher">
+            <h2 class="config-title">Choose Your Business Configuration</h2>
+            <p class="config-description">
+                Our system adapts to different cabinet business types. Choose a configuration to see 
+                how the system can be customized for your specific market and business model.
+            </p>
+            
             <div class="config-buttons">
-                <button class="config-btn" id="btn-foundry_cabinets" onclick="switchConfig('foundry_cabinets')">
-                    🪵 Foundry Cabinets
+                <button class="config-btn active" id="btn-foundry_cabinets" onclick="switchConfig('foundry_cabinets')">
+                    🪵 Foundry Cabinets Co
                 </button>
                 <button class="config-btn" id="btn-seattle_cabinets" onclick="switchConfig('seattle_cabinets')">
-                    🏔️ Seattle Cabinets
+                    🏔️ Seattle Premium Cabinets
                 </button>
                 <button class="config-btn" id="btn-district_design" onclick="switchConfig('district_design')">
-                    🗯️ District Design
+                    🏗️ District Design Build
                 </button>
                 <button class="config-btn" id="btn-luxury_kitchens" onclick="switchConfig('luxury_kitchens')">
-                    💎 Luxury Kitchens
+                    💎 Prestige Kitchen Studios
                 </button>
             </div>
-        </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features-section">
+            <h2 class="section-title">Powerful Business Features</h2>
+            <p class="section-subtitle">
+                Everything you need to run a modern cabinet business, from lead generation to project completion.
+            </p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📋</div>
+                    <h3 class="feature-title">Interactive Proposals</h3>
+                    <p class="feature-description">
+                        Create stunning, interactive proposals that wow clients and close more deals.
+                    </p>
+                    <ul class="feature-list">
+                        <li>Real-time pricing calculator</li>
+                        <li>Professional PDF generation</li>
+                        <li>Mobile-optimized viewing</li>
+                        <li>Client interaction tracking</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3 class="feature-title">Client Portal</h3>
+                    <p class="feature-description">
+                        Give clients a dedicated portal to track their project progress and communicate with your team.
+                    </p>
+                    <ul class="feature-list">
+                        <li>Project timeline visualization</li>
+                        <li>Photo upload capabilities</li>
+                        <li>Message communication system</li>
+                        <li>Document download access</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📸</div>
+                    <h3 class="feature-title">Visual Showcases</h3>
+                    <p class="feature-description">
+                        Showcase your work with professional photo galleries and before/after comparisons.
+                    </p>
+                    <ul class="feature-list">
+                        <li>Before/after comparison sliders</li>
+                        <li>Professional lightbox galleries</li>
+                        <li>360° virtual tours</li>
+                        <li>Mobile-optimized viewing</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">⚙️</div>
+                    <h3 class="feature-title">Business Management</h3>
+                    <p class="feature-description">
+                        Streamline your operations with powerful admin tools and business intelligence.
+                    </p>
+                    <ul class="feature-list">
+                        <li>Project management dashboard</li>
+                        <li>Performance analytics</li>
+                        <li>Multi-configuration support</li>
+                        <li>Market pricing intelligence</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigation Section -->
+        <section class="navigation-section">
+            <h2 class="section-title">System Components</h2>
+            <p class="section-subtitle">
+                Explore all the tools and features available in your cabinet business management system.
+            </p>
+            
+            <div class="nav-grid">
+                <div class="nav-card">
+                    <div class="nav-card-header">
+                        <span class="nav-card-icon">🏠</span>
+                        <h3 class="nav-card-title">Business Hub</h3>
+                    </div>
+                    <p class="nav-card-description">
+                        Your main dashboard with project galleries, business metrics, and quick access to all tools.
+                    </p>
+                    <a href="index.html" class="nav-card-button">Open Business Hub</a>
+                </div>
+
+                <div class="nav-card">
+                    <div class="nav-card-header">
+                        <span class="nav-card-icon">⚙️</span>
+                        <h3 class="nav-card-title">Admin Dashboard</h3>
+                    </div>
+                    <p class="nav-card-description">
+                        Manage projects, configure system settings, and monitor business performance.
+                    </p>
+                    <a href="admin-dashboard.html" class="nav-card-button">Admin Dashboard</a>
+                </div>
+
+                <div class="nav-card">
+                    <div class="nav-card-header">
+                        <span class="nav-card-icon">🎭</span>
+                        <h3 class="nav-card-title">Demo Center</h3>
+                    </div>
+                    <p class="nav-card-description">
+                        Interactive demonstrations of all system features and business configurations.
+                    </p>
+                    <a href="demo.html" class="nav-card-button">Launch Demo</a>
+                </div>
+
+                <div class="nav-card">
+                    <div class="nav-card-header">
+                        <span class="nav-card-icon">📋</span>
+                        <h3 class="nav-card-title">Client Proposals</h3>
+                    </div>
+                    <p class="nav-card-description">
+                        Professional proposal system with interactive pricing and PDF generation.
+                    </p>
+                    <a href="client-proposal.html" class="nav-card-button">View Proposals</a>
+                </div>
+            </div>
+        </section>
     </div>
 
-    <!-- Header -->
-    <header class="header">
-        <div class="header-content">
-            <h1 class="company-logo-text" id="company-name">Foundry Cabinets Co</h1>
-            <p class="company-subtitle" id="company-subtitle">by District Design Build, LLC</p>
-            <p class="company-tagline" id="company-tagline">Driven by Precision. Evolved by Design.</p>
-            <p class="contact-info" id="contact-info">Portland, OR • 360-606-1106 • scott@ddbteam.com • www.ddb503.com</p>
-        </div>
-    </header>
-
-    <!-- Main Content -->
-    <main class="main-content">
-        <!-- System Overview -->
-        <section class="system-overview">
-            <h2 class="overview-title">Complete Business Management System</h2>
-            <p class="overview-description">
-                A comprehensive, integrated platform designed specifically for cabinet and design businesses. 
-                Streamline your operations, impress clients, and grow your business with professional tools 
-                that work seamlessly together.
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <h3 class="footer-title" id="footer-company-name">Cabinet Business Management System</h3>
+            <p class="footer-description">
+                Professional business management platform designed specifically for cabinet companies and custom millwork businesses.
             </p>
-        </section>
-
-        <!-- Modules Grid -->
-        <div class="modules-grid">
-            <!-- Business Hub Module -->
-            <div class="module-card">
-                <div class="module-icon">🏠</div>
-                <h3 class="module-title">Business Hub</h3>
-                <p class="module-description">
-                    Central dashboard with analytics, project overview, and business intelligence.
-                </p>
-                <div class="module-features">
-                    <ul>
-                        <li>Real-time analytics and KPIs</li>
-                        <li>Project gallery showcase</li>
-                        <li>Revenue and performance tracking</li>
-                        <li>Client interaction summaries</li>
-                    </ul>
-                </div>
-                <a href="index.html" class="module-btn">Open Business Hub</a>
+            <div class="contact-info" id="contact-info">
+                <span class="contact-item">📍 Portland, OR</span>
+                <span class="contact-item">📞 360-606-1106</span>
+                <span class="contact-item">✉️ scott@ddbteam.com</span>
+                <span class="contact-item">🌐 www.ddb503.com</span>
             </div>
-
-            <!-- Admin Dashboard Module -->
-            <div class="module-card">
-                <div class="module-icon">📊</div>
-                <h3 class="module-title">Admin Dashboard</h3>
-                <p class="module-description">
-                    Project management, estimate creation, and administrative tools for daily operations.
-                </p>
-                <div class="module-features">
-                    <ul>
-                        <li>Visual project management</li>
-                        <li>Estimate creation tools</li>
-                        <li>Client communication tracking</li>
-                        <li>Resource management</li>
-                    </ul>
-                </div>
-                <a href="admin-dashboard.html" class="module-btn">Open Admin Dashboard</a>
-            </div>
-
-            <!-- Client Proposals Module -->
-            <div class="module-card">
-                <div class="module-icon">📋</div>
-                <h3 class="module-title">Client Proposals</h3>
-                <p class="module-description">
-                    Professional proposal generation with branding, pricing, and client-ready presentations.
-                </p>
-                <div class="module-features">
-                    <ul>
-                        <li>Professional proposal layouts</li>
-                        <li>Real-time pricing calculations</li>
-                        <li>Brand-consistent design</li>
-                        <li>Client approval workflows</li>
-                    </ul>
-                </div>
-                <a href="client-proposal.html" class="module-btn">Open Client Proposals</a>
-            </div>
-
-            <!-- Live Demo Module -->
-            <div class="module-card">
-                <div class="module-icon">🎭</div>
-                <h3 class="module-title">Live Demo</h3>
-                <p class="module-description">
-                    Interactive demonstrations of all business configurations and system capabilities.
-                </p>
-                <div class="module-features">
-                    <ul>
-                        <li>Real-time configuration switching</li>
-                        <li>Business capability showcase</li>
-                        <li>Client presentation mode</li>
-                        <li>System feature demonstrations</li>
-                    </ul>
-                </div>
-                <a href="enhanced-client-proposal-phase3.html" class="module-btn">Open Live Demo</a>
-            </div>
+            <p style="margin-top: 1.5rem; opacity: 0.8;">
+                &copy; 2025 | Licensed • Bonded • Insured | Your Success is Our Mission
+            </p>
         </div>
-
-        <!-- System Status -->
-        <section class="status-section">
-            <h3 class="status-title">System Status & Capabilities</h3>
-            <div class="status-grid">
-                <div class="status-item">
-                    <div class="status-number">4</div>
-                    <div class="status-label">Business Configurations</div>
-                </div>
-                <div class="status-item">
-                    <div class="status-number">12</div>
-                    <div class="status-label">Integrated Modules</div>
-                </div>
-                <div class="status-item">
-                    <div class="status-number">100%</div>
-                    <div class="status-label">Mobile Responsive</div>
-                </div>
-                <div class="status-item">
-                    <div class="status-number">24/7</div>
-                    <div class="status-label">System Availability</div>
-                </div>
-            </div>
-        </section>
-    </main>
+    </footer>
 
     <script>
-        // Apply configuration
+        // Apply configuration to app launcher
         function applyConfiguration() {
-            try {
-                if (!window.CONFIG) {
-                    console.warn('⚠️ No configuration available');
-                    return;
-                }
-
-                const elements = {
-                    'page-title': window.CONFIG.companyName + ' - Business Management System',
-                    'company-name': window.CONFIG.companyName,
-                    'company-subtitle': window.CONFIG.companySubtitle,
-                    'company-tagline': window.CONFIG.companyTagline
-                };
-
-                // Apply elements
-                for (const [id, value] of Object.entries(elements)) {
-                    const el = document.getElementById(id);
-                    if (el && value) {
-                        if (id === 'page-title') {
-                            document.title = value;
-                        } else {
-                            el.textContent = value;
-                        }
-                    }
-                }
-
-                // Update contact info
-                const contactEl = document.getElementById('contact-info');
-                if (contactEl && window.CONFIG.location) {
-                    const contactInfo = `${window.CONFIG.location} • ${window.CONFIG.phone} • ${window.CONFIG.email} • ${window.CONFIG.website}`;
-                    contactEl.textContent = contactInfo;
-                }
-
-                console.log('✅ App Launcher configuration applied successfully');
-
-            } catch (error) {
-                console.error('🚨 Error applying configuration:', error);
+            if (!window.CONFIG) {
+                console.warn('⚠️ No configuration available');
+                return false;
             }
+
+            const config = window.CONFIG;
+            
+            // Update company information
+            document.getElementById('company-logo').textContent = config.logo || '🪵';
+            document.getElementById('company-name').textContent = config.companyName || 'Cabinet Business Management System';
+            document.getElementById('company-subtitle').textContent = config.companySubtitle || 'Enhanced Visual Business Management System';
+            document.getElementById('company-tagline').textContent = config.companyTagline || 'Drive Growth. Automate Success.';
+            
+            // Update footer
+            document.getElementById('footer-company-name').textContent = config.companyName || 'Cabinet Business Management System';
+            
+            // Update contact info
+            const contactInfo = `📍 ${config.location} • 📞 ${config.phone} • ✉️ ${config.email} • 🌐 ${config.website}`;
+            document.getElementById('contact-info').innerHTML = contactInfo.split(' • ').map(item => 
+                `<span class="contact-item">${item}</span>`
+            ).join('');
+            
+            // Update page title
+            document.title = config.companyName + ' - Business Management System';
+            
+            console.log('✅ App launcher configuration applied:', config.companyName);
+            return true;
         }
 
-        // Initialize
+        // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => {
-                applyConfiguration();
-                console.log('✅ App Launcher initialized successfully');
-            }, 200);
+                if (window.CONFIG) {
+                    applyConfiguration();
+                } else {
+                    // Retry after config loads
+                    setTimeout(applyConfiguration, 500);
+                }
+                console.log('🚀 App Launcher initialized successfully');
+            }, 100);
         });
+
+        // Configuration switching with page updates
+        function switchConfig(configName) {
+            if (typeof window.switchConfig === 'function') {
+                window.switchConfig(configName);
+                setTimeout(applyConfiguration, 100);
+            }
+        }
     </script>
 </body>
 </html>
