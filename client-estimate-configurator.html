@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -243,7 +243,7 @@
         }
 
         .selection-card.selected::before {
-            content: "✓";
+            content: "âœ“";
             position: absolute;
             top: 10px;
             right: 15px;
@@ -611,10 +611,14 @@
     </style>
 </head>
 <body>
+
+ <!-- Navigation -->
+ <nav class="nav-header">Navigation will be added here</nav>
+
     <!-- Header -->
     <header class="header">
         <div class="header-content">
-            <div class="company-logo" id="company-logo">🪵</div>
+            <div class="company-logo" id="company-logo">ðŸªµ</div>
             <h1 class="header-title">Get Your Custom Cabinet Estimate</h1>
             <p class="header-subtitle" id="header-subtitle">Professional quality, competitive pricing, expert craftsmanship</p>
             <p class="header-tagline" id="header-tagline">Get your personalized estimate in just 4 easy steps</p>
@@ -659,38 +663,38 @@
 
             <div class="selection-grid">
                 <div class="selection-card" data-selection="kitchen" onclick="selectOption('project-type', 'kitchen', this)">
-                    <div class="selection-icon">🏠</div>
+                    <div class="selection-icon">ðŸ </div>
                     <div class="selection-title">Kitchen Cabinets</div>
                     <div class="selection-description">Complete kitchen cabinet installation or renovation</div>
                     <div class="selection-price">Most Popular</div>
                 </div>
 
                 <div class="selection-card" data-selection="bathroom" onclick="selectOption('project-type', 'bathroom', this)">
-                    <div class="selection-icon">🛁</div>
+                    <div class="selection-icon">ðŸ›</div>
                     <div class="selection-title">Bathroom Vanities</div>
                     <div class="selection-description">Custom bathroom vanities and storage solutions</div>
                 </div>
 
                 <div class="selection-card" data-selection="office" onclick="selectOption('project-type', 'office', this)">
-                    <div class="selection-icon">🏢</div>
+                    <div class="selection-icon">ðŸ¢</div>
                     <div class="selection-title">Office Built-ins</div>
                     <div class="selection-description">Custom office storage and built-in solutions</div>
                 </div>
 
                 <div class="selection-card" data-selection="entertainment" onclick="selectOption('project-type', 'entertainment', this)">
-                    <div class="selection-icon">📺</div>
+                    <div class="selection-icon">ðŸ“º</div>
                     <div class="selection-title">Entertainment Centers</div>
                     <div class="selection-description">Media centers and living room storage</div>
                 </div>
 
                 <div class="selection-card" data-selection="closet" onclick="selectOption('project-type', 'closet', this)">
-                    <div class="selection-icon">👔</div>
+                    <div class="selection-icon">ðŸ‘”</div>
                     <div class="selection-title">Closet Systems</div>
                     <div class="selection-description">Walk-in closets and wardrobe organization</div>
                 </div>
 
                 <div class="selection-card" data-selection="other" onclick="selectOption('project-type', 'other', this)">
-                    <div class="selection-icon">🔧</div>
+                    <div class="selection-icon">ðŸ”§</div>
                     <div class="selection-title">Other Custom Work</div>
                     <div class="selection-description">Custom millwork and specialized projects</div>
                 </div>
@@ -758,42 +762,42 @@
 
             <div class="selection-grid">
                 <div class="selection-card" data-selection="soft-close" onclick="toggleOption('soft-close', this)">
-                    <div class="selection-icon">🔧</div>
+                    <div class="selection-icon">ðŸ”§</div>
                     <div class="selection-title">Soft-Close Hardware</div>
                     <div class="selection-description">Premium hinges and drawer slides</div>
                     <div class="selection-price">+$350</div>
                 </div>
 
                 <div class="selection-card" data-selection="crown-molding" onclick="toggleOption('crown-molding', this)">
-                    <div class="selection-icon">👑</div>
+                    <div class="selection-icon">ðŸ‘‘</div>
                     <div class="selection-title">Crown Molding</div>
                     <div class="selection-description">Elegant finishing touch</div>
                     <div class="selection-price">+$275</div>
                 </div>
 
                 <div class="selection-card" data-selection="custom-island" onclick="toggleOption('custom-island', this)">
-                    <div class="selection-icon">🏝️</div>
+                    <div class="selection-icon">ðŸï¸</div>
                     <div class="selection-title">Kitchen Island</div>
                     <div class="selection-description">Custom kitchen island design</div>
                     <div class="selection-price">+$2,500</div>
                 </div>
 
                 <div class="selection-card" data-selection="glass-doors" onclick="toggleOption('glass-doors', this)">
-                    <div class="selection-icon">🔍</div>
+                    <div class="selection-icon">ðŸ”</div>
                     <div class="selection-title">Glass Door Inserts</div>
                     <div class="selection-description">Display your finest pieces</div>
                     <div class="selection-price">+$425</div>
                 </div>
 
                 <div class="selection-card" data-selection="lighting" onclick="toggleOption('lighting', this)">
-                    <div class="selection-icon">💡</div>
+                    <div class="selection-icon">ðŸ’¡</div>
                     <div class="selection-title">LED Cabinet Lighting</div>
                     <div class="selection-description">Under-cabinet illumination</div>
                     <div class="selection-price">+$650</div>
                 </div>
 
                 <div class="selection-card" data-selection="organizers" onclick="toggleOption('organizers', this)">
-                    <div class="selection-icon">📦</div>
+                    <div class="selection-icon">ðŸ“¦</div>
                     <div class="selection-title">Drawer Organizers</div>
                     <div class="selection-description">Custom organization systems</div>
                     <div class="selection-price">+$200</div>
@@ -877,7 +881,7 @@
         <!-- Thank You Step -->
         <div class="form-step" id="step-thank-you">
             <div class="thank-you-content">
-                <div class="thank-you-icon">🎉</div>
+                <div class="thank-you-icon">ðŸŽ‰</div>
                 <h2 class="thank-you-title">Thank You!</h2>
                 <p class="thank-you-message">
                     Your estimate request has been received. We're preparing your personalized 
@@ -915,10 +919,10 @@
         <!-- Navigation Buttons -->
         <div class="action-buttons" id="navigation-buttons">
             <button class="btn btn-secondary" id="back-button" onclick="previousStep()" style="display: none;">
-                ← Previous
+                â† Previous
             </button>
             <button class="btn btn-primary" id="next-button" onclick="nextStep()" disabled>
-                Next →
+                Next â†’
             </button>
         </div>
     </div>
@@ -942,7 +946,7 @@
             setTimeout(() => {
                 initializeConfigurator();
                 updateEstimate();
-                console.log('🧮 Client Estimate Configurator initialized');
+                console.log('ðŸ§® Client Estimate Configurator initialized');
             }, 500);
         });
 
@@ -951,7 +955,7 @@
             // Apply current business configuration
             if (window.configManager) {
                 const config = window.configManager.getCurrentConfig();
-                document.getElementById('company-logo').textContent = config.logo || '🪵';
+                document.getElementById('company-logo').textContent = config.logo || 'ðŸªµ';
                 document.getElementById('header-subtitle').textContent = config.companyTagline || 'Professional quality, competitive pricing, expert craftsmanship';
                 document.title = `Get Your ${config.companyName} Estimate`;
 
@@ -1257,7 +1261,7 @@
                     // Completed steps
                     circle.classList.add('completed');
                     circle.classList.remove('active');
-                    circle.textContent = '✓';
+                    circle.textContent = 'âœ“';
                     title.classList.remove('active');
                     if (line) line.classList.add('completed');
                 } else if (i === currentStep) {
@@ -1289,7 +1293,7 @@
             if (currentStep === 4) {
                 nextButton.textContent = 'Get My Estimate';
             } else {
-                nextButton.textContent = 'Next →';
+                nextButton.textContent = 'Next â†’';
             }
 
             // Validate current step for button state
@@ -1409,7 +1413,7 @@
                     configuration: window.configManager.currentConfig
                 };
 
-                console.log('📝 Lead captured:', leadData);
+                console.log('ðŸ“ Lead captured:', leadData);
             }
 
             // Save completed form
@@ -1427,7 +1431,7 @@
             document.querySelectorAll('.step-circle').forEach(circle => {
                 circle.classList.add('completed');
                 circle.classList.remove('active');
-                circle.textContent = '✓';
+                circle.textContent = 'âœ“';
             });
             
             document.querySelectorAll('.step-title').forEach(title => {
@@ -1438,7 +1442,7 @@
                 line.classList.add('completed');
             });
 
-            console.log('🎉 Form submitted successfully:', formData);
+            console.log('ðŸŽ‰ Form submitted successfully:', formData);
         }
 
         // Save progress to localStorage
@@ -1470,7 +1474,7 @@
                         formData = { ...formData, ...progress.formData };
                         // Don't restore current step - start from beginning but keep data
                         restoreSelections();
-                        console.log('📂 Progress restored from:', savedTime);
+                        console.log('ðŸ“‚ Progress restored from:', savedTime);
                     } else {
                         localStorage.removeItem('configuratorProgress');
                     }
@@ -1546,7 +1550,7 @@
             // Show navigation buttons
             document.getElementById('navigation-buttons').style.display = 'flex';
 
-            console.log('🔄 Started new estimate');
+            console.log('ðŸ”„ Started new estimate');
         }
 
         // Event listeners
@@ -1597,3 +1601,5 @@
     </script>
 </body>
 </html>
+
+

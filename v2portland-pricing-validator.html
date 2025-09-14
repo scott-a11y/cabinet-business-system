@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -495,11 +495,15 @@
     </style>
 </head>
 <body>
+
+ <!-- Navigation -->
+ <nav class="nav-header">Navigation added</nav>
+
     <!-- Admin Header -->
     <header class="admin-header">
         <nav class="admin-nav">
             <div class="admin-brand">
-                <span class="admin-logo">📊</span>
+                <span class="admin-logo">ðŸ“Š</span>
                 <div>
                     <div class="admin-title">Portland Market Pricing Validator</div>
                     <div class="admin-subtitle">ADMIN - Market Intelligence Dashboard</div>
@@ -507,16 +511,16 @@
             </div>
             <div class="admin-actions">
                 <select class="config-selector" id="config-selector" onchange="switchConfiguration()">
-                    <option value="foundry_cabinets">🪵 Foundry Cabinets Co</option>
-                    <option value="seattle_cabinets">🏔️ Seattle Premium Cabinets</option>
-                    <option value="district_design">🏗️ District Design Build</option>
-                    <option value="luxury_kitchens">💎 Prestige Kitchen Studios</option>
+                    <option value="foundry_cabinets">ðŸªµ Foundry Cabinets Co</option>
+                    <option value="seattle_cabinets">ðŸ”ï¸ Seattle Premium Cabinets</option>
+                    <option value="district_design">ðŸ—ï¸ District Design Build</option>
+                    <option value="luxury_kitchens">ðŸ’Ž Prestige Kitchen Studios</option>
                 </select>
                 <button class="admin-btn secondary" onclick="refreshData()">
-                    🔄 Refresh Data
+                    ðŸ”„ Refresh Data
                 </button>
                 <a href="admin-dashboard.html" class="admin-btn secondary">
-                    ⬅️ Back to Admin
+                    â¬…ï¸ Back to Admin
                 </a>
             </div>
         </nav>
@@ -533,7 +537,7 @@
                         <div class="card-metric" id="market-position">Competitive</div>
                     </div>
                     <span class="status-indicator competitive" id="position-status">
-                        ✅ Good Position
+                        âœ… Good Position
                     </span>
                 </div>
                 <div class="card-description">
@@ -593,10 +597,10 @@
                 <h2 class="section-title">Market Pricing Analysis</h2>
                 <div class="section-controls">
                     <button class="admin-btn" onclick="generatePricingReport()">
-                        📈 Generate Report
+                        ðŸ“ˆ Generate Report
                     </button>
                     <button class="admin-btn secondary" onclick="exportPricingData()">
-                        📊 Export Data
+                        ðŸ“Š Export Data
                     </button>
                 </div>
             </div>
@@ -618,7 +622,7 @@
                 <h2 class="section-title">Competitor Analysis</h2>
                 <div class="section-controls">
                     <button class="admin-btn" onclick="updateCompetitorData()">
-                        🔍 Update Analysis
+                        ðŸ” Update Analysis
                     </button>
                 </div>
             </div>
@@ -677,16 +681,16 @@
 
             <div class="export-controls">
                 <button class="export-btn" onclick="exportToPDF()">
-                    📄 Export PDF Report
+                    ðŸ“„ Export PDF Report
                 </button>
                 <button class="export-btn" onclick="exportToCSV()">
-                    📊 Export CSV Data
+                    ðŸ“Š Export CSV Data
                 </button>
                 <button class="export-btn secondary" onclick="exportToExcel()">
-                    📋 Export Excel
+                    ðŸ“‹ Export Excel
                 </button>
                 <button class="export-btn secondary" onclick="scheduleReport()">
-                    ⏰ Schedule Weekly Report
+                    â° Schedule Weekly Report
                 </button>
             </div>
 
@@ -729,7 +733,7 @@
                 loadMarketData();
                 createCharts();
                 updateDashboard();
-                console.log('📊 Portland Pricing Validator initialized');
+                console.log('ðŸ“Š Portland Pricing Validator initialized');
             }, 500);
         });
 
@@ -768,7 +772,7 @@
         function loadMarketData() {
             if (window.configManager && window.configManager.marketData) {
                 const marketData = window.configManager.marketData.portland;
-                console.log('📊 Market data loaded:', marketData);
+                console.log('ðŸ“Š Market data loaded:', marketData);
                 return marketData;
             }
             return null;
@@ -807,9 +811,9 @@
             document.getElementById('market-position').textContent = positionText;
             document.getElementById('position-status').className = `status-indicator ${positionStatus}`;
             document.getElementById('position-status').textContent = 
-                positionStatus === 'competitive' ? '✅ Good Position' : 
-                positionStatus === 'warning' ? '⚠️ Premium Position' : 
-                '💰 Luxury Position';
+                positionStatus === 'competitive' ? 'âœ… Good Position' : 
+                positionStatus === 'warning' ? 'âš ï¸ Premium Position' : 
+                'ðŸ’° Luxury Position';
 
             // Update win probability
             const winProb = calculateWinProbability(currentAvgPrice, marketData);
@@ -920,7 +924,7 @@
                     <td>${data.positioning}</td>
                     <td>
                         <span class="status-indicator ${competitive ? 'competitive' : 'warning'}">
-                            ${competitive ? '✅ Competitive' : '⚠️ Higher Priced'}
+                            ${competitive ? 'âœ… Competitive' : 'âš ï¸ Higher Priced'}
                         </span>
                     </td>
                     <td style="font-size: 0.9rem;">${data.strength}</td>
@@ -1234,7 +1238,7 @@
 
         // Export functions
         function exportToPDF() {
-            console.log('📄 Exporting pricing report to PDF...');
+            console.log('ðŸ“„ Exporting pricing report to PDF...');
             // Integration with jsPDF would go here
             alert('PDF export functionality would integrate with jsPDF library for production use.');
             
@@ -1247,7 +1251,7 @@
         }
 
         function exportToCSV() {
-            console.log('📊 Exporting market data to CSV...');
+            console.log('ðŸ“Š Exporting market data to CSV...');
             const marketData = loadMarketData();
             if (!marketData) return;
 
@@ -1277,25 +1281,25 @@
         }
 
         function exportToExcel() {
-            console.log('📋 Excel export would integrate with SheetJS library...');
+            console.log('ðŸ“‹ Excel export would integrate with SheetJS library...');
             alert('Excel export functionality would integrate with SheetJS library for production use.');
         }
 
         function scheduleReport() {
-            console.log('⏰ Scheduling weekly reports...');
+            console.log('â° Scheduling weekly reports...');
             alert('Report scheduling would integrate with email automation system.');
         }
 
         // Utility functions
         function refreshData() {
-            console.log('🔄 Refreshing market data...');
+            console.log('ðŸ”„ Refreshing market data...');
             updateDashboard();
             updateCharts();
             
             // Show refresh feedback
             const btn = event.target;
             const originalText = btn.textContent;
-            btn.textContent = '🔄 Refreshing...';
+            btn.textContent = 'ðŸ”„ Refreshing...';
             btn.disabled = true;
             
             setTimeout(() => {
@@ -1305,7 +1309,7 @@
         }
 
         function generatePricingReport() {
-            console.log('📈 Generating comprehensive pricing report...');
+            console.log('ðŸ“ˆ Generating comprehensive pricing report...');
             alert('Comprehensive pricing report generation with market analysis and recommendations.');
             
             // Track report generation
@@ -1322,13 +1326,13 @@
         }
 
         function updateCompetitorData() {
-            console.log('🔍 Updating competitor analysis...');
+            console.log('ðŸ” Updating competitor analysis...');
             updateCompetitorTable(loadMarketData());
             
             // Show update feedback
             const btn = event.target;
             const originalText = btn.textContent;
-            btn.textContent = '🔍 Updating...';
+            btn.textContent = 'ðŸ” Updating...';
             btn.disabled = true;
             
             setTimeout(() => {
@@ -1339,3 +1343,6 @@
     </script>
 </body>
 </html>
+
+
+

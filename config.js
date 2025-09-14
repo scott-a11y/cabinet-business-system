@@ -1,312 +1,230 @@
-// 🛡️ BULLETPROOF CONFIGURATION SYSTEM
-// This file configures all aspects of your cabinet business system
+﻿// ðŸªµ FOUNDRY CABINETS CO - SINGLE BRAND CONFIGURATION
+// Simplified production-ready configuration system
 
-window.CONFIG = {
-    // 🏢 BUSINESS INFORMATION
+// ðŸ¢ COMPANY INFORMATION
+const FOUNDRY_CABINETS = {
+    // Company Identity
     companyName: 'Foundry Cabinets Co',
-    companySubtitle: 'by District Design Build, LLC', 
+    companySubtitle: 'Professional Cabinet Solutions',
     companyTagline: 'Driven by Precision. Evolved by Design.',
     
-    // 📍 CONTACT INFORMATION
+    // Branding
+    logo: 'ðŸªµ',
+    primaryColor: '#D4B062',
+    
+    // Contact Information
     location: 'Portland, OR',
     phone: '360-606-1106',
     email: 'scott@ddbteam.com',
     website: 'www.ddb503.com',
     
-    // 🎨 BRANDING
-    logo: '🪵', // Can be emoji or image path
-    primaryColor: '#D4B062',
-    secondaryColor: '#F4E4A1',
-    
-    // 💰 PRICING TIERS (Portland Market-Validated)
+    // Market-Validated Pricing (Portland, OR)
     pricing: {
         economy: {
             min: 800,
             max: 1200,
             avg: 965,
             name: 'Economy',
-            description: 'Quality materials, solid construction'
+            description: 'Quality cabinets with essential features'
         },
         standard: {
             min: 1000,
             max: 1500,
             avg: 1225,
             name: 'Standard',
-            description: 'Enhanced features, better finishes'
+            description: 'Popular choice with enhanced features'
         },
         premium: {
             min: 1400,
             max: 1900,
             avg: 1630,
             name: 'Premium',
-            description: 'High-end materials, custom details'
+            description: 'High-end materials and custom options'
         },
-        luxury: {
+        
             min: 1900,
             max: 2600,
             avg: 2250,
-            name: 'Luxury',
-            description: 'Luxury finishes, premium hardware'
-        }
     },
     
-    // 📊 BUSINESS METRICS
-    businessStats: {
-        experience: '15+ years',
-        projectsCompleted: '150+',
+    // Business Features & Statistics
+    features: {
+        warranty: '5-year comprehensive coverage',
+        timeline: '4-6 weeks from approval',
         onTimeRate: '92%',
         satisfactionRate: '98%',
-        warrantyYears: 5,
-        avgTimeline: '4-6 weeks'
+        experience: '15+ years',
+        projectsCompleted: '150+',
+        licensed: true,
+        bonded: true,
+        insured: true
     },
     
-    // 🔧 ADD-ONS & OPTIONS
-    addons: [
-        {
-            id: 'soft-close',
-            name: 'Soft-Close Hinges & Slides',
-            price: 850,
-            description: 'Premium hardware for smooth operation'
-        },
-        {
-            id: 'crown-molding',
-            name: 'Crown Molding Package',
-            price: 650,
-            description: 'Professional finishing touches'
-        },
-        {
-            id: 'lighting',
-            name: 'Under-Cabinet LED Lighting',
-            price: 750,
-            description: 'Energy-efficient task lighting'
-        },
-        {
-            id: 'pullout-drawers',
-            name: 'Pull-Out Drawer Organizers',
-            price: 950,
-            description: 'Maximize storage efficiency'
-        },
-        {
-            id: 'lazy-susan',
-            name: 'Corner Lazy Susan Systems',
-            price: 450,
-            description: 'Optimize corner cabinet access'
-        }
+    // Service Areas
+    serviceAreas: [
+        'Portland Metro',
+        'Beaverton',
+        'Lake Oswego',
+        'Tigard',
+        'Milwaukie',
+        'Oregon City'
     ],
     
-    // 🏠 PROJECT TYPES
-    projectTypes: [
-        { value: 'kitchen-remodel', name: 'Complete Kitchen Remodel', popular: true },
-        { value: 'kitchen-cabinets', name: 'Kitchen Cabinets Only', popular: true },
-        { value: 'bathroom-vanity', name: 'Bathroom Vanity', popular: false },
-        { value: 'built-ins', name: 'Custom Built-ins', popular: false },
-        { value: 'laundry-room', name: 'Laundry Room Cabinets', popular: false },
-        { value: 'office-cabinets', name: 'Home Office Built-ins', popular: false },
-        { value: 'pantry', name: 'Walk-in Pantry', popular: false },
-        { value: 'mudroom', name: 'Mudroom Storage', popular: false },
-        { value: 'entertainment', name: 'Entertainment Center', popular: false },
-        { value: 'other', name: 'Other Custom Work', popular: false }
+    // Specialties
+    specialties: [
+        'Custom Kitchen Cabinets',
+        'Bathroom Vanities',
+        'Built-in Storage',
+        'Entertainment Centers',
+        'Home Office Solutions',
+        'Garage Organization'
     ],
     
-    // 📱 SYSTEM FEATURES
-    features: {
-        pdfGeneration: true,
-        multiOptionProposals: true,
-        clientPortal: true,
-        photoGallery: true,
-        beforeAfterShowcase: true,
-        virtualTours: true,
-        estimateCalculator: true,
-        mobileOptimized: true
-    },
-    
-    // ⚙️ TECHNICAL SETTINGS
-    technical: {
-        taxRate: 0.0825, // 8.25% Portland tax rate
-        currency: 'USD',
-        measurementUnit: 'LF', // Linear Feet
-        defaultTimeline: '4-6 weeks',
-        proposalValidDays: 30,
-        depositPercentage: 50
-    },
-    
-    // 🎯 MARKETING MESSAGES
-    messages: {
-        welcomeTitle: 'Your Custom Cabinet Estimate',
-        welcomeMessage: 'Thank you for choosing Foundry Cabinets for your home transformation. We\'ve carefully crafted this estimate based on your specific needs and our commitment to exceptional quality and craftsmanship.',
-        proposalTagline: 'Transform your space with exceptional craftsmanship',
-        ctaMessage: 'Ready to transform your space with our exceptional craftsmanship and attention to detail?'
-    },
-    
-    // 📄 SAMPLE CLIENT DATA (for demos)
-    sampleClient: {
-        name: 'The Thompson Family',
-        email: 'thompsons@example.com',
-        phone: '(503) 123-4567',
-        address: '1234 Oak Street, Portland, OR 97201',
-        projectName: 'Kitchen Cabinet Installation',
-        projectCode: 'TC2025001',
-        linearFootage: 25
+    // Materials & Options
+    materials: {
+        wood: ['Oak', 'Maple', 'Cherry', 'Walnut', 'Hickory'],
+        finishes: ['Natural', 'Stained', 'Painted', 'Glazed'],
+        hardware: ['Soft-Close Hinges', 'Full-Extension Drawers', 'Premium Handles'],
+        styles: ['Traditional', 'Contemporary', 'Transitional', 'Modern', 'Rustic']
     }
 };
 
-// 🚀 AUTO-CONFIGURATION FUNCTION
-// This automatically applies configuration when the page loads
-(function() {
-    'use strict';
-    
-    // Wait for DOM to be ready
-    function ready(fn) {
-        if (document.readyState !== 'loading') {
-            fn();
-        } else {
-            document.addEventListener('DOMContentLoaded', fn);
-        }
-    }
-    
-    // Apply configuration to page elements
-    function applyConfiguration() {
-        try {
-            if (!window.CONFIG) {
-                console.warn('⚠️ CONFIG not loaded');
-                return false;
-            }
-            
-            // Common element updates
-            const updates = {
-                'company-name': CONFIG.companyName,
-                'company-subtitle': CONFIG.companySubtitle,
-                'company-tagline': CONFIG.companyTagline,
-                'company-logo': CONFIG.logo,
-                'company-phone': CONFIG.phone,
-                'company-email': CONFIG.email,
-                'company-website': CONFIG.website,
-                'company-location': CONFIG.location
-            };
-            
-            // Apply updates to elements that exist
-            Object.entries(updates).forEach(([id, value]) => {
-                const elements = document.querySelectorAll(`#${id}, [data-config="${id}"]`);
-                elements.forEach(el => {
-                    if (el && value) {
-                        el.textContent = value;
-                    }
-                });
-            });
-            
-            // Update page title if element exists
-            const titleEl = document.getElementById('page-title');
-            if (titleEl) {
-                document.title = titleEl.textContent;
-            }
-            
-            // Update contact info combinations
-            const contactElements = document.querySelectorAll('[data-config="contact-info"]');
-            contactElements.forEach(el => {
-                el.textContent = `${CONFIG.location} • ${CONFIG.phone} • ${CONFIG.email} • ${CONFIG.website}`;
-            });
-            
-            console.log('✅ Configuration applied successfully');
-            return true;
-            
-        } catch (error) {
-            console.error('🚨 Error applying configuration:', error);
-            return false;
-        }
-    }
-    
-    // Apply configuration when DOM is ready
-    ready(function() {
-        setTimeout(applyConfiguration, 100); // Small delay to ensure all scripts loaded
-    });
-    
-})();
+// ðŸŽ¯ MAKE GLOBALLY AVAILABLE
+window.FOUNDRY_CONFIG = FOUNDRY_CABINETS;
 
-// 🎨 CSS CUSTOM PROPERTIES INJECTION
-// This injects the color theme into CSS custom properties
-(function() {
-    'use strict';
+// ðŸ“Š BUSINESS CALCULATIONS
+const BusinessCalculations = {
+    // Calculate linear foot pricing
+    calculateLinearFootPrice: function(linearFeet, tier = 'standard') {
+        const pricing = FOUNDRY_CABINETS.pricing[tier];
+        return Math.round(linearFeet * pricing.avg);
+    },
     
-    function injectTheme() {
-        if (!window.CONFIG) return;
-        
+    // Calculate project total with tax
+    calculateProjectTotal: function(subtotal, taxRate = 0.0825) {
+        const tax = Math.round(subtotal * taxRate);
+        return {
+            subtotal: subtotal,
+            tax: tax,
+            total: subtotal + tax
+        };
+    },
+    
+    // Get seasonal pricing factor
+    getSeasonalFactor: function() {
+        const month = new Date().getMonth();
+        if (month >= 2 && month <= 4) return 1.1; // Spring (Mar-May)
+        if (month >= 5 && month <= 7) return 1.15; // Summer (Jun-Aug)
+        if (month >= 8 && month <= 10) return 1.0; // Fall (Sep-Nov)
+        return 0.95; // Winter (Dec-Feb)
+    },
+    
+    // Estimate project timeline
+    estimateTimeline: function(complexity = 'standard') {
+        const timelines = {
+            simple: '3-4 weeks',
+            standard: '4-6 weeks',
+            complex: '6-8 weeks',
+            
+        };
+        return timelines[complexity] || timelines.standard;
+    }
+};
+
+// ðŸŽ¨ DESIGN UTILITIES
+const DesignUtils = {
+    // Apply company colors to elements
+    applyBranding: function() {
         const root = document.documentElement;
-        if (CONFIG.primaryColor) {
-            root.style.setProperty('--primary-gold', CONFIG.primaryColor);
+        root.style.setProperty('--primary-gold', FOUNDRY_CABINETS.primaryColor);
+        
+        // Update page title if element exists
+        const titleEl = document.getElementById('page-title');
+        if (titleEl) {
+            titleEl.textContent = FOUNDRY_CABINETS.companyName + ' - ' + titleEl.textContent;
         }
-        if (CONFIG.secondaryColor) {
-            root.style.setProperty('--light-gold', CONFIG.secondaryColor);
+        
+        // Update document title
+        if (document.title.includes('Your Custom Estimate')) {
+            document.title = FOUNDRY_CABINETS.companyName + ' - Your Custom Estimate';
         }
-    }
-    
-    // Inject theme when DOM is ready
-    if (document.readyState !== 'loading') {
-        injectTheme();
-    } else {
-        document.addEventListener('DOMContentLoaded', injectTheme);
-    }
-    
-})();
-
-// 💰 PRICING CALCULATION HELPERS
-window.PricingHelpers = {
-    
-    // Calculate base cost for a tier and linear footage
-    calculateBaseCost: function(tier, linearFootage) {
-        if (!CONFIG.pricing[tier]) return 0;
-        return CONFIG.pricing[tier].avg * parseFloat(linearFootage);
-    },
-    
-    // Calculate total with tax
-    calculateWithTax: function(subtotal) {
-        return subtotal * (1 + CONFIG.technical.taxRate);
-    },
-    
-    // Calculate discount amount
-    calculateDiscount: function(subtotal, discountPercent) {
-        return subtotal * (parseFloat(discountPercent) / 100);
     },
     
     // Format currency
     formatCurrency: function(amount) {
         return new Intl.NumberFormat('en-US', {
             style: 'currency',
-            currency: CONFIG.technical.currency,
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0
+            currency: 'USD',
+            minimumFractionDigits: 0
         }).format(amount);
     },
     
-    // Get project size category
-    getProjectSize: function(linearFootage) {
-        const lf = parseFloat(linearFootage);
-        if (lf < 15) return 'Small';
-        if (lf < 25) return 'Medium';
-        if (lf < 40) return 'Large';
-        return 'Extra Large';
+    // Format phone number
+    formatPhone: function(phone = FOUNDRY_CABINETS.phone) {
+        return phone.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
     }
-    
 };
 
-// 📊 ANALYTICS HELPERS
-window.AnalyticsHelpers = {
-    
-    // Track proposal generation
-    trackProposal: function(data) {
-        console.log('📊 Proposal Generated:', data);
-        // Add analytics tracking here (Google Analytics, etc.)
+// ðŸ“± CLIENT UTILITIES
+const ClientUtils = {
+    // Generate estimate ID
+    generateEstimateId: function() {
+        const date = new Date();
+        const year = date.getFullYear().toString().slice(-2);
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const day = date.getDate().toString().padStart(2, '0');
+        const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+        return `FC${year}${month}${day}-${random}`;
     },
     
-    // Track client interaction
-    trackClientAction: function(action, data) {
-        console.log(`📊 Client Action - ${action}:`, data);
-        // Add analytics tracking here
-    }
+    // Get current date formatted
+    getCurrentDate: function() {
+        return new Date().toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+    },
     
+    // Get estimate expiration date (30 days)
+    getExpirationDate: function() {
+        const date = new Date();
+        date.setDate(date.getDate() + 30);
+        return date.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+    }
 };
 
-console.log('✅ Foundry Cabinets Co Configuration System Loaded Successfully');
-console.log('🏢 Company:', CONFIG.companyName);
-console.log('📍 Location:', CONFIG.location);
-console.log('💰 Pricing Tiers:', Object.keys(CONFIG.pricing).length);
-console.log('🔧 Add-ons Available:', CONFIG.addons.length);
+// ðŸš€ AUTO-INITIALIZATION
+document.addEventListener('DOMContentLoaded', function() {
+    // Apply branding automatically
+    DesignUtils.applyBranding();
+    
+    // Update any dynamic content
+    const estimateDateEl = document.getElementById('estimate-date');
+    if (estimateDateEl) {
+        estimateDateEl.textContent = ClientUtils.getCurrentDate();
+    }
+    
+    const expirationDateEl = document.getElementById('expiration-date');
+    if (expirationDateEl) {
+        expirationDateEl.textContent = ClientUtils.getExpirationDate();
+    }
+    
+    console.log('âœ… Foundry Cabinets Co configuration loaded successfully');
+});
+
+// ðŸ“Š EXPORT FOR MODULES (if needed)
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+        FOUNDRY_CABINETS,
+        BusinessCalculations,
+        DesignUtils,
+        ClientUtils
+    };
+}
+
+
