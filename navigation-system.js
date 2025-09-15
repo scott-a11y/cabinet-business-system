@@ -1,4 +1,4 @@
-// ðŸ§­ STANDARDIZED NAVIGATION SYSTEM
+// 🧭 STANDARDIZED NAVIGATION SYSTEM
 // Consistent navigation across all pages with dynamic updates
 
 // ðŸ"— NAVIGATION STRUCTURE
