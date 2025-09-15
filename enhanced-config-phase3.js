@@ -18,8 +18,8 @@ const BUSINESS_CONFIGS = {
         // Contact Information
         location: 'Portland, OR',
         phone: '360-606-1106',
-        email: 'scott@ddbteam.com',
-        website: 'www.ddb503.com',
+        email: '[YOUR EMAIL ADDRESS]',
+        website: '[YOUR WEBSITE]',
         
         // Phase 3 CRM Configuration
         crmSettings: {

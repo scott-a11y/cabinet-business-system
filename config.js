@@ -1,26 +1,28 @@
-// 🪵 FOUNDRY CABINETS CO - SINGLE BRAND CONFIGURATION
-// Simplified production-ready configuration system
+// 🏢 YOUR COMPANY CONFIGURATION
+// ⚠️  IMPORTANT: Update this section with your actual company information
+// Replace all placeholder values below with your real business details
 
 // 🏢 COMPANY INFORMATION
-const FOUNDRY_CABINETS = {
-    // Company Identity
-    companyName: 'Foundry Cabinets Co',
-    companySubtitle: 'Professional Cabinet Solutions',
-    companyTagline: 'Driven by Precision. Evolved by Design.',
+const YOUR_COMPANY_CONFIG = {
+    // Company Identity - UPDATE THESE WITH YOUR INFORMATION
+    companyName: '[YOUR COMPANY NAME]', // Replace with your actual company name
+    companySubtitle: '[YOUR COMPANY SUBTITLE]', // Replace with your subtitle/tagline
+    companyTagline: '[YOUR COMPANY TAGLINE]', // Replace with your tagline
     
-    // Branding
-    logo: 'logo.svg',
-    logoIcon: 'logo-icon.svg',
-    logoEmoji: '🪵', // Fallback emoji for compatibility
-    primaryColor: '#D4B062',
+    // Branding - UPDATE WITH YOUR LOGO FILES
+    logo: 'your-logo.svg', // Replace with your actual logo file name
+    logoIcon: 'your-logo-icon.svg', // Replace with your icon file name
+    logoEmoji: '🏠', // Update with emoji that represents your business
+    primaryColor: '#D4B062', // Update with your brand color
     
-    // Contact Information
-    location: 'Portland, OR',
-    phone: '360-606-1106',
-    email: 'scott@ddbteam.com',
-    website: 'www.ddb503.com',
+    // Contact Information - UPDATE WITH YOUR DETAILS
+    location: '[YOUR CITY, STATE]', // Replace with your location
+    phone: '[YOUR PHONE NUMBER]', // Replace with your phone number
+    email: '[YOUR EMAIL ADDRESS]', // Replace with your email
+    website: '[YOUR WEBSITE]', // Replace with your website
     
-    // Market-Validated Pricing (Portland, OR)
+    // Market-Validated Pricing - UPDATE FOR YOUR MARKET
+    // Adjust these prices based on your local market and business model
     pricing: {
         economy: {
             min: 800,
@@ -147,7 +149,7 @@ const FOUNDRY_CABINETS = {
 };
 
 // 🌟 BUSINESS CONFIGURATION SELECTOR
-const CONFIG = FOUNDRY_CABINETS;
+const CONFIG = YOUR_COMPANY_CONFIG;
 
 // Apply configuration to window for global access
 window.CONFIG = CONFIG;
@@ -160,7 +162,7 @@ if (typeof module !== 'undefined' && module.exports) {
 
 // Initialize configuration
 document.addEventListener('DOMContentLoaded', function() {
-    console.log(`✅ Foundry Cabinets Co configuration loaded successfully`);
+    console.log(`✅ ${CONFIG.companyName || 'Company'} configuration loaded successfully`);
     
     // Apply branding
     if (CONFIG.logo && document.querySelector('.logo img')) {

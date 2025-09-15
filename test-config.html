@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuration Test</title>
+    <script src="config.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .logo-test {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .logo-test img {
+            max-width: 300px;
+            height: auto;
+        }
+        .config-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .config-table th, .config-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .config-table th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+        }
+        .placeholder {
+            color: #ff6b6b;
+            font-style: italic;
+        }
+        .configured {
+            color: #51cf66;
+            font-weight: bold;
+        }
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Configuration System Test</h1>
+    
+    <div class="warning">
+        <strong>⚠️ Configuration Status:</strong> This page shows whether your business information has been properly configured. 
+        Red/italic text indicates placeholder values that need to be updated with your actual business information.
+    </div>
+    
+    <div class="test-section">
+        <h2>📊 Current Configuration Status</h2>
+        <table class="config-table">
+            <thead>
+                <tr>
+                    <th>Setting</th>
+                    <th>Current Value</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="config-status">
+                <!-- Will be populated by JavaScript -->
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="test-section">
+        <h2>🖼️ Logo Display Test</h2>
+        <div class="logo-test">
+            <h3>Main Logo</h3>
+            <img id="main-logo" src="logo.svg" alt="Main Logo" />
+            <p id="logo-status">Loading...</p>
+        </div>
+        
+        <div class="logo-test">
+            <h3>Icon Logo</h3>
+            <img id="icon-logo" src="logo-icon.svg" alt="Icon Logo" />
+        </div>
+        
+        <div class="logo-test">
+            <h3>Favicon</h3>
+            <img id="favicon" src="favicon.svg" alt="Favicon" />
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h2>📝 Instructions to Fix Configuration</h2>
+        <ol>
+            <li><strong>Update config.js:</strong> Open the config.js file and replace all placeholder values (in brackets like [YOUR COMPANY NAME]) with your actual business information.</li>
+            <li><strong>Replace Logo Files:</strong> Replace the logo.svg, logo-icon.svg, and favicon.svg files with your actual logo files.</li>
+            <li><strong>Test Pages:</strong> After making changes, test your pages to ensure the information displays correctly.</li>
+            <li><strong>Clear Browser Cache:</strong> If changes don't appear immediately, clear your browser cache or do a hard refresh (Ctrl+F5).</li>
+        </ol>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const config = window.CONFIG || {};
+            const statusTable = document.getElementById('config-status');
+            
+            // Configuration fields to check
+            const fields = [
+                { key: 'companyName', label: 'Company Name' },
+                { key: 'companySubtitle', label: 'Company Subtitle' },
+                { key: 'companyTagline', label: 'Company Tagline' },
+                { key: 'location', label: 'Business Location' },
+                { key: 'phone', label: 'Phone Number' },
+                { key: 'email', label: 'Email Address' },
+                { key: 'website', label: 'Website' },
+                { key: 'logo', label: 'Logo File' },
+                { key: 'logoIcon', label: 'Icon File' }
+            ];
+            
+            // Check each field
+            fields.forEach(field => {
+                const value = config[field.key] || 'Not configured';
+                const isPlaceholder = value.includes('[') && value.includes(']');
+                const status = isPlaceholder ? 'Needs Configuration' : 'Configured';
+                const statusClass = isPlaceholder ? 'placeholder' : 'configured';
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${field.label}</td>
+                    <td class="${statusClass}">${value}</td>
+                    <td class="${statusClass}">${status}</td>
+                `;
+                statusTable.appendChild(row);
+            });
+            
+            // Check logo files
+            const mainLogo = document.getElementById('main-logo');
+            const logoStatus = document.getElementById('logo-status');
+            
+            mainLogo.onload = function() {
+                logoStatus.textContent = '✅ Logo loaded successfully';
+                logoStatus.style.color = '#51cf66';
+            };
+            
+            mainLogo.onerror = function() {
+                logoStatus.textContent = '❌ Logo failed to load - check file exists';
+                logoStatus.style.color = '#ff6b6b';
+            };
+            
+            console.log('🧪 Configuration Test Results:', config);
+        });
+    </script>
+</body>
+</html>
