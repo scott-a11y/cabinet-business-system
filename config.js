@@ -43,10 +43,13 @@ const FOUNDRY_CABINETS = {
             name: 'Premium',
             description: 'High-end materials and custom options'
         },
-        
+        luxury: {
             min: 1900,
             max: 2600,
             avg: 2250,
+            name: 'Luxury',
+            description: 'Ultra-premium custom solutions'
+        }
     },
     
     // Business Features & Statistics
@@ -127,7 +130,7 @@ const BusinessCalculations = {
             simple: '3-4 weeks',
             standard: '4-6 weeks',
             complex: '6-8 weeks',
-            
+            luxury: '8-10 weeks'
         };
         return timelines[complexity] || timelines.standard;
     }
