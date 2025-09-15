@@ -1,4 +1,4 @@
-﻿// ðŸªµ FOUNDRY CABINETS CO - SINGLE BRAND CONFIGURATION
+// ðŸªµ FOUNDRY CABINETS CO - SINGLE BRAND CONFIGURATION
 // Simplified production-ready configuration system
 
 // ðŸ¢ COMPANY INFORMATION
