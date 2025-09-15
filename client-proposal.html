@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="page-title">Professional Cabinet Proposal System</title>
     
-    <!-- 🛡️ ENHANCED CONFIGURATION SYSTEM -->
-    <script src="enhanced-config.js"></script>
+    <!-- 🛡️ CONFIGURATION SYSTEM -->
+    <script src="config.js"></script>
     
     <!-- 📄 PDF GENERATION LIBRARIES -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -74,53 +74,6 @@
         }
 
         .nav-item.active {
-            background: var(--primary-gold);
-            color: white;
-        }
-
-        /* Configuration Switcher */
-        .config-switcher {
-            background: var(--cream);
-            padding: 1rem;
-            border-bottom: 1px solid var(--light-gray);
-        }
-
-        .config-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .config-title {
-            color: var(--dark-gray);
-            font-size: 0.9rem;
-            margin-bottom: 0.75rem;
-            font-weight: 500;
-        }
-
-        .config-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-
-        .config-btn {
-            background: var(--light-gray);
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            transition: all 0.3s ease;
-            color: var(--dark-gray);
-        }
-
-        .config-btn:hover {
-            background: var(--light-gold);
-        }
-
-        .config-btn.active {
             background: var(--primary-gold);
             color: white;
         }
@@ -666,37 +619,23 @@
     </style>
 </head>
 <body>
-    <!-- Navigation -->
+        <!-- Navigation -->
     <nav class="nav-header">
         <div class="nav-container">
-            <a href="index.html" class="nav-item">🏠 Business Hub</a>
-            <a href="admin-dashboard.html" class="nav-item">📊 Admin Dashboard</a>
-            <a href="enhanced-client-proposal-v2.html" class="nav-item active">📋 Client Proposals</a>
-            <a href="demo.html" class="nav-item">🎭 Live Demo</a>
+            <a href="index.html" class="nav-item"> 🏠 Business Hub</a>
+            <a href="admin-dashboard.html" class="nav-item"> 📊 Admin Dashboard</a>
+            <a href="client-proposal.html" class="nav-item active"> 📋 Client Proposals</a>
+            <a href="pdf-proposal-generator.html" class="nav-item"> 📄 PDF Generator</a>
+            <a href="client-portal.html" class="nav-item"> 👥 Client Portal</a>
+            <a href="multi-photo-gallery.html" class="nav-item"> 📸 Photo Gallery</a>
+            <a href="interactive-estimate-calculator.html" class="nav-item">🧮 Calculator</a>
+            <a href="before-after-showcase.html" class="nav-item"> 🔄 Before/After</a>
+            <a href="360-project-viewer.html" class="nav-item"> 🌐 Virtual Tours</a>
+            <a href="demo.html" class="nav-item"> 🎭 Live Demo</a>
         </div>
     </nav>
 
     <!-- Configuration Switcher -->
-    <div class="config-switcher">
-        <div class="config-content">
-            <div class="config-title">Select Your Business Configuration</div>
-            <div class="config-buttons">
-                <button class="config-btn active" id="btn-foundry_cabinets" onclick="switchConfig('foundry_cabinets')">
-                    🪵 Foundry Cabinets
-                </button>
-                <button class="config-btn" id="btn-seattle_cabinets" onclick="switchConfig('seattle_cabinets')">
-                    🏔️ Seattle Cabinets
-                </button>
-                <button class="config-btn" id="btn-district_design" onclick="switchConfig('district_design')">
-                    🗗️ District Design
-                </button>
-                <button class="config-btn" id="btn-premium_upgrade" onclick="switchConfig('premium_upgrade')">
-                    💎 premium Kitchens
-                </button>
-            </div>
-        </div>
-    </div>
-
     <!-- Proposal Header -->
     <header class="proposal-header">
         <div class="header-content">
@@ -1068,25 +1007,7 @@
                 economy: 965,
                 standard: 1225,
                 premium: 1630,
-                premium: 2250
-            },
-            seattle_cabinets: {
-                economy: 1060,
-                standard: 1347,
-                premium: 1793,
-                premium: 2475
-            },
-            district_design: {
-                economy: 1200,
-                standard: 1563,
-                premium: 2081,
-                premium: 2850
-            },
-            premium_upgrade: {
-                economy: 1800,
-                standard: 2344,
-                premium: 3121,
-                premium: 4500
+                luxury: 2250
             }
         };
 
@@ -1500,25 +1421,6 @@
             
             // Scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // Enhanced Configuration Management (extends Phase 2A)
-        function switchConfig(configKey) {
-            try {
-                // Use existing configuration system
-                if (typeof window.switchConfig !== 'undefined') {
-                    window.switchConfig(configKey);
-                }
-                
-                // Update pricing for new configuration
-                updatePricing();
-                
-                console.log(`🔄 Switched to ${configKey} configuration with updated pricing`);
-                return true;
-            } catch (error) {
-                console.error('Error switching configuration:', error);
-                return false;
-            }
         }
 
         // Gallery Functions (from Phase 2A)
