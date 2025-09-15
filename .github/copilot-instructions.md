@@ -11,7 +11,7 @@ Always reference these instructions first and fallback to search or bash command
   - Access at `http://localhost:8000`
 - Run JavaScript syntax validation:
   - `node -c config.js` -- validates instantly (<1 second)
-  - `for js in *.js; do echo "Testing $js"; node -c "$js" && echo "✓ OK" || echo "✗ ERROR"; done` -- validates all JS files (<5 seconds)
+  - `for js in *.js; do echo "Testing $js"; node -c "$js" && echo "✓ OK" || echo "✗ ERROR"; done` -- validates all JS files (<1 second)
 - Test all HTML pages load correctly:
   - `curl -s -w "%{http_code}" http://localhost:8000/[page].html -o /dev/null` -- tests instantly (<1 second)
 
@@ -109,8 +109,7 @@ node -c error-handling.js
 - **External Dependencies**: EmailJS for email notifications, Stripe for payments (both optional)
 
 ## Performance Notes
-- **Page Load Times**: Main pages load in <1 second over local server
-- **JavaScript Validation**: All files validate in <5 seconds total
+- **Page Load Times**: Main pages load in <1 second total
 - **Server Startup**: Python HTTP server starts instantly (1-2 seconds)
 - **No Build Time**: Zero build time - direct file serving
 
