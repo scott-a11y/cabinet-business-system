@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 80" width="200" height="80">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 120" width="300" height="120">
   <!-- Company Logo with Transparent Background -->
   <defs>
     <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -13,38 +13,38 @@
   </defs>
   
   <!-- Cabinet Icon -->
-  <g transform="translate(10, 10)">
+  <g transform="translate(15, 15)">
     <!-- Cabinet frame -->
-    <rect x="0" y="5" width="35" height="50" fill="url(#woodGradient)" stroke="#654321" stroke-width="1" rx="2"/>
+    <rect x="0" y="8" width="50" height="75" fill="url(#woodGradient)" stroke="#654321" stroke-width="1.5" rx="3"/>
     
     <!-- Cabinet door -->
-    <rect x="2" y="7" width="31" height="46" fill="#A0522D" stroke="#654321" stroke-width="0.5" rx="1"/>
+    <rect x="3" y="11" width="44" height="69" fill="#A0522D" stroke="#654321" stroke-width="0.8" rx="2"/>
     
     <!-- Door panels -->
-    <rect x="4" y="10" width="27" height="18" fill="none" stroke="#654321" stroke-width="0.3" rx="1"/>
-    <rect x="4" y="32" width="27" height="18" fill="none" stroke="#654321" stroke-width="0.3" rx="1"/>
+    <rect x="6" y="15" width="38" height="27" fill="none" stroke="#654321" stroke-width="0.5" rx="2"/>
+    <rect x="6" y="48" width="38" height="27" fill="none" stroke="#654321" stroke-width="0.5" rx="2"/>
     
     <!-- Door handle -->
-    <circle cx="28" cy="30" r="2" fill="url(#goldGradient)"/>
-    <circle cx="28" cy="30" r="1.5" fill="#FFD700"/>
+    <circle cx="40" cy="45" r="3" fill="url(#goldGradient)"/>
+    <circle cx="40" cy="45" r="2.2" fill="#FFD700"/>
     
     <!-- Wood grain details -->
-    <line x1="5" y1="15" x2="30" y2="15" stroke="#654321" stroke-width="0.2" opacity="0.6"/>
-    <line x1="5" y1="20" x2="30" y2="20" stroke="#654321" stroke-width="0.2" opacity="0.4"/>
-    <line x1="5" y1="37" x2="30" y2="37" stroke="#654321" stroke-width="0.2" opacity="0.6"/>
-    <line x1="5" y1="42" x2="30" y2="42" stroke="#654321" stroke-width="0.2" opacity="0.4"/>
+    <line x1="8" y1="22" x2="42" y2="22" stroke="#654321" stroke-width="0.3" opacity="0.6"/>
+    <line x1="8" y1="30" x2="42" y2="30" stroke="#654321" stroke-width="0.3" opacity="0.4"/>
+    <line x1="8" y1="55" x2="42" y2="55" stroke="#654321" stroke-width="0.3" opacity="0.6"/>
+    <line x1="8" y1="63" x2="42" y2="63" stroke="#654321" stroke-width="0.3" opacity="0.4"/>
     
     <!-- Base/footer -->
-    <rect x="0" y="55" width="35" height="4" fill="#654321" rx="1"/>
+    <rect x="0" y="83" width="50" height="6" fill="#654321" rx="2"/>
   </g>
   
   <!-- Company Text -->
-  <g transform="translate(55, 15)">
-    <text x="0" y="20" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="url(#goldGradient)">FOUNDRY</text>
-    <text x="0" y="40" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="url(#goldGradient)">CABINETS</text>
-    <text x="0" y="55" font-family="Arial, sans-serif" font-size="12" font-weight="normal" fill="#8B4513">CO</text>
+  <g transform="translate(85, 22)">
+    <text x="0" y="30" font-family="Georgia, serif" font-size="28" font-weight="bold" fill="url(#goldGradient)">FOUNDRY</text>
+    <text x="0" y="60" font-family="Georgia, serif" font-size="28" font-weight="bold" fill="url(#goldGradient)">CABINETS</text>
+    <text x="0" y="82" font-family="Georgia, serif" font-size="18" font-weight="normal" fill="#8B4513">CO</text>
   </g>
   
   <!-- Tagline -->
-  <text x="55" y="72" font-family="Arial, sans-serif" font-size="8" font-style="italic" fill="#A0522D" opacity="0.8">Driven by Precision. Evolved by Design.</text>
+  <text x="85" y="108" font-family="Georgia, serif" font-size="12" font-style="italic" fill="#A0522D" opacity="0.8">Driven by Precision. Evolved by Design.</text>
 </svg>
