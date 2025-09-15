@@ -700,10 +700,10 @@
     <!-- Proposal Header -->
     <header class="proposal-header">
         <div class="header-content">
-            <h1 class="company-logo-text" id="company-name">Foundry Cabinets Co</h1>
-            <p class="company-subtitle" id="company-subtitle">by District Design Build, LLC</p>
-            <p class="company-tagline" id="company-tagline">Driven by Precision. Evolved by Design.</p>
-            <p class="contact-info" id="contact-info">Portland, OR • 360-606-1106 • scott@ddbteam.com • www.ddb503.com</p>
+            <h1 class="company-logo-text" id="company-name" data-company-name>Your Company Name</h1>
+            <p class="company-subtitle" id="company-subtitle" data-company-subtitle>Professional Cabinet Solutions</p>
+            <p class="company-tagline" id="company-tagline" data-company-tagline>Quality & Craftsmanship</p>
+            <p class="contact-info" id="contact-info" data-contact-info>Loading contact info...</p>
         </div>
     </header>
 
@@ -1009,9 +1009,9 @@
     <!-- Hidden PDF Content for Generation -->
     <div class="pdf-content-hidden" id="pdf-content">
         <div class="pdf-header">
-            <div class="pdf-company-name" id="pdf-company-name">Foundry Cabinets Co</div>
-            <div class="pdf-company-subtitle" id="pdf-company-subtitle">by District Design Build, LLC</div>
-            <p id="pdf-contact-info">Portland, OR • 360-606-1106 • scott@ddbteam.com</p>
+            <div class="pdf-company-name" id="pdf-company-name">Your Company Name</div>
+            <div class="pdf-company-subtitle" id="pdf-company-subtitle">Professional Cabinet Solutions</div>
+            <p id="pdf-contact-info" data-pdf-contact-info>Loading contact info...</p>
         </div>
         
         <h2 class="pdf-section-title">Custom Cabinet Proposal</h2>
@@ -1338,10 +1338,10 @@
             // Update PDF content with current configuration
             const currentConfig = window.CONFIG || {};
             
-            document.getElementById('pdf-company-name').textContent = currentConfig.companyName || 'Foundry Cabinets Co';
-            document.getElementById('pdf-company-subtitle').textContent = currentConfig.companySubtitle || 'by District Design Build, LLC';
+            document.getElementById('pdf-company-name').textContent = currentConfig.companyName || 'Your Company Name';
+            document.getElementById('pdf-company-subtitle').textContent = currentConfig.companySubtitle || 'Professional Cabinet Solutions';
             document.getElementById('pdf-contact-info').textContent = 
-                `${currentConfig.location || 'Portland, OR'} • ${currentConfig.phone || '360-606-1106'} • ${currentConfig.email || 'scott@ddbteam.com'}`;
+                `${currentConfig.location || 'Your City, State'} • ${currentConfig.phone || 'Your Phone Number'} • ${currentConfig.email || 'your-email@company.com'}`;
             
             document.getElementById('pdf-date').textContent = new Date().toLocaleDateString();
             
@@ -1529,6 +1529,9 @@
 
         // Initialization
         document.addEventListener('DOMContentLoaded', function() {
+            // Load and apply configuration
+            loadConfiguration();
+            
             // Update pricing display on load
             updatePricing();
             
@@ -1538,6 +1541,42 @@
             console.log('✅ Portland pricing validation active');
             console.log('✅ Mobile optimization complete');
         });
+
+        function loadConfiguration() {
+            // Get current configuration
+            const currentConfig = window.CONFIG || {};
+            
+            // Update company information in header
+            if (document.getElementById('company-name')) {
+                document.getElementById('company-name').textContent = currentConfig.companyName || 'Your Company Name';
+            }
+            if (document.getElementById('company-subtitle')) {
+                document.getElementById('company-subtitle').textContent = currentConfig.companySubtitle || 'Professional Cabinet Solutions';
+            }
+            if (document.getElementById('company-tagline')) {
+                document.getElementById('company-tagline').textContent = currentConfig.companyTagline || 'Quality & Craftsmanship';
+            }
+            
+            // Update contact information
+            if (document.getElementById('contact-info')) {
+                const contactInfo = [
+                    currentConfig.location || 'Your City, State',
+                    currentConfig.phone || 'Your Phone Number', 
+                    currentConfig.email || 'your-email@company.com'
+                ];
+                if (currentConfig.website) {
+                    contactInfo.push(currentConfig.website);
+                }
+                document.getElementById('contact-info').textContent = contactInfo.join(' • ');
+            }
+            
+            // Update page title
+            if (currentConfig.companyName) {
+                document.title = `${currentConfig.companyName} - Professional Cabinet Proposal System`;
+            }
+            
+            console.log('✅ Configuration loaded:', currentConfig.companyName || 'Default Configuration');
+        }
     </script>
 </body>
 </html>
